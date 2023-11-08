@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{25B2E54C-116A-279A-7A71-00F66648C28A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{644D06AC-50EF-3082-39AA-44D625EBB7D2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{3A8963B1-262B-8E87-0FE6-A1DBFB2615D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tank">
+      <UniqueIdentifier>{93CA8C7C-7F01-8E0D-28EE-731014040A0F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CharacterControl\CharacterControlContext.h" />
+    <ClInclude Include="CharacterControl\Characters\SoldierNPC.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\Characters\SoldierNPCAnimationSM.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\Characters\SoldierNPCBehaviorSM.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\Characters\SoldierNPCMovementSM.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\Client\ClientSpaceShip.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\Client\ClientSpaceShipControls.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\ClientCharacterControlGame.h" />
+    <ClInclude Include="CharacterControl\ClientGameObjectManagerAddon.h" />
+    <ClInclude Include="CharacterControl\Events\Events.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\GameObjectMangerAddon.h" />
+    <ClInclude Include="CharacterControl\GlobalRegistry.h" />
+    <ClInclude Include="CharacterControl\ServerCharacterControlGame.h" />
+    <ClInclude Include="CharacterControl\ServerGameObjectManagerAddon.h" />
+    <ClInclude Include="CharacterControl\Tank\ClientTank.h">
+      <Filter>Tank</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControl\WayPoint.h" />
+    <ClInclude Include="CharacterControl\test.h" />
+    <ClInclude Include="CharacterControl\testfunc_c_stdcall.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CharacterControl\Characters\SoldierNPC.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\Characters\SoldierNPCAnimationSM.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\Characters\SoldierNPCBehaviorSM.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\Characters\SoldierNPCMovementSM.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\Client\ClientSpaceShip.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\Client\ClientSpaceShipControls.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\ClientCharacterControlGame.cpp" />
+    <ClCompile Include="CharacterControl\ClientGameObjectManagerAddon.cpp" />
+    <ClCompile Include="CharacterControl\Events\Events.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\GameObjectManagerAddon.cpp" />
+    <ClCompile Include="CharacterControl\GlobalRegistry.cpp" />
+    <ClCompile Include="CharacterControl\ServerCharacterControlGame.cpp" />
+    <ClCompile Include="CharacterControl\ServerGameObjectManagerAddon.cpp" />
+    <ClCompile Include="CharacterControl\Tank\ClientTank.cpp">
+      <Filter>Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControl\WayPoint.cpp" />
+    <ClCompile Include="CharacterControl\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Masm Include="CharacterControl\test.asm" />
+    <Masm Include="CharacterControl\testfunc_c_stdcall.asm" />
+  </ItemGroup>
+</Project>

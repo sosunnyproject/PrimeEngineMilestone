@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0EA98F94-FA8C-50EA-63ED-4A3D4FF03A6C}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>lua_dist-win32d3d9</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\build\</OutDir>
+    <IntDir>..\build-intermediate\x32\Debug\lua_dist-win32d3d9\</IntDir>
+    <TargetName>lua_dist-win32d3d9</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\build\</OutDir>
+    <IntDir>..\build-intermediate\x32\Release\lua_dist-win32d3d9\</IntDir>
+    <TargetName>lua_dist-win32d3d9</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>APIABSTRACTION_D3D9=1;PE_PLAT_API=0x0101;PE_PLAT_IS_WIN32=1;PE_API_IS_D3D9=1;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>APIABSTRACTION_D3D9=1;PE_PLAT_API=0x0101;PE_PLAT_IS_WIN32=1;PE_API_IS_D3D9=1;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="lua_dist\src\lapi.h" />
+    <ClInclude Include="lua_dist\src\lauxlib.h" />
+    <ClInclude Include="lua_dist\src\lcode.h" />
+    <ClInclude Include="lua_dist\src\ldebug.h" />
+    <ClInclude Include="lua_dist\src\ldo.h" />
+    <ClInclude Include="lua_dist\src\lfunc.h" />
+    <ClInclude Include="lua_dist\src\lgc.h" />
+    <ClInclude Include="lua_dist\src\llex.h" />
+    <ClInclude Include="lua_dist\src\llimits.h" />
+    <ClInclude Include="lua_dist\src\lmem.h" />
+    <ClInclude Include="lua_dist\src\lobject.h" />
+    <ClInclude Include="lua_dist\src\lopcodes.h" />
+    <ClInclude Include="lua_dist\src\lparser.h" />
+    <ClInclude Include="lua_dist\src\lstate.h" />
+    <ClInclude Include="lua_dist\src\lstring.h" />
+    <ClInclude Include="lua_dist\src\ltable.h" />
+    <ClInclude Include="lua_dist\src\ltm.h" />
+    <ClInclude Include="lua_dist\src\lua.h" />
+    <ClInclude Include="lua_dist\src\luaconf.h" />
+    <ClInclude Include="lua_dist\src\lualib.h" />
+    <ClInclude Include="lua_dist\src\lundump.h" />
+    <ClInclude Include="lua_dist\src\lvm.h" />
+    <ClInclude Include="lua_dist\src\lzio.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lua_dist\src\lapi.c" />
+    <ClCompile Include="lua_dist\src\lauxlib.c" />
+    <ClCompile Include="lua_dist\src\lbaselib.c" />
+    <ClCompile Include="lua_dist\src\lcode.c" />
+    <ClCompile Include="lua_dist\src\ldblib.c" />
+    <ClCompile Include="lua_dist\src\ldebug.c" />
+    <ClCompile Include="lua_dist\src\ldo.c" />
+    <ClCompile Include="lua_dist\src\ldump.c" />
+    <ClCompile Include="lua_dist\src\lfunc.c" />
+    <ClCompile Include="lua_dist\src\lgc.c" />
+    <ClCompile Include="lua_dist\src\linit.c" />
+    <ClCompile Include="lua_dist\src\liolib.c" />
+    <ClCompile Include="lua_dist\src\llex.c" />
+    <ClCompile Include="lua_dist\src\lmathlib.c" />
+    <ClCompile Include="lua_dist\src\lmem.c" />
+    <ClCompile Include="lua_dist\src\loadlib.c" />
+    <ClCompile Include="lua_dist\src\lobject.c" />
+    <ClCompile Include="lua_dist\src\lopcodes.c" />
+    <ClCompile Include="lua_dist\src\loslib.c" />
+    <ClCompile Include="lua_dist\src\lparser.c" />
+    <ClCompile Include="lua_dist\src\lstate.c" />
+    <ClCompile Include="lua_dist\src\lstring.c" />
+    <ClCompile Include="lua_dist\src\lstrlib.c" />
+    <ClCompile Include="lua_dist\src\ltable.c" />
+    <ClCompile Include="lua_dist\src\ltablib.c" />
+    <ClCompile Include="lua_dist\src\ltm.c" />
+    <ClCompile Include="lua_dist\src\lundump.c" />
+    <ClCompile Include="lua_dist\src\lvm.c" />
+    <ClCompile Include="lua_dist\src\lzio.c" />
+    <ClCompile Include="lua_dist\src\print.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

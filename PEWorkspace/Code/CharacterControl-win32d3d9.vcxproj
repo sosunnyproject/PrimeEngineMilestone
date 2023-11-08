@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{07F16919-F300-16EA-5CBA-7A0848E90483}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CharacterControl-win32d3d9</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\build\</OutDir>
+    <IntDir>..\build-intermediate\x32\Debug\CharacterControl-win32d3d9\</IntDir>
+    <TargetName>CharacterControl-win32d3d9</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\build\</OutDir>
+    <IntDir>..\build-intermediate\x32\Release\CharacterControl-win32d3d9\</IntDir>
+    <TargetName>CharacterControl-win32d3d9</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>APIABSTRACTION_D3D9=1;PE_PLAT_API=0x0101;PE_PLAT_IS_WIN32=1;PE_API_IS_D3D9=1;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;d3d9.lib;Xinput9_1_0.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\8.0\lib\win8\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalOptions> /NODEFAULTLIB:LIBC /SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy /Y ..\External\DownloadedLibraries\glew-1.9.0\bin\*.dll "$(OutDir)" 
+copy /Y ..\External\DownloadedLibraries\Cg\bin\cg.dll "$(OutDir)" 
+copy /Y ..\External\DownloadedLibraries\Cg\bin\cgGL.dll "$(OutDir)" 
+copy /Y "C:/Program Files (x86)/Windows Kits/8.0\bin\x86\d3dcompiler_46.dll" "$(OutDir)" </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>APIABSTRACTION_D3D9=1;PE_PLAT_API=0x0101;PE_PLAT_IS_WIN32=1;PE_API_IS_D3D9=1;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ws2_32.lib;d3d9.lib;Xinput9_1_0.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\8.0\lib\win8\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalOptions> /NODEFAULTLIB:LIBC /SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy /Y ..\External\DownloadedLibraries\glew-1.9.0\bin\*.dll "$(OutDir)" 
+copy /Y ..\External\DownloadedLibraries\Cg\bin\cg.dll "$(OutDir)" 
+copy /Y ..\External\DownloadedLibraries\Cg\bin\cgGL.dll "$(OutDir)" 
+copy /Y "C:/Program Files (x86)/Windows Kits/8.0\bin\x86\d3dcompiler_46.dll" "$(OutDir)" </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="CharacterControl\CharacterControlContext.h" />
+    <ClInclude Include="CharacterControl\Characters\SoldierNPC.h" />
+    <ClInclude Include="CharacterControl\Characters\SoldierNPCAnimationSM.h" />
+    <ClInclude Include="CharacterControl\Characters\SoldierNPCBehaviorSM.h" />
+    <ClInclude Include="CharacterControl\Characters\SoldierNPCMovementSM.h" />
+    <ClInclude Include="CharacterControl\Client\ClientSpaceShip.h" />
+    <ClInclude Include="CharacterControl\Client\ClientSpaceShipControls.h" />
+    <ClInclude Include="CharacterControl\ClientCharacterControlGame.h" />
+    <ClInclude Include="CharacterControl\ClientGameObjectManagerAddon.h" />
+    <ClInclude Include="CharacterControl\Events\Events.h" />
+    <ClInclude Include="CharacterControl\GameObjectMangerAddon.h" />
+    <ClInclude Include="CharacterControl\GlobalRegistry.h" />
+    <ClInclude Include="CharacterControl\ServerCharacterControlGame.h" />
+    <ClInclude Include="CharacterControl\ServerGameObjectManagerAddon.h" />
+    <ClInclude Include="CharacterControl\Tank\ClientTank.h" />
+    <ClInclude Include="CharacterControl\WayPoint.h" />
+    <ClInclude Include="CharacterControl\test.h" />
+    <ClInclude Include="CharacterControl\testfunc_c_stdcall.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CharacterControl\Characters\SoldierNPC.cpp" />
+    <ClCompile Include="CharacterControl\Characters\SoldierNPCAnimationSM.cpp" />
+    <ClCompile Include="CharacterControl\Characters\SoldierNPCBehaviorSM.cpp" />
+    <ClCompile Include="CharacterControl\Characters\SoldierNPCMovementSM.cpp" />
+    <ClCompile Include="CharacterControl\Client\ClientSpaceShip.cpp" />
+    <ClCompile Include="CharacterControl\Client\ClientSpaceShipControls.cpp" />
+    <ClCompile Include="CharacterControl\ClientCharacterControlGame.cpp" />
+    <ClCompile Include="CharacterControl\ClientGameObjectManagerAddon.cpp" />
+    <ClCompile Include="CharacterControl\Events\Events.cpp" />
+    <ClCompile Include="CharacterControl\GameObjectManagerAddon.cpp" />
+    <ClCompile Include="CharacterControl\GlobalRegistry.cpp" />
+    <ClCompile Include="CharacterControl\ServerCharacterControlGame.cpp" />
+    <ClCompile Include="CharacterControl\ServerGameObjectManagerAddon.cpp" />
+    <ClCompile Include="CharacterControl\Tank\ClientTank.cpp" />
+    <ClCompile Include="CharacterControl\WayPoint.cpp" />
+    <ClCompile Include="CharacterControl\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Masm Include="CharacterControl\test.asm" />
+    <Masm Include="CharacterControl\testfunc_c_stdcall.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="lua_dist-win32d3d9.vcxproj">
+      <Project>{0EA98F94-FA8C-50EA-63ED-4A3D4FF03A6C}</Project>
+    </ProjectReference>
+    <ProjectReference Include="luasocket_dist-win32d3d9.vcxproj">
+      <Project>{97C1FDED-83E6-4C6E-AC31-32FE98B54B8C}</Project>
+    </ProjectReference>
+    <ProjectReference Include="PrimeEngine-win32d3d9.vcxproj">
+      <Project>{0C66E244-78D2-9D3F-41C6-359DADF1BFA7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>
