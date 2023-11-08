@@ -1,5 +1,7 @@
 Set up PE Workspace
 
+[Professor's installation instruction PDF link](https://cdn-uploads.piazza.com/paste/hl3e3o1lmbqp5/5f9308d08b8b4e6d3d290dc3d0e5024aeecf1e1a433a63347ef57283fc0d7d01/generating-and-building.pdf)
+
 0. install cygwin
 1. Folder PEWorkspace: disable read only
 2. Tools/setenv.sh : edit with Notepad
@@ -7,14 +9,15 @@ Set up PE Workspace
 export MAYA_DIR="C:\\Program Files\\Autodesk\\Maya2020"
 export VSDIR="C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE"
 ```
-3. in cygwin terminal, 
+3. in cygwin terminal, if you see the error below,
+run this: `sed -i 's/\r$//' setenv.sh`
+
 ```bash
 $ source setenv.sh
 HI there!
 -bash: $'\r': command not found
 -bash: setenv.sh: line 60: syntax error: unexpected end of file
 ```
-run this: `sed -i 's/\r$//' setenv.sh`
 run: `$ source setenv.sh` again.
 
 4. Tools/premake.sh
@@ -39,18 +42,20 @@ Current dir: /cygdrive/d/csci522milestone/PEWorkspace/Tools
 ```
 
 5. `run ./rundevenv.sh`
-But If the error below show, run `sed -i 's/\r$//' premake.sh`
+But If the error below show, 
+run `sed -i 's/\r$//' premake.sh`
 
 ```bash
 No such file or directoryetenv.sh
 ```
 Run again `$ ./rundevenv.sh`
 
-This opens visual studio window. 
+6. This opens visual studio window. 
 Choose the solution inside PEWorkspace/Code and open it.
 Run with F5 button, with Debug or Release mode.
 
-6. go to cygwin. Run command. But if the error below show up,,
+7. go to cygwin. Run command. But if the error below show up,,
+
 ```bash 
 $ ./pyclient.sh
 : No such file or directorytenv.sh
