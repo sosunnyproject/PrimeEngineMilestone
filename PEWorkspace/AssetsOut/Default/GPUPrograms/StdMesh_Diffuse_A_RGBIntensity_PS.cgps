@@ -11,9 +11,15 @@
 
 float4 StdMesh_Diffuse_A_RGBIntensity_PS(STD_MESH_PS_IN pIn)
 {
-	//return make_float4(1.0, 0, 0, 1);
+	//return make_float4(pIn.iNormalW, 1.0);
+	// multiply pIn.iNormalW value with sample2D or sth to change the text color, not the background
 	float r = sample2D(gDiffuseMapSampler, pIn.iTexCoord, gDiffuseMap).r;
-	float4 combinedColor = make_float4(r,r,r,r);
+	float4 combinedColor = make_float4(pIn.iNormalW.r, pIn.iNormalW.g, pIn.iNormalW.b, 1.0);
+	
+	// mix the color with the texture color: to color text font only, not the entire textbox
+    float4 textureColor = sample2D(gDiffuseMapSampler, pIn.iTexCoord, gDiffuseMap);
+    combinedColor.rgb *= textureColor.rgb;
+	
 	combinedColor.a = (combinedColor.r + combinedColor.g + combinedColor.b) * 0.33333333333;
 	
     clip(combinedColor.a - 0.1);

@@ -127,6 +127,7 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 
 		ctx.getGPUScreen()->ReleaseRenderContextOwnership(threadOwnershipMask);
 
+		// all mesh - draw calls
 		DrawList::InstanceReadOnly()->do_RENDER(NULL, threadOwnershipMask);
 		ctx.getGPUScreen()->AcquireRenderContextOwnership(threadOwnershipMask);
 

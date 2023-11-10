@@ -187,6 +187,7 @@ void MeshCPU::createBillboardMesh()
 	pmscpu->createSetWithOneDefaultMaterial();
 }
 
+// milestone1 Text Render ~~~ Mesh CPU
 void MeshCPU::createBillboardMeshWithColorTexture(const char *textureFilename, const char *package, PrimitiveTypes::Float32 w, PrimitiveTypes::Float32 h, ESamplerState customSamplerState/* = SamplerState_Count*/)
 {
 	m_hPositionBufferCPU = Handle("VERTEX_BUFFER_CPU", sizeof(PositionBufferCPU));
@@ -200,6 +201,13 @@ void MeshCPU::createBillboardMeshWithColorTexture(const char *textureFilename, c
 	m_hTexCoordBufferCPU = Handle("TEXCOORD_BUFFER_CPU", sizeof(TexCoordBufferCPU));
 	TexCoordBufferCPU *ptcb = new(m_hTexCoordBufferCPU) TexCoordBufferCPU(*m_pContext, m_arena);
 	ptcb->createBillboardCPUBuffer();
+
+	// milestone1
+	// create another position/normal buffer (which has 3 values)
+	// use 3 values as rgb  => send to gpu
+	m_hPositionBufferCPU = Handle("COLOR_BUFFER_CPU", sizeof(PositionBufferCPU));
+	PositionBufferCPU *pvb2 = new(m_hPositionBufferCPU) PositionBufferCPU(*m_pContext, m_arena);
+	pvb2->createBillboardCPUBuffer(w, h);
 
 	m_hNormalBufferCPU = Handle("NORMAL_BUFFER_CPU", sizeof(NormalBufferCPU));
 	NormalBufferCPU *pnb = new(m_hNormalBufferCPU) NormalBufferCPU(*m_pContext, m_arena);

@@ -208,7 +208,9 @@ namespace PE {
 
 		m_map.add("StdMesh_2D_Diffuse_A_0_Tech", hEffect);
 	}
-
+	// milestone 1
+	// text render shader
+	// attribute
 	{
 		Handle hEffect("EFFECT", sizeof(Effect));
 		Effect *pEffect = new(hEffect) Effect(*m_pContext, m_arena, hEffect);

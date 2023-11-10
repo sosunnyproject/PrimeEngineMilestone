@@ -34,7 +34,7 @@ struct TextMesh : public Mesh
 	PE_DECLARE_IMPLEMENT_EVENT_HANDLER_WRAPPER(do_GATHER_DRAWCALLS);
 	virtual void do_GATHER_DRAWCALLS(Events::Event *pEvt);
 
-	void loadFromString_needsRC(const char *str, const char *techName, int &threadOwnershipMask);
+	void loadFromString_needsRC(const char *str, const char *techName, int &threadOwnershipMask, Vector3 rgb = Vector3(1.0, 1.0, 1.0));
 
 	PrimitiveTypes::Float32 m_charW, m_charWAbs, m_charH, m_textLength;
 	PrimitiveTypes::Bool m_loaded;

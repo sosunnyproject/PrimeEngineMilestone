@@ -173,8 +173,8 @@ void DebugRenderer::createLineMesh(bool hasTransform, const Matrix4x4 &transform
 	}
 	
 }
-
-void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D, bool is3DFacedToCamera, bool is3DFacedToCameraLockedYAxis, float timeToLive, Vector3 pos, float scale, int &threadOwnershipMask)
+// milestone 1
+void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D, bool is3DFacedToCamera, bool is3DFacedToCameraLockedYAxis, float timeToLive, Vector3 pos, float scale, int &threadOwnershipMask, Vector3 rgb)
 {
 	if (EnableDebugRendering && m_numAvaialble)
 	{
@@ -210,6 +210,7 @@ void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D,
 		pTextSN->loadFromString_needsRC(str, drawType, threadOwnershipMask);
 		pTextSN->m_base.setPos(pos);
 		pTextSN->m_scale = scale;
+		pTextSN->m_rgb = rgb;
 	}	
 }
 

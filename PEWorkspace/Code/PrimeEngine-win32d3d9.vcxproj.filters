@@ -613,6 +613,15 @@
     <Filter Include="PrimeEngine\Utils\Array">
       <UniqueIdentifier>{26364744-926D-8FDB-9B77-F3FE072EB6D4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PrimeEngine\Import">
+      <UniqueIdentifier>{a0b41b29-d1b3-403c-91c2-64108996c74e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PrimeEngine\Import\imgui">
+      <UniqueIdentifier>{da6dc75b-835b-4ee1-b6f7-be4c87f8977f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PrimeEngine\Import\imgui\backend">
+      <UniqueIdentifier>{f9ecc1c7-beb6-419c-9104-2c2bed860578}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrimeEngine\APIAbstraction\APIAbstractionDefines.h">
@@ -1113,6 +1122,30 @@
     <ClInclude Include="PrimeEngine\Utils\StringOps.h">
       <Filter>PrimeEngine\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\imconfig.h">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\imgui.h">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\imgui_internal.h">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\imstb_rectpack.h">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\imstb_textedit.h">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\imstb_truetype.h">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\backend\imgui_impl_dx9.h">
+      <Filter>PrimeEngine\Import\imgui\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimeEngine\Import\imgui\backend\imgui_impl_win32.h">
+      <Filter>PrimeEngine\Import\imgui\backend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AssetsOut\Default\GPUPrograms\nums_spe.c">
@@ -1543,6 +1576,27 @@
     </ClCompile>
     <ClCompile Include="PrimeEngine\Utils\PEString.cpp">
       <Filter>PrimeEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui.cpp">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_demo.cpp">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_draw.cpp">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_tables.cpp">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_widgets.cpp">
+      <Filter>PrimeEngine\Import\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\backend\imgui_impl_dx9.cpp">
+      <Filter>PrimeEngine\Import\imgui\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimeEngine\Import\imgui\backend\imgui_impl_win32.cpp">
+      <Filter>PrimeEngine\Import\imgui\backend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3391,5 +3445,13 @@
     <None Include="PrimeEngine\premake4-primeengine.lua">
       <Filter>PrimeEngine</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\AssetsOut\Default\Textures\Roboto_bold.dds">
+      <Filter>AssetsOut\Default\Textures</Filter>
+    </Image>
+    <Image Include="..\AssetsOut\Default\Textures\newfont.dds">
+      <Filter>AssetsOut\Default\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

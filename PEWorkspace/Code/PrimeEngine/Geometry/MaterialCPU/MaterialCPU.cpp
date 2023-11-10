@@ -302,14 +302,14 @@ void MaterialCPU::createDefaultMaterial()
 
 void MaterialCPU::createMaterialWithColorTexture(const char *textureFilename, const char *package, ESamplerState customSamplerState /* = SamplerState_Count*/)
 {
-	m_diffuse = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_diffuse = Vector4(0.1f, 1.5f, 0.5f, 1.0f);
 
 	// shininess
 	m_shininess = 0.0f;
 	m_reflectivity = Vector3(1.0f, 1.0f, 1.0f);
 
 	// specular
-	m_specular = Vector3(0.0f, 0.0f, 0.0f);
+	m_specular = Vector3(1.0f, 0.0f, 0.0f);
 	
 	// emissive
 	m_emissive = Vector3(0.0f, 0.0f, 0.0f);

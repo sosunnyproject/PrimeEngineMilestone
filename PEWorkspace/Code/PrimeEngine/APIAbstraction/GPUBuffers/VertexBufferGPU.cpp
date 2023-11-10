@@ -655,6 +655,7 @@ void VertexBufferGPU::createGPUBufferFromSource_DetailedMesh(PositionBufferCPU &
 
 	PrimitiveTypes::UInt32 itcval = 0;
 
+	// shader parameters
 	for (PrimitiveTypes::UInt32 iv = 0; iv < vb.m_values.m_size / 3; iv++)
 	{
 		PrimitiveTypes::Float32 x,y,z, u, v, nx, ny, nz, tx, ty, tz;

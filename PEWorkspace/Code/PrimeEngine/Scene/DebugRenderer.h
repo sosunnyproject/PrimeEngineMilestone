@@ -48,9 +48,7 @@ struct DebugRenderer : public SceneNode
 	virtual ~DebugRenderer(){}
 	// Methods      ------------------------------------------------------------
 	
-	void createTextMesh(const char *str, bool isOverlay2D, bool is3D, bool is3DFacedToCamera,
-		bool is3DFacedToCameraLockedYAxis, float timeToLive, Vector3 pos, float scale,
-		int &threadOwnershipMask);
+	void createTextMesh(const char *str, bool isOverlay2D, bool is3D, bool is3DFacedToCamera, bool is3DFacedToCameraLockedYAxis, float timeToLive, Vector3 pos, float scale, int &threadOwnershipMask, Vector3 rgb = Vector3(1.0, 1.0, 1.0));
 	void createRootLineMesh();
 	void createLineMesh(bool hasTransform, const Matrix4x4 &transform, float *pRawData, int numInRawData, float timeToLive, float scale = 1.0f);
 

@@ -76,7 +76,7 @@ void TextSceneNode::loadFromString_needsRC(const char *str, DrawType drawType, i
 	if (drawType == InWorldFacingCamera)
 		tech = "StdMesh_Diffuse_Tech";
 
-	pTextMesh->loadFromString_needsRC(str, tech, threadOwnershipMask);
+	pTextMesh->loadFromString_needsRC(str, tech, threadOwnershipMask, m_rgb);
 }
 
 void TextSceneNode::do_PRE_GATHER_DRAWCALLS(Events::Event *pEvt)

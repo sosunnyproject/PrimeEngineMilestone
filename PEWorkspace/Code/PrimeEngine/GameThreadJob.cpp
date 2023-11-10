@@ -352,6 +352,15 @@ int ClientGame::runGameFrame()
 						PEString::s_buf, true, false, false, false, 0,
 						Vector3(.0f, .075f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask);
 				}
+
+				// New TEXT UI
+				// milestone1: added a rgb Vector3 for single string.
+				{
+					sprintf(PEString::s_buf, "MOVE: WASD, CAMERA: ARROW KEYS");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.05f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, Vector3(1.0, 0.5, 0.5));
+				}
 				
 				//debug draw root and grid
 				DebugRenderer::Instance()->createRootLineMesh();// send event while the array is on the stack

@@ -32,7 +32,7 @@ void TextMesh::addDefaultComponents()
 	Mesh::addDefaultComponents();
 }
 
-void TextMesh::loadFromString_needsRC(const char *str, const char *techName, int &threadOwnershipMask)
+void TextMesh::loadFromString_needsRC(const char *str, const char *techName, int &threadOwnershipMask, Vector3 rgb)
 {
 	int len = StringOps::length(str);
 
@@ -43,8 +43,11 @@ void TextMesh::loadFromString_needsRC(const char *str, const char *techName, int
 	}
 	MeshCPU &mcpu = *m_meshCPU.getObject<MeshCPU>();
 
+	// milestone1; add different font files?
+	// texture shader resource not set"); error message when apply font filename
 	if (!m_loaded)
 		mcpu.createBillboardMeshWithColorTexture("font512.dds", "Default", 32, 32, SamplerState_NoMips_NoMinTexelLerp_NoMagTexelLerp_Clamp);
+		// mcpu.createBillboardMeshWithColorTexture("newfont.dds", "Default", 32, 32, SamplerState_NoMips_NoMinTexelLerp_NoMagTexelLerp_Clamp);
 	
 	// this will cause not using the vertex buffer manager
 	//so that engine always creates a new vertex buffer gpu and doesn't try to find and
@@ -102,10 +105,13 @@ void TextMesh::loadFromString_needsRC(const char *str, const char *techName, int
 		pTCB->m_values.add(tcx + 1.0f/16.0f - dx, tcy + 1.0f/16.0f - dy);
 		pTCB->m_values.add(tcx + dx, tcy + 1.0f/16.0f - dy);
 		
-		pNB->m_values.add(0, 0, 0);
-		pNB->m_values.add(0, 0, 0);
-		pNB->m_values.add(0, 0, 0);
-		pNB->m_values.add(0, 0, 0);
+		// milestone1 
+		// Text rendering: use these normal buffers value as rgb 
+		// 4 pNB for 4 vertices of each character box
+		pNB->m_values.add(rgb.m_x, rgb.m_y, rgb.m_z);
+		pNB->m_values.add(rgb.m_x, rgb.m_y, rgb.m_z);
+		pNB->m_values.add(rgb.m_x, rgb.m_y, rgb.m_z);
+		pNB->m_values.add(rgb.m_x, rgb.m_y, rgb.m_z);
 		curX += w;
 	}
 

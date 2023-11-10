@@ -54,6 +54,7 @@ struct TextSceneNode : public SceneNode
 	float m_cachedAspectRatio;
 
 	bool m_canBeRecreated;
+	Vector3 m_rgb;
 
 }; // class TextSceneNode
 

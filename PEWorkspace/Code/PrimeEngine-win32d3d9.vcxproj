@@ -56,7 +56,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>APIABSTRACTION_D3D9=1;PE_PLAT_API=0x0101;PE_PLAT_IS_WIN32=1;PE_API_IS_D3D9=1;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;D:\csci522milestone\PEWorkspace\Code\PrimeEngine\Import\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -73,7 +73,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>APIABSTRACTION_D3D9=1;PE_PLAT_API=0x0101;PE_PLAT_IS_WIN32=1;PE_API_IS_D3D9=1;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lua_dist\src;.;C:\Program Files (x86)\Windows Kits\8.0\Include\um;C:\Program Files (x86)\Windows Kits\8.0\Include\shared;D:\csci522milestone\PEWorkspace\Code\PrimeEngine\Import\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -173,6 +173,14 @@
     <ClInclude Include="PrimeEngine\Geometry\TangentBufferCPU\TangentBufferCPU.h" />
     <ClInclude Include="PrimeEngine\Geometry\TexCoordBufferCPU\TexCoordBufferCPU.h" />
     <ClInclude Include="PrimeEngine\Geometry\TexCoordBufferCPU\TexCoordBufferCPUManager.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\backend\imgui_impl_dx9.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\backend\imgui_impl_win32.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\imconfig.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\imgui.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\imgui_internal.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\imstb_rectpack.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\imstb_textedit.h" />
+    <ClInclude Include="PrimeEngine\Import\imgui\imstb_truetype.h" />
     <ClInclude Include="PrimeEngine\Logging\Log.h" />
     <ClInclude Include="PrimeEngine\Lua\Client\ClientLuaEnvironment.h" />
     <ClInclude Include="PrimeEngine\Lua\EventGlue\EventDataCreators.h" />
@@ -344,6 +352,13 @@
     <ClCompile Include="PrimeEngine\Geometry\TangentBufferCPU\TangentBuferCPU.cpp" />
     <ClCompile Include="PrimeEngine\Geometry\TexCoordBufferCPU\TexCoordBufferCPU.cpp" />
     <ClCompile Include="PrimeEngine\Geometry\TexCoordBufferCPU\TexCoordBufferCPUManager.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\backend\imgui_impl_dx9.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\backend\imgui_impl_win32.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_demo.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_draw.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_tables.cpp" />
+    <ClCompile Include="PrimeEngine\Import\imgui\imgui_widgets.cpp" />
     <ClCompile Include="PrimeEngine\Logging\Log.cpp" />
     <ClCompile Include="PrimeEngine\Lua\Client\ClientLuaEnvironment.cpp" />
     <ClCompile Include="PrimeEngine\Lua\EventGlue\EventDataCreators.cpp" />
@@ -1018,6 +1033,10 @@
     <None Include="PrimeEngine\Lua\peuuid.lua" />
     <None Include="PrimeEngine\Scene\Skeleton.lua" />
     <None Include="PrimeEngine\premake4-primeengine.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\AssetsOut\Default\Textures\newfont.dds" />
+    <Image Include="..\AssetsOut\Default\Textures\Roboto_bold.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

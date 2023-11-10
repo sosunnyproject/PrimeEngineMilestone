@@ -470,6 +470,7 @@ void DrawList::do_RENDER(Events::Event *pEvt, int &threadOwnershipMask)
 			m_pCurOutput->setAsCurrentStreamOutput();
 		}
 
+		// where draw is happening. 
 		#if PE_ENABLE_GPU_PROFILING
 		Timer t;
 		PE::Profiling::Profiler::Instance()->startEventQuery(Profiling::Group_DrawCalls, IRenderer::Instance()->getDevice(), t.GetTime(), dbgName);
