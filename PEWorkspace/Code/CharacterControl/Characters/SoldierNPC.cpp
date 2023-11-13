@@ -19,6 +19,7 @@ namespace CharacterControl{
 namespace Components {
 
 PE_IMPLEMENT_CLASS1(SoldierNPC, Component);
+SoldierNPC* SoldierNPC::m_soldier_npc;
 
 SoldierNPC::SoldierNPC(PE::GameContext &context, PE::MemoryArena arena, PE::Handle hMyself, Event_CreateSoldierNPC *pEvt) : Component(context, arena, hMyself)
 {
@@ -151,6 +152,7 @@ SoldierNPC::SoldierNPC(PE::GameContext &context, PE::MemoryArena arena, PE::Hand
 
 	// add it to soldier NPC
 	addComponent(hSoldierMovementSM);
+	SoldierNPCMovementSM::m_soldier_movement_sm = pSoldierMovementSM;
 
 	// add behavior state machine ot soldier npc
     PE::Handle hSoldierBheaviorSM("SoldierNPCBehaviorSM", sizeof(SoldierNPCBehaviorSM));

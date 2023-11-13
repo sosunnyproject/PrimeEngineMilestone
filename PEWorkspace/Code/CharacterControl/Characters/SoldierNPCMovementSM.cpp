@@ -29,7 +29,7 @@ PE_IMPLEMENT_CLASS1(SoldierNPCMovementSM_Event_TARGET_REACHED, Event);
 namespace Components{
 
 PE_IMPLEMENT_CLASS1(SoldierNPCMovementSM, Component);
-
+SoldierNPCMovementSM* SoldierNPCMovementSM::m_soldier_movement_sm;
 
 SoldierNPCMovementSM::SoldierNPCMovementSM(PE::GameContext &context, PE::MemoryArena arena, PE::Handle hMyself) 
 : Component(context, arena, hMyself)

@@ -82,6 +82,8 @@ struct SoldierNPCMovementSM : public PE::Components::Component
 	// State
 	Vector3 m_targetPostion;
 	States m_state;
+
+	static SoldierNPCMovementSM* m_soldier_movement_sm;
 };
 
 };

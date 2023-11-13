@@ -16,6 +16,11 @@ extern "C"{
 
 #include "PrimeEngine/Game/Client/ClientGame.h"
 #include "PrimeEngine/Events/StandardEvents.h" // Include the file that defines the Event_CREATE_LIGHT event
+
+// #include "CharacterControl/Tank/ClientTank.h"
+// #include "CharacterControl/ClientGameObjectManagerAddon.h"
+#include "CharacterControl/Characters/SoldierNPC.h"
+#include "CharacterControl/Characters/SoldierNPCMovementSM.h"
 // keyboard mouse
 #include "PrimeEngine/Events/StandardKeyboardEvents.h"
 #include "PrimeEngine/APIAbstraction/DirectX9/DX9_KeyboardMouse/DX9_KeyboardMouse.h"
@@ -186,6 +191,16 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 	if(ImGui::ColorEdit4("General Text", (float*)&t3, ImGuiColorEditFlags_Float | 0)){
 		ctx.text_rgb_3 = Vector3(t3[0], t3[1], t3[2]);
 	}
+	
+	ImGui::SeparatorText("Soldier Position");
+
+	if (CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm != nullptr) {
+		Matrix4x4& base = CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm->getParentsSceneNode()->m_base;
+		Vector3 pos = base.getPos();
+		if(	ImGui::InputFloat3("Soldier Position XYZ", (float*)&soldier_posf)) {
+			base.setPos(Vector3(soldier_posf[0], soldier_posf[1], soldier_posf[2]));
+		}
+	}
 
 	/*
 	if(ImGui::SliderFloat3("Important Text", t1, 0.0f, 1.0f)){
@@ -198,6 +213,10 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 	// 	Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
 	// 	Event_CREATE_LIGHT *pEvent = new(h) Event_CREATE_LIGHT();
 	// 	Events::EventQueueManager::Instance()->add(pEvent, Events::QT_GENERAL);
+	// }
+	// for (CharacterControl::Components::TankController* tankController : CharacterControl::Components::ClientGameObjectManagerAddon::tanks) {
+    // 	PEINFO("////RENDERJOB::: TankController: %f\n", tankController->m_spawnPos.m_x);
+	// 	// Do something with tankController
 	// }
 
 	ImGui::End();
