@@ -41,7 +41,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\build\</OutDir>
     <IntDir>..\build-intermediate\x32\Debug\CharacterControl-win32d3d9\</IntDir>
     <TargetName>CharacterControl-win32d3d9</TargetName>

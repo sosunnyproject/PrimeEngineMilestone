@@ -11,6 +11,13 @@
 // Sibling/Children includes
 #include "WinApplication.h"
 
+// Add Imgui Library
+#include "PrimeEngine/Import/imgui/imgui.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_dx9.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_win32.h"
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 namespace PE {
 WinApplication *WinApplication::s_pWindowsEventHandler = NULL;
 
@@ -56,7 +63,22 @@ WinApplication::WinApplication(PE::GameContext &context, unsigned int width, uns
 		MessageBoxW(0, L"CreateWindow FAILED", 0, 0);
 		PostQuitMessage(0);
 	}
+	{
+		// Setup Dear ImGui context
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		// io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		
+		// Setup Dear ImGui style
+		ImGui::StyleColorsDark();
+		//ImGui::StyleColorsLight();
 
+		// Setup Platform/Renderer backends
+		ImGui_ImplWin32_Init(m_windowHandle);
+	}
 	//ShowWindow(m_windowHandle, SW_SHOW);
 	//UpdateWindow(m_windowHandle);
 }
@@ -68,6 +90,9 @@ void WinApplication::exit()
 }
 LRESULT CALLBACK WinApplication::windowsEventHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+		return true;
+		
 	switch(msg)
 	{
 		// Is sent when window is closed (x is clicked or Alt+F4)

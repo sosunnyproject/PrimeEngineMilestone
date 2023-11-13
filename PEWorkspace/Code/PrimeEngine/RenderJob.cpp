@@ -15,7 +15,14 @@ extern "C"{
 };
 
 #include "PrimeEngine/Game/Client/ClientGame.h"
-
+#include "PrimeEngine/Events/StandardEvents.h" // Include the file that defines the Event_CREATE_LIGHT event
+// keyboard mouse
+#include "PrimeEngine/Events/StandardKeyboardEvents.h"
+#include "PrimeEngine/APIAbstraction/DirectX9/DX9_KeyboardMouse/DX9_KeyboardMouse.h"
+// Add Imgui library
+#include "PrimeEngine/Import/imgui/imgui.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_dx9.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_win32.h"
 namespace PE {
 
 using namespace Events;
@@ -112,6 +119,91 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 	IRenderer::checkForErrors("renderjob update start\n");
 
 	IRenderer::RenderMode renderMode = ctx.getGPUScreen()->m_renderMode;
+
+	// test Camera Instance
+	CameraSceneNode *pcam = CameraManager::Instance()->getActiveCamera()->getCamSceneNode();
+	Matrix4x4 pcam_world = pcam->m_worldTransform;
+	Vector3 pcam_pos = pcam_world.getPos();
+
+	// Render Imgui window
+	bool show_demo_window = true;
+
+	// Start the Dear ImGui frame
+	ImGui_ImplDX9_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
+	// draw your imgui window
+	ImGui::Begin("Prime Engine", &show_demo_window);
+	ImGui::SeparatorText("Camera Movement");
+    if (ImGui::Button("FORWARD (W)"))  // W
+		ctx.imgui_wasd = 1;
+	else if (ImGui::Button("LEFT (A)")) // A
+		ctx.imgui_wasd = 2;
+	
+    else if (ImGui::Button("BACK (S)"))	// S
+		ctx.imgui_wasd = 3;
+	
+    else if (ImGui::Button("RIGHT (D)"))	// D
+		ctx.imgui_wasd = 4;
+	// else 
+		// ctx.imgui_wasd = 0;
+	if (ImGui::Button("STOP"))	
+		ctx.imgui_wasd = 0;
+
+	ImGui::SeparatorText("Camera Position");
+	ImGui::Text("X: %f", pcam_pos.m_x);
+	ImGui::SameLine(); ImGui::Text(" Y: %f", pcam_pos.m_y);
+	ImGui::SameLine(); ImGui::Text(" Z: %f", pcam_pos.m_z);
+	// PEINFO("CAMERA - WORLD POS: %f %f %f\n", pcam_pos.getX(), pcam_pos.getY(), pcam_pos.getZ());
+
+	ImGui::SeparatorText("Mouse Movement");
+	ImGuiIO& io = ImGui::GetIO();
+	// Display inputs submitted to ImGuiIO
+	if (ImGui::IsMousePosValid())
+		ImGui::Text("Mouse pos: (%g, %g)", io.MousePos.x, io.MousePos.y);
+	else
+		ImGui::Text("Mouse pos: <INVALID>");
+	ImGui::Text("Mouse delta: (%g, %g)", io.MouseDelta.x, io.MouseDelta.y);
+	ImGui::Text("Mouse down:");
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+        ImGui::SameLine(); ImGui::Text("True");
+	}
+	else {
+		ImGui::SameLine(); ImGui::Text("False");
+	}
+
+	ImGui::SeparatorText("Text Color: RGB");
+	if(ImGui::ColorEdit4("Important Text", (float*)&t1, ImGuiColorEditFlags_Float | 0)){
+		ctx.text_rgb_1 = Vector3(t1[0], t1[1], t1[2]);
+	}
+	if(ImGui::ColorEdit4("Interactive Text", (float*)&t2, ImGuiColorEditFlags_Float | 0)){
+		ctx.text_rgb_2 = Vector3(t2[0], t2[1], t2[2]);
+	}
+	if(ImGui::ColorEdit4("General Text", (float*)&t3, ImGuiColorEditFlags_Float | 0)){
+		ctx.text_rgb_3 = Vector3(t3[0], t3[1], t3[2]);
+	}
+
+	/*
+	if(ImGui::SliderFloat3("Important Text", t1, 0.0f, 1.0f)){
+		ctx.text_rgb_1 = Vector3(t1[0], t1[1], t1[2]);
+	}
+	*/
+
+	// if(ImGui::Button("Create Light")){
+	// 	// Create a light
+	// 	Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
+	// 	Event_CREATE_LIGHT *pEvent = new(h) Event_CREATE_LIGHT();
+	// 	Events::EventQueueManager::Instance()->add(pEvent, Events::QT_GENERAL);
+	// }
+
+	ImGui::End();
+
+	ImGui::EndFrame();
+
 	bool disableScreenSpaceEffects = renderMode == IRenderer::RenderMode_DefaultNoPostProcess;
 	if (!disableScreenSpaceEffects)
     {
@@ -160,6 +252,11 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		{
 			//draw back into main back buffer render target
 			EffectManager::Instance()->drawMotionBlur();
+			
+			// Render IMGUI
+			ImGui::Render();
+            ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+			
 			EffectManager::Instance()->endCurrentRenderTarget();
 		}
 		else
@@ -171,6 +268,10 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 			bool drawShadowRenderTarget = renderMode == IRenderer::RenderMode_DebugShadowRT;
 
 			EffectManager::Instance()->debugDrawRenderTarget(debugGlowRenderTarget, drawSeparatedGlow, drawGlow1stPass, drawGlow2ndPass, drawShadowRenderTarget);
+			// Render IMGUI
+			ImGui::Render();
+            ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+
 			EffectManager::Instance()->endCurrentRenderTarget();
 		}
     }
@@ -198,6 +299,9 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 
 		ctx.getGPUScreen()->AcquireRenderContextOwnership(threadOwnershipMask);
 
+		// Render IMGUI
+		ImGui::Render();
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
         // Required when rendering to backbuffer directly. also done in drawMotionBlur_EndScene() since it is the last step of post process
 		EffectManager::Instance()->endCurrentRenderTarget();
     }

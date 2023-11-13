@@ -3,7 +3,7 @@
 #define __PrimeEngine_GameContext_h__
 
 #include "PrimeEngine/MemoryManagement/MemoryPool.h"
-
+#include "PrimeEngine/Math/Vector3.h"
 struct MainFunctionArgs;
 
 namespace PE {
@@ -61,6 +61,13 @@ struct GameContext
 	void * m_pGameSpecificContext; // used to extend this structure
 	Components::DefaultGameControls *m_pDefaultGameControls;
 	int m_gameThreadThreadOwnershipMask;
+
+public:
+	int m_button = 0;
+	int imgui_wasd = 0;
+	Vector3 text_rgb_1 = Vector3(0.5f, 0.5f, 0.5f);
+	Vector3 text_rgb_2 = Vector3(0.5f, 0.5f, 0.8f);
+	Vector3 text_rgb_3 = Vector3(0.5f, 0.8f, 0.5f);
 };
 
 

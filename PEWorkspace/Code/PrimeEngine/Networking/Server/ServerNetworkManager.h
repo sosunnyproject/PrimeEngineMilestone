@@ -42,7 +42,7 @@ struct ServerNetworkManager : public NetworkManager
 
 	virtual void createNetworkConnectionContext(t_socket sock, int clientId, PE::NetworkContext *pNetContext);
 
-	void debugRender(int &threadOwnershipMask, float xoffset = 0, float yoffset = 0);
+	void debugRender(int &threadOwnershipMask, float xoffset = 0, float yoffset = 0, Vector3 rgb = Vector3(1.0, 1.0, 1.0));
 
 	// forward to event manager
 	void scheduleEventToAllExcept(PE::Networkable *pNetworkable, PE::Networkable *pNetworkableTarget, int exceptClient);

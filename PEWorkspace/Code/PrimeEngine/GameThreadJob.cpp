@@ -19,6 +19,11 @@ extern "C"{
 #include "PrimeEngine/Game/Client/ClientGame.h"
 #include "Application/Application.h"
 
+// Add Imgui library
+#include "PrimeEngine/Import/imgui/imgui.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_dx9.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_win32.h"
+
 namespace PE {
 
 using namespace Events;
@@ -314,7 +319,9 @@ int ClientGame::runGameFrame()
 					sprintf(PEString::s_buf, "%.2f FPS", fps);
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(.75f, .05f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask);
+						Vector3(.75f, .02f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
+					);
 				}
 
                 PE::IRenderer::checkForErrors("");
@@ -325,7 +332,9 @@ int ClientGame::runGameFrame()
 					sprintf(PEString::s_buf, "Lua Command Receiver Ports: Client: %d Server: %d", m_pContext->getLuaCommandServerPort(), pServer->getLuaEnvironment() ? pServer->getLuaCommandServerPort():0);
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0,
-						Vector3(.0f, .05f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask);
+						Vector3(.0f, .02f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
+					);
 				}
 
                 PE::IRenderer::checkForErrors("");
@@ -333,14 +342,18 @@ int ClientGame::runGameFrame()
 				if (pServer->getLuaEnvironment()) // check if server context was initialized
 				{
 					ServerNetworkManager *pServerNetw = (ServerNetworkManager*)(pServer->getNetworkManager());
-					pServerNetw->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0, .1f);
+					pServerNetw->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0, .075f,
+												Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
+											);
 				}
                 
                 PE::IRenderer::checkForErrors("");
 
 				{
 					ClientNetworkManager* pClientNetworkManager = (ClientNetworkManager* )(m_pContext->getNetworkManager());
-					pClientNetworkManager->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0.5f, .1f);
+					pClientNetworkManager->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0.5f, .075f, 
+														Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
+														);
 				}
                 
                 PE::IRenderer::checkForErrors("");
@@ -350,7 +363,9 @@ int ClientGame::runGameFrame()
 					sprintf(PEString::s_buf, "GT frame wait:%.3f pre-draw:%.3f+render wait:%.3f+render:%.3f+post-render:%.3f = %.3f sec\n", m_gameTimeBetweenFrames, m_gameThreadPreDrawFrameTime, m_gameThreadDrawWaitFrameTime, m_gameThreadDrawFrameTime, m_gameThreadPostDrawFrameTime, m_frameTime);
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0,
-						Vector3(.0f, .075f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask);
+						Vector3(.0f, .045f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
+					);
 				}
 
 				// New TEXT UI
@@ -359,9 +374,51 @@ int ClientGame::runGameFrame()
 					sprintf(PEString::s_buf, "MOVE: WASD, CAMERA: ARROW KEYS");
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.05f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, Vector3(1.0, 0.5, 0.5));
+						Vector3(0.05f, 0.95f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z)
+					);
 				}
 				
+				// Listen for keyboard events
+				{
+					switch (m_pContext->m_button) {
+						case 1:
+							sprintf(PEString::s_buf, "Move Forward");
+							break;
+						case 2:
+							sprintf(PEString::s_buf, "Move Left");
+							break;
+						case 3:
+							sprintf(PEString::s_buf, "Move Backward");
+							break;
+						case 4:
+							sprintf(PEString::s_buf, "Move Right");
+							break;
+						default: 
+							sprintf(PEString::s_buf, "No button is pressed yet");
+					}
+					// sprintf(PEString::s_buf, "%d", m_pContext->m_button);
+					// Create a text mesh for the current key pressed
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.05f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(m_pContext->text_rgb_2.m_x, m_pContext->text_rgb_2.m_y, m_pContext->text_rgb_2.m_z)
+					);
+				}
+				
+				// draw p camera position
+				/*
+				{
+					Matrix4x4 pcam_world = pcam->m_base * pcam->m_worldTransform;
+					Vector3 pcam_pos = pcam_world.getPos();
+					sprintf(PEString::s_buf, "Camera Position: %f %f %f", pcam_pos.m_x, pcam_pos.m_y, pcam_pos.m_z);
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.05f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, Vector3(0.1, 0.6, 0.5));
+					// PEINFO("CAMERA FLY EVENT - WORLD POS: %f %f %f\n", pcam_pos.getX(), pcam_pos.getY(), pcam_pos.getZ());
+				}
+				*/
+
 				//debug draw root and grid
 				DebugRenderer::Instance()->createRootLineMesh();// send event while the array is on the stack
 
@@ -395,7 +452,7 @@ int ClientGame::runGameFrame()
             Event_FLY_CAMERA *pRealEvent = (Event_FLY_CAMERA *)(pGeneralEvt);
             pcam->m_base.moveForward(pRealEvent->m_relativeMove.getZ());
             pcam->m_base.moveRight(pRealEvent->m_relativeMove.getX());
-            pcam->m_base.moveUp(pRealEvent->m_relativeMove.getY());
+            pcam->m_base.moveUp(pRealEvent->m_relativeMove.getY());			
         }
         else if (Event_ROTATE_CAMERA::GetClassId() == pGeneralEvt->getClassId())
         {

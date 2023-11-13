@@ -170,12 +170,12 @@ const char *ClientNetworkManager::EClientStateToString(EClientState state)
 	};
 }
 
-void ClientNetworkManager::debugRender(int &threadOwnershipMask, float xoffset /* = 0*/, float yoffset /* = 0*/)
+void ClientNetworkManager::debugRender(int &threadOwnershipMask, float xoffset /* = 0*/, float yoffset /* = 0*/, Vector3 rgb)
 {
 	sprintf(PEString::s_buf, "Client: %s Id: %d", EClientStateToString(m_state), m_clientId);
 	DebugRenderer::Instance()->createTextMesh(
 		PEString::s_buf, true, false, false, false, 0,
-		Vector3(xoffset, yoffset, 0), 1.0f, threadOwnershipMask);
+		Vector3(xoffset, yoffset, 0), 1.0f, threadOwnershipMask, rgb);
 
 	if (m_clientId == -1)
 		return;

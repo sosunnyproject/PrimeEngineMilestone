@@ -181,12 +181,12 @@ void ServerNetworkManager::do_UPDATE(Events::Event *pEvt)
 	}
 }
 
-void ServerNetworkManager::debugRender(int &threadOwnershipMask, float xoffset /* = 0*/, float yoffset /* = 0*/)
+void ServerNetworkManager::debugRender(int &threadOwnershipMask, float xoffset /* = 0*/, float yoffset /* = 0*/, Vector3 rgb)
 {
 	sprintf(PEString::s_buf, "Server: Port %d %d Connections", m_serverPort, m_clientConnections.m_size);
 	DebugRenderer::Instance()->createTextMesh(
 		PEString::s_buf, true, false, false, false, 0,
-		Vector3(xoffset, yoffset, 0), 1.0f, threadOwnershipMask);
+		Vector3(xoffset, yoffset, 0), 1.0f, threadOwnershipMask, rgb);
 
 	float dy = 0.025f;
 	float dx = 0.01;
@@ -199,7 +199,7 @@ void ServerNetworkManager::debugRender(int &threadOwnershipMask, float xoffset /
 	
 		DebugRenderer::Instance()->createTextMesh(
 		PEString::s_buf, true, false, false, false, 0,
-		Vector3(xoffset, yoffset + dy + evtManagerDy * i, 0), 1.0f, threadOwnershipMask);
+		Vector3(xoffset, yoffset + dy + evtManagerDy * i, 0), 1.0f, threadOwnershipMask, rgb);
 
 		NetworkContext &netContext = m_clientConnections[i];
 		netContext.getEventManager()->debugRender(threadOwnershipMask, xoffset + dx, yoffset + dy * 2.0f + evtManagerDy * i);

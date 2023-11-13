@@ -43,7 +43,7 @@ struct ClientNetworkManager : public NetworkManager
 
 	const char *EClientStateToString(EClientState state);
 
-	void debugRender(int &threadOwnershipMask, float xoffset = 0, float yoffset = 0);
+	void debugRender(int &threadOwnershipMask, float xoffset = 0, float yoffset = 0, Vector3 rgb = Vector3(1.0, 1.0, 1.0));
 
 
 	void clientConnectToTCPServer(const char *strAddr, int port);

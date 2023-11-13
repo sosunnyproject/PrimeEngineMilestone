@@ -13,7 +13,9 @@ namespace PE {
 
 	void runDrawThreadSingleFrameThreaded(PE::GameContext &ctx);
 
-
+    static float t1[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+	static float t2[4] = {0.5f, 0.5f, 0.8f, 1.0f};
+	static float t3[4] = {0.5f, 0.8f, 0.5f, 1.0f};
 }; // namespace PE
 
 #endif

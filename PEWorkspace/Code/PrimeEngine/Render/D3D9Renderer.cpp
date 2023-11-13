@@ -14,7 +14,10 @@
 #include "PrimeEngine/APIAbstraction/Texture/Texture.h"
 
 // Sibling/Children includes
-
+// Add Imgui library
+#include "PrimeEngine/Import/imgui/imgui.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_dx9.h"
+#include "PrimeEngine/Import/imgui/backend/imgui_impl_win32.h"
 
 namespace PE {
 
@@ -303,6 +306,9 @@ D3D9Renderer::D3D9Renderer(PE::GameContext &context, unsigned int width, unsigne
 		return;
 	}
 
+	// Add Imgui library
+	ImGui_ImplDX9_Init(m_pD3D9Device);
+	
 	//m_pD3D9Device->GetSwapChain(0, &m_pSwapChain9);
 	hr = m_pD3D9Device->GetRenderTarget(0, &m_pRenderTarget9);
 	assert(SUCCEEDED(hr));
