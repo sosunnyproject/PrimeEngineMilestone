@@ -7,6 +7,7 @@
 #include "samplerhelper.fx"
 #include "lighthelper.fx"
 #include "ColoredMinimalMesh_Structs.fx"
+// debug line shader
 float4 ColoredMinimalMesh_A_0_PS(COLORED_MINIMAL_MESH_PS_IN pIn)
 {
 	return make_float4(pIn.iColor, 0.0);

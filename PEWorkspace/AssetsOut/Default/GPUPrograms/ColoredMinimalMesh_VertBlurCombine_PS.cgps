@@ -9,6 +9,8 @@
 #include "blurhelper.fx"
 #include "ColoredMinimalMesh_Structs.fx"
 
+// shader used for screen space effects.
+// change the entire 2d screen like a filter.
 float4 ColoredMinimalMesh_VerticalBlurAndCombine_PS(COLORED_MINIMAL_MESH_PS_IN pIn)
 {
 #if !NVIDIA_3D_VISION
@@ -45,7 +47,7 @@ BlurWeights[12] = bw12;
 	// need to add it to the source texture (with no glow)
 	float4 srcDiffuse = sample2D(gDiffuseMapSampler, pIn.iColor.xy, gDiffuseMap);
 	
-	return srcDiffuse + diffuse;
+	return 1-(srcDiffuse + diffuse);
 	
 #else
 	float4 srcDiffuse = sample2D(gDiffuseMapSampler, pIn.iColor.xy, gDiffuseMap);

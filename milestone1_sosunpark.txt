@@ -1,0 +1,26 @@
+Overall milestones will focus on UI system. 
+milestone 1
+(GOOGLE DRIVE LINK ATTACHED BELOW)
+
+- Add more information on text, render interactive/dynamically changing information on Text Overlay
+- Manipulate/Customize overlay 2D Texts inside PE: color change, shader files,
+	- worked on some stuff related to graphics / shader since Text renderer deals with shader files and buffers
+- Successfully imported IMGUI library and customized the menus
+- Interact with Camera, implementing WASD features into UI Button components, output camera positions information
+- Add color picker to dynamically change the colors of texts that are directly rendered on overlay 2D of Prime Engine
+	- Different color for different information
+- Directly changing the Soldier NPC position XYZ with number inputs via UI system.
+- And more on video explanations... (GOOGLE DRIVE)
+
+https://drive.google.com/drive/folders/1KD5Fkr0bCyA_NpHm9UMjKnlWtMkqS2iy?usp=sharing 
+
+milestone2
+- Find viewport offset position in screen: 
+- position of textmesh
+- mouse click interaction events
+	- Save Text positions at init, don't change until the window size changes
+	- check if mouse is clicking any of the -5 < text positions < 5
+	- seems like the text coordinate posx posy is left bottom coordinate. (not left top) 
+- button click event
+- input of number?
+	- change the object position
