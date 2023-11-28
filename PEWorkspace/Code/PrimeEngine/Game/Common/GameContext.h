@@ -4,6 +4,7 @@
 
 #include "PrimeEngine/MemoryManagement/MemoryPool.h"
 #include "PrimeEngine/Math/Vector3.h"
+#include <vector>
 struct MainFunctionArgs;
 
 namespace PE {
@@ -15,6 +16,7 @@ namespace Components{
 	struct GameObjectManager;
 	struct DefaultGameControls;
 	struct MeshManager;
+	struct TextSceneNode;
     
 };
 class Application;
@@ -42,7 +44,7 @@ struct GameContext
 	bool getIsServer(){return m_isServer;}
 	template <typename T>
 	T *get(){return (T*)(m_pGameSpecificContext);}
-	
+
 	Components::Component *m_pGame;
 	Components::LuaEnvironment *m_pLuaEnv;
 	MainFunctionArgs *m_pMPArgs;
@@ -68,6 +70,8 @@ public:
 	Vector3 text_rgb_1 = Vector3(0.5f, 0.5f, 0.5f);
 	Vector3 text_rgb_2 = Vector3(0.5f, 0.5f, 0.8f);
 	Vector3 text_rgb_3 = Vector3(0.5f, 0.8f, 0.5f);
+	POINT g_cursorPos;
+	std::vector<Components::TextSceneNode*> m_textSceneNodes;
 };
 
 

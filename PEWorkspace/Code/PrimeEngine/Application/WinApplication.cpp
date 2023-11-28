@@ -15,6 +15,9 @@
 #include "PrimeEngine/Import/imgui/imgui.h"
 #include "PrimeEngine/Import/imgui/backend/imgui_impl_dx9.h"
 #include "PrimeEngine/Import/imgui/backend/imgui_impl_win32.h"
+#include <iostream>
+using namespace std;
+
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -55,6 +58,11 @@ WinApplication::WinApplication(PE::GameContext &context, unsigned int width, uns
 	AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
 	int winWindowWidth  = R.right - R.left;
 	int winWindowHeight = R.bottom - R.top;
+	// Get window size
+	std::cout << "window height: " << winWindowHeight << std::endl;
+	std::cout << "window width: " << winWindowWidth << std::endl;
+	// std::cout << "window left: " << R.left << std::endl;
+	// std::cout << "window top: " << R.top << std::endl;
 
 	m_windowHandle = CreateWindowA("D3DWndClassName_PrimeEngine", caption, 
 		WS_OVERLAPPEDWINDOW|WS_SYSMENU|WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, winWindowWidth, winWindowHeight, 0, 0, hInstance, this); 
@@ -81,6 +89,12 @@ WinApplication::WinApplication(PE::GameContext &context, unsigned int width, uns
 	}
 	//ShowWindow(m_windowHandle, SW_SHOW);
 	//UpdateWindow(m_windowHandle);
+	if (GetWindowRect(m_windowHandle, &R))
+	{
+		int x = R.left;
+		int y = R.top;
+		std::cout << "Window position: (" << x << ", " << y << ")" << std::endl;
+	}
 }
 	
 void WinApplication::exit()

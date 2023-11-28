@@ -40,6 +40,38 @@ void DX9_KeyboardMouse::generateButtonEvents()
 	if(GetFocus() == pWinApp->getWindowHandle())
 #endif
 	{
+		// Check Mouse EVents
+		/*
+			BOOL GetCursorPos( LPPOINT lpPoint);
+		*/
+		if(GetCursorPos(&cursorPos)) {
+			if(ScreenToClient(pWinApp->getWindowHandle(), &cursorPos)) {
+				// MouseOver: correct position: inside the PE window only.
+				// PEINFO("MouseOver Position: %d, %d", cursorPos.x, cursorPos.y);
+				// Handle h("EVENT", sizeof(Event_MOUSE_OVER));
+				// new (h) Event_MOUSE_OVER();
+				// m_pQueueManager->add(h, Events::QT_INPUT);
+
+				if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+					PEINFO("VK_LBUTTON Position: %d, %d", cursorPos.x, cursorPos.y);
+					Handle h("EVENT", sizeof(Event_MOUSE_LEFT_CLICK));
+					new (h) Event_MOUSE_LEFT_CLICK();
+					m_pQueueManager->add(h, Events::QT_INPUT);
+					m_pContext->g_cursorPos.x = cursorPos.x;
+					m_pContext->g_cursorPos.y = cursorPos.y;
+				}
+
+				if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
+					//PEINFO("VK_RBUTTON Position: %d, %d", cursorPos.x, cursorPos.y);
+					Handle h("EVENT", sizeof(Event_MOUSE_RIGHT_CLICK));
+					new (h) Event_MOUSE_RIGHT_CLICK();
+					m_pQueueManager->add(h, Events::QT_INPUT);
+					m_pContext->g_cursorPos.x = cursorPos.x;
+					m_pContext->g_cursorPos.y = cursorPos.y;
+				}
+			}
+		}
+
 		//Check for Button Down events
 
 		//Check for Button Up events

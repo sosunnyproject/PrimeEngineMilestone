@@ -38,6 +38,7 @@ public:
 	void generateButtonEvents();
 
 	Events::EventQueueManager *m_pQueueManager;
+	POINT cursorPos;
 };
 
 }; // namespace Components

@@ -14,6 +14,21 @@
 namespace PE {
 namespace Events {
 
+// Add Mouse Click Events
+struct Event_MOUSE_OVER : public Event {
+	PE_DECLARE_CLASS(Event_MOUSE_OVER);
+	virtual ~Event_MOUSE_OVER() {}
+};
+struct Event_MOUSE_LEFT_CLICK : public Event {
+	PE_DECLARE_CLASS(Event_MOUSE_LEFT_CLICK);
+	virtual ~Event_MOUSE_LEFT_CLICK(){}
+};
+
+struct Event_MOUSE_RIGHT_CLICK : public Event {
+	PE_DECLARE_CLASS(Event_MOUSE_RIGHT_CLICK);
+	virtual ~Event_MOUSE_RIGHT_CLICK(){}
+};
+
 struct Event_KEY_A_HELD : public Event {
 	PE_DECLARE_CLASS(Event_KEY_A_HELD);
 	virtual ~Event_KEY_A_HELD(){}

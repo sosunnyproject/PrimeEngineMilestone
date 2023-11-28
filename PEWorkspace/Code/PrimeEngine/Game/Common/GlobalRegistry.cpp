@@ -187,9 +187,12 @@ void Register(PE::Components::LuaEnvironment *pLuaEnv, PE::GlobalRegistry *pRegi
 					PE::Events::Event_KEY_DOWN_HELD::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
 					PE::Events::Event_KEY_RIGHT_HELD::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
 					PE::Events::Event_KEY_UP_HELD::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
-
 					PE::Events::Event_SERVER_CLIENT_CONNECTION_ACK::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
 
+					// Standard Mouse Events
+					PE::Events::Event_MOUSE_LEFT_CLICK::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
+					PE::Events::Event_MOUSE_RIGHT_CLICK::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
+					PE::Events::Event_MOUSE_OVER::InitializeAndRegister(pLuaEnv, pRegistry, setLuaMetaDataOnly);
 			}
 			// end root.PE.Events
 			pLuaEnv->EndRegistrationTable();
