@@ -55,6 +55,8 @@ struct TextSceneNode : public SceneNode
 
 	bool m_canBeRecreated;
 	Vector3 m_rgb;
+	Vector2 g_pos2D;
+	char m_str[256];
 
 }; // class TextSceneNode
 

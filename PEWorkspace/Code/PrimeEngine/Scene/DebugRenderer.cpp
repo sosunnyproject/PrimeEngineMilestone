@@ -5,6 +5,7 @@
 
 // Inter-Engine includes
 #include "../Lua/LuaEnvironment.h"
+#include <cstring>
 
 // Sibling/Children includes
 #include "DebugRenderer.h"
@@ -26,7 +27,7 @@ PE_IMPLEMENT_CLASS1(DebugRenderer, SceneNode);
 
 // Static member variables
 Handle DebugRenderer::s_myHandle;
-
+std::vector<PE::Components::TextSceneNode*> PE::Components::DebugRenderer::m_textSceneNodes;
 // Singleton ------------------------------------------------------------------
 
 void DebugRenderer::Construct(PE::GameContext &context, PE::MemoryArena arena)
@@ -200,10 +201,19 @@ void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D,
 		if (isOverlay2D)
 		{
 			drawType = TextSceneNode::Overlay2D;
+			// PEINFO("pTextSN loading text 2D pos calcuation: %s, %f, %f", str, pos.m_x*1296, pos.m_y*759);
+			pTextSN->g_pos2D = Vector2(pos.m_x*1280, pos.m_y*720);  
+			// window size: 1296 * 759
+			// mouse click check: 1280 * 720
 		
 			// modify position to fit [-1,1] coordinates
 			pos.m_x = -1.0f + 2.0f * pos.m_x;
 			pos.m_y = -1.0f + 2.0f * (1.0f - pos.m_y);
+
+			// TODO: Add Text to GLOBAL Array of Future UI Buttons Check
+			// m_pContext->m_textSceneNodes.push_back(pTextSN);
+			m_textSceneNodes.push_back(pTextSN);
+			// PEINFO("after -1 1 conversion: pTextSN pos: %f, %f, %f", pTextSN->m_base.getPos().m_x, pTextSN->m_base.getPos().m_y);
 		}
 		if (is3DFacedToCamera)
 			drawType = TextSceneNode::Overlay2D_3DPos;
@@ -211,6 +221,7 @@ void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D,
 		pTextSN->m_base.setPos(pos);
 		pTextSN->m_scale = scale;
 		pTextSN->m_rgb = rgb;
+		strcpy(pTextSN->m_str, str);
 	}	
 }
 
@@ -299,7 +310,9 @@ void DebugRenderer::postPreDraw(int &threadOwnershipMask)
 			}
 		}
 	}
-
+	// check overlay2D
+	// linemesh shader: try using text vertex shader. 
+	// text vertex shader, not multiplying model matrix .. 
 	LineMesh *pLineMesh = m_hLineMeshes[m_currentlyDrawnLineMesh].getObject<LineMesh>();
 	MeshInstance *pLineMeshInstance = m_hLineMeshInstances[m_currentlyDrawnLineMesh].getObject<MeshInstance>();
 	// this mesh ahs been submitted to render already. we can disable it here (will nto be submitted on next frame)

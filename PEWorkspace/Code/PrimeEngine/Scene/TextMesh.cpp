@@ -94,6 +94,7 @@ void TextMesh::loadFromString_needsRC(const char *str, const char *techName, int
 		pVB->m_values.add(curX + w, curY, 0); // top right
 		pVB->m_values.add(curX + w, curY-h, 0);
 		pVB->m_values.add(curX, curY-h, 0);
+		// PEINFO("TEXTMESH char c and curX, curY, %c, %f, %f", c, curX, curY);
 
 		pIB->m_values.add(ic * 4 + 0, ic * 4 + 1, ic * 4 + 2);
 		pIB->m_values.add(ic * 4 + 2, ic * 4 + 3, ic * 4 + 0);

@@ -314,12 +314,15 @@ int ClientGame::runGameFrame()
                 PE::IRenderer::checkForErrors("");
 
 				//FPS
+				// pos:  ui 6 index pos 972.000000, 15.179999:
+				// mouse click: 964, 17 
+				// mouse pos: height is 19px ~ 30px
 				{
 					float fps = (1.0f/m_frameTime);
 					sprintf(PEString::s_buf, "%.2f FPS", fps);
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(.75f, .02f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(.75f, .0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
 						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
 					);
 				}
@@ -327,16 +330,20 @@ int ClientGame::runGameFrame()
                 PE::IRenderer::checkForErrors("");
 
 				//LUA Command Server, Server
+				// pos: PE: Info: ui 5 index pos 0.000000, 15.179999
+				// mouse click: 
 				PE::GameContext *pServer = &PE::Components::ServerGame::s_context;
 				{
 					sprintf(PEString::s_buf, "Lua Command Receiver Ports: Client: %d Server: %d", m_pContext->getLuaCommandServerPort(), pServer->getLuaEnvironment() ? pServer->getLuaCommandServerPort():0);
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0,
-						Vector3(.0f, .02f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(.0f, .0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
 						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
 					);
 				}
 
+				// pos: 56px(y pos)
+				// mouse pos: 62 ~ 73px
                 PE::IRenderer::checkForErrors("");
 
 				if (pServer->getLuaEnvironment()) // check if server context was initialized
@@ -359,6 +366,8 @@ int ClientGame::runGameFrame()
                 PE::IRenderer::checkForErrors("");
 
 				//gameplay timer
+				// px pos: 34px.
+				// mouse click pos: 39px ~ 50px
 				{
 					sprintf(PEString::s_buf, "GT frame wait:%.3f pre-draw:%.3f+render wait:%.3f+render:%.3f+post-render:%.3f = %.3f sec\n", m_gameTimeBetweenFrames, m_gameThreadPreDrawFrameTime, m_gameThreadDrawWaitFrameTime, m_gameThreadDrawFrameTime, m_gameThreadPostDrawFrameTime, m_frameTime);
 					DebugRenderer::Instance()->createTextMesh(
@@ -378,7 +387,7 @@ int ClientGame::runGameFrame()
 						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z)
 					);
 				}
-				
+
 				// Listen for keyboard events
 				{
 					switch (m_pContext->m_button) {
@@ -418,6 +427,12 @@ int ClientGame::runGameFrame()
 					// PEINFO("CAMERA FLY EVENT - WORLD POS: %f %f %f\n", pcam_pos.getX(), pcam_pos.getY(), pcam_pos.getZ());
 				}
 				*/
+				// Check Mouse Click position 
+				// Can Access UI buttons
+				{
+					// PEINFO("GameThreadJob: Mouse Clicked Position: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+				}
+
 
 				//debug draw root and grid
 				DebugRenderer::Instance()->createRootLineMesh();// send event while the array is on the stack

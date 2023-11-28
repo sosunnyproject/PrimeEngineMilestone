@@ -15,6 +15,8 @@
 #include "../Math/Vector3.h"
 #include "../Math/Matrix4x4.h"
 #include "SceneNode.h"
+#include "PrimeEngine/Scene/TextSceneNode.h"
+#include <vector>
 
 // Sibling/Children includes
 namespace PE {
@@ -60,7 +62,9 @@ struct DebugRenderer : public SceneNode
 
 	virtual void addDefaultComponents();
 	// Individual events -------------------------------------------------------
-	
+	public:
+		static std::vector<PE::Components::TextSceneNode*> m_textSceneNodes;
+
 	private:
 		static Handle s_myHandle;
 		Handle m_hMyTextMesh;

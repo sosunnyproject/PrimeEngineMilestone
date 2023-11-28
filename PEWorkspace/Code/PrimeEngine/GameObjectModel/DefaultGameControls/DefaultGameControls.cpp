@@ -6,7 +6,8 @@
 
 #include "DefaultGameControls.h"
 
-
+#include "PrimeEngine/Scene/TextSceneNode.h"
+#include "PrimeEngine/Scene/DebugRenderer.h"
 
 // definitions of keyboard and controller events. s.a. Button pressed, etc
 
@@ -90,6 +91,7 @@ void DefaultGameControls::do_UPDATE(Events::Event *pEvt)
 
         handleIOSDebugInputEvents(pInputEvt);
 
+		handleMouseDebugInputEvents(pInputEvt);
 		
 
 		iqh.getObject<Events::EventQueue>()->destroyFront();
@@ -168,7 +170,57 @@ void DefaultGameControls::handleIOSDebugInputEvents(Event *pEvt)
 
 }
 
+// mouse vs actual px position difference: 5~7px (height)
 
+void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
+{
+	m_pQueueManager = Events::EventQueueManager::Instance();
+	// dx9_keybarodMouse
+	if (Event_MOUSE_LEFT_CLICK::GetClassId() == pEvt->getClassId()){
+		// print them in integer... otherwise NAN / 0 values.
+		PEINFO("DefaultGameControls MOUSE LEFT: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+		
+		// check if m_textSceneNodes is not null or empty
+		if(PE::Components::DebugRenderer::m_textSceneNodes.size() > 0)
+		{
+			// PEINFO("ui 0 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[0]->m_str);
+			// PEINFO("ui 0 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y);
+ 
+			// PEINFO("ui 1 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[1]->m_str);
+			// PEINFO("ui 1 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[1]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[1]->g_pos2D.m_y);
+
+			// GT Frame
+			PEINFO("ui 2 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[2]->m_str);
+			PEINFO("ui 2 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y);
+
+			// SERVER, CLIENT
+			PEINFO("ui 3 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[3]->m_str);
+			PEINFO("ui 3 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_y);
+
+			PEINFO("ui 4 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[4]->m_str);
+			PEINFO("ui 4 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_y);
+
+			// Lua Command
+			PEINFO("ui 5 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[5]->m_str);
+			PEINFO("ui 5 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[5]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[5]->g_pos2D.m_y);
+			
+			// FPS
+			PEINFO("ui 6 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[6]->m_str);
+			PEINFO("ui 6 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[6]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[6]->g_pos2D.m_y);
+
+			// check if the mouse click is inside the text box
+			// if(m_pContext->g_cursorPos.x >= m_pContext->m_textSceneNodes[0].g_pos2D.x && m_pContext->g_cursorPos.x <= m_pContext->m_textSceneNodes[0].g_pos2D.x + 100)
+			// {
+			// 	if(m_pContext->g_cursorPos.y >= m_pContext->m_textSceneNodes[0].g_pos2D.y && m_pContext->g_cursorPos.y <= m_pContext->m_textSceneNodes[0].g_pos2D.y + 100)
+			// 	{
+			// 		// if it is, then change the color of the text
+			// 		m_pContext->m_textSceneNodes[0].m_rgb = Vector3(1.0f, 0.0f, 0.0f);
+			// 	}
+			// }
+		}
+
+	}
+}
 
 void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 {

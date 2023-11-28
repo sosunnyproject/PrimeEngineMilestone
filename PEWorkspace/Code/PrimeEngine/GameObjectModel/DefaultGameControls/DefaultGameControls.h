@@ -43,6 +43,7 @@ public:
     void handleIOSDebugInputEvents(Events::Event *pEvt);
 	void handleKeyboardDebugInputEvents(Events::Event *pEvt);
 	void handleControllerDebugInputEvents(Events::Event *pEvt);
+	void handleMouseDebugInputEvents(Events::Event *pEvt);
 	
 	Events::EventQueueManager *m_pQueueManager;
 	

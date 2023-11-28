@@ -18,7 +18,7 @@ extern "C"{
 #include "PrimeEngine/Events/StandardEvents.h" // Include the file that defines the Event_CREATE_LIGHT event
 
 // #include "CharacterControl/Tank/ClientTank.h"
-// #include "CharacterControl/ClientGameObjectManagerAddon.h"
+#include "CharacterControl/ClientGameObjectManagerAddon.h"
 #include "CharacterControl/Characters/SoldierNPC.h"
 #include "CharacterControl/Characters/SoldierNPCMovementSM.h"
 // keyboard mouse
@@ -192,7 +192,7 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		ctx.text_rgb_3 = Vector3(t3[0], t3[1], t3[2]);
 	}
 	
-	ImGui::SeparatorText("Soldier Position");
+	ImGui::SeparatorText("Objects Position");
 
 	if (CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm != nullptr) {
 		Matrix4x4& base = CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm->getParentsSceneNode()->m_base;
@@ -201,23 +201,53 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 			base.setPos(Vector3(soldier_posf[0], soldier_posf[1], soldier_posf[2]));
 		}
 	}
-
+	if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) {
+		// PE::Components::SceneNode* tankSceneNode = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN;
+		Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
+		Vector3 pos = base.getPos();
+		// PEINFO("////RENDERJOB::: TANK SCENE NODE: %f\n", pos.m_x);
+		
+		if(	ImGui::InputFloat3("Tank Position XYZ", (float*)&tank_posf)) {
+			base.setPos(Vector3(tank_posf[0], tank_posf[1], tank_posf[2]));
+		}
+	}
 	/*
 	if(ImGui::SliderFloat3("Important Text", t1, 0.0f, 1.0f)){
 		ctx.text_rgb_1 = Vector3(t1[0], t1[1], t1[2]);
 	}
 	*/
 
-	// if(ImGui::Button("Create Light")){
-	// 	// Create a light
-	// 	Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
-	// 	Event_CREATE_LIGHT *pEvent = new(h) Event_CREATE_LIGHT();
-	// 	Events::EventQueueManager::Instance()->add(pEvent, Events::QT_GENERAL);
-	// }
+	if(ImGui::Button("Create Light")){
+		// Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
+
+		// Event_CREATE_LIGHT *pEvent = new(h) Event_CREATE_LIGHT();
+		/*
+		pEvt->m_pos = pos;
+		pEvt->m_u = u;
+		pEvt->m_v = v;
+		pEvt->m_n = n;
+
+		pEvt->m_diffuse = diffuse;
+		pEvt->m_spec = spec;
+		pEvt->m_ambient = ambient;
+		pEvt->m_att = attenuation;
+		pEvt->m_spotPower = spotPower;
+		pEvt->m_range = range;
+		pEvt->m_isShadowCaster = isShadowCaster;
+		*/
+		// Events::EventQueueManager::Instance()->add(pEvent, Events::QT_GENERAL);
+	}
 	// for (CharacterControl::Components::TankController* tankController : CharacterControl::Components::ClientGameObjectManagerAddon::tanks) {
     // 	PEINFO("////RENDERJOB::: TankController: %f\n", tankController->m_spawnPos.m_x);
 	// 	// Do something with tankController
 	// }
+	
+	// Mouse Events: Works in RenderJob or GameThreadJob.
+	// print them in %d integer values
+	// You Can Access UI button positions
+	{
+		// PEINFO("Renderer Job: MouseOver Position: %d, %d", ctx.g_cursorPos.x, ctx.g_cursorPos.y);
+	}
 
 	ImGui::End();
 
@@ -255,7 +285,7 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		EffectManager::Instance()->endCurrentRenderTarget();
 
         // First glow path into another texture with horizontal glow
-                
+		// Happening in 2D space.
         // Draw Effects
         // horizontal glow into 2nd glow target
         EffectManager::Instance()->drawFirstGlowPass();
@@ -266,6 +296,9 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		EffectManager::Instance()->drawSecondGlowPass();
 		EffectManager::Instance()->endCurrentRenderTarget();
 
+		// RENDER PASS: SCREEN SPACE.
+		// CREATE ANOTHER PASS for image quads
+		// Happening in SCREEN SPACE 2D space.
 		bool drawMotionBlur = renderMode == IRenderer::RenderMode_DefaultGlow;
 		if (drawMotionBlur)
 		{
@@ -280,6 +313,7 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		}
 		else
 		{
+			// shadow render target may include Text mesh rendering
 			bool debugGlowRenderTarget = renderMode == IRenderer::RenderMode_DebugGlowRT;
 			bool drawSeparatedGlow = renderMode == IRenderer::RenderMode_DebugSeparatedGlow;
 			bool drawGlow1stPass = renderMode == IRenderer::RenderMode_DebugGlowHorizontalBlur;

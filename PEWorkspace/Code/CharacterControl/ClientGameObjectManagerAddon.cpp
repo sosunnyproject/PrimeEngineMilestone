@@ -12,10 +12,12 @@ using namespace PE::Events;
 using namespace CharacterControl::Events;
 using namespace CharacterControl::Components;
 
+
 namespace CharacterControl{
 namespace Components
 {
 PE_IMPLEMENT_CLASS1(ClientGameObjectManagerAddon, Component); // creates a static handle and GteInstance*() methods. still need to create construct
+PE::Components::SceneNode* ClientGameObjectManagerAddon::tankSN;
 
 void ClientGameObjectManagerAddon::addDefaultComponents()
 {
@@ -116,7 +118,7 @@ void ClientGameObjectManagerAddon::createTank(int index, int &threadOwnershipMas
 	//game object manager
 	//  TankController
 	//    scene node
-	
+
 	PE::Handle hMeshInstance("MeshInstance", sizeof(MeshInstance));
 	MeshInstance *pMeshInstance = new(hMeshInstance) MeshInstance(*m_pContext, m_arena, hMeshInstance);
 
@@ -134,15 +136,16 @@ void ClientGameObjectManagerAddon::createTank(int index, int &threadOwnershipMas
 	pSN->addComponent(hMeshInstance);
 
 	RootSceneNode::Instance()->addComponent(hSN);
-
+	tankSN = pSN;
 	// now add game objects
+	PEINFO("////// CREAT TANK");
 
 	PE::Handle hTankController("TankController", sizeof(TankController));
 	TankController *pTankController = new(hTankController) TankController(*m_pContext, m_arena, hTankController, 0.05f, spawnPos,  0.05f);
 	pTankController->addDefaultComponents();
 
 	addComponent(hTankController);
-
+	
 	// add the same scene node to tank controller
 	static int alllowedEventsToPropagate[] = {0}; // we will pass empty array as allowed events to propagate so that when we add
 	// scene node to the square controller, the square controller doesnt try to handle scene node's events
@@ -167,7 +170,7 @@ void ClientGameObjectManagerAddon::createSpaceShip(int &threadOwnershipMask)
 
 	pMeshInstance->addDefaultComponents();
 	pMeshInstance->initFromFile("space_frigate_6.mesha", "FregateTest", threadOwnershipMask);
-
+	PEINFO("SPACE SHIP CREATED ///////////////////");
 	// need to create a scene node for this mesh
 	PE::Handle hSN("SCENE_NODE", sizeof(SceneNode));
 	SceneNode *pSN = new(hSN) SceneNode(*m_pContext, m_arena, hSN);

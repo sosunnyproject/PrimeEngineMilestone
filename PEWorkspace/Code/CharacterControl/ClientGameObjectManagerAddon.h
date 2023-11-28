@@ -5,7 +5,16 @@
 #include "Events/Events.h"
 
 #include "WayPoint.h"
-
+#include <vector>
+#include "Tank/ClientTank.h"
+#include "PrimeEngine/Scene/SceneNode.h"
+namespace PE 
+{
+	namespace Components
+	{
+		struct SceneNode;
+	}
+}
 namespace CharacterControl
 {
 namespace Components
@@ -20,6 +29,9 @@ struct ClientGameObjectManagerAddon : public GameObjectManagerAddon
 
 	ClientGameObjectManagerAddon(PE::GameContext &context, PE::MemoryArena arena, PE::Handle hMyself) : GameObjectManagerAddon(context, arena, hMyself)
 	{}
+
+	// Add more milestone: Scene Nodes to tanks
+	static PE::Components::SceneNode* tankSN;
 
 	// sub-component and event registration
 	virtual void addDefaultComponents() ;

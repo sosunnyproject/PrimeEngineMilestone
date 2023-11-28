@@ -99,9 +99,10 @@ int ClientCharacterControlGame::initGame()
 
 		// start deactivated. needs to be deactivated AFTER adding it to parent components
 		pGameCtx->getSpaceShipGameControls()->setEnabled(false);
-
+		PEINFO("//////////// space ship ????");
 		if (false)
 		{
+			PEINFO("////////////// draw Spaceship true");
 			((ClientGameObjectManagerAddon*)(pGameCtx->getGameObjectManagerAddon()))->createSpaceShip(
 				m_pContext->m_gameThreadThreadOwnershipMask);
 		}
