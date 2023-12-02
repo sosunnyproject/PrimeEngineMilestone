@@ -4,6 +4,7 @@
 #include "PrimeEngine/Render/IRenderer.h"
 
 #include "PrimeEngineIncludes.h"
+#include "PrimeEngine/Scene/RootSceneNode.h"
 
 namespace PE {
 

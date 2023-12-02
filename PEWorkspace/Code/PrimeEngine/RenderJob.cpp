@@ -218,24 +218,77 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 	*/
 
 	if(ImGui::Button("Create Light")){
-		// Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
+		
+		Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
+		Event_CREATE_LIGHT *pEvt = new(h) Event_CREATE_LIGHT();
+		pEvt->m_pos = Vector3(0.0, 0.0, 0.0);
+		pEvt->m_u = Vector3(1.0, 0.0, 0.0);
+		pEvt->m_v = Vector3(0.0, 0.0, 1.0);
+		pEvt->m_n = Vector3(0.0, -1.0, 0.0);
 
-		// Event_CREATE_LIGHT *pEvent = new(h) Event_CREATE_LIGHT();
+		pEvt->m_diffuse = Vector4(0.0, 0.0, 0.0, 1.0);
+		pEvt->m_spec = Vector4(0.0, 0.0, 0.0, 1.0);
+		pEvt->m_ambient = Vector4(1.0, 1.0, 1.0, 1.0);
+		pEvt->m_att = Vector3(0.0, 0.0, 0.0);
+		pEvt->m_spotPower = 0.0f;
+		pEvt->m_range = 0.0f;
+		pEvt->m_isShadowCaster = 0;
+		pEvt->m_type = 1;
+		
+		// trying to bypass LUA peuuid, but failed
+		PEUUID myUUID;
+		PrimitiveTypes::UInt32 myValue = 1918226831; // BAsic Lighting PEUUID value
+		PrimitiveTypes::UInt32 v1 = 919343584;
+		PrimitiveTypes::UInt32 v2 = 3047817253;
+		PrimitiveTypes::UInt32 v3 = 3551285327;
+		myUUID.set(myValue, v1, v2, v3);
+		pEvt->m_peuuid = myUUID;
+		PEINFO("pEvt mpeuuid: %d", pEvt->m_peuuid); 
+		// Events::EventQueueManager::Instance()->add(pEvt, Events::QT_GENERAL);
+		
+		// skip the lua l_construct part.
+		// replicate GameObjectManager do_Create_Light
 		/*
-		pEvt->m_pos = pos;
-		pEvt->m_u = u;
-		pEvt->m_v = v;
-		pEvt->m_n = n;
+		Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
+		Event_CREATE_LIGHT* pEvt = new(h) Event_CREATE_LIGHT();
+		Handle hLight("LIGHT", sizeof(Light));
+		PE::MemoryArena arena = PE::MemoryArena_Client;
+		bool isShadowCaster = false; 
+		Light *pLight = new(hLight) Light(
+			ctx,
+			arena,
+			hLight,
+			Vector3(0.0, 0.0, 0.0), //Position
+			Vector3(1.0, 0.0, 0.0), 
+			Vector3(0.0, 0.0, 1.0), 
+			Vector3(0.0, -1.0, 0.0), //Direction (z-axis)
+			Vector4(0.0, 0.0, 0.0, 1.0), //Ambient
+			Vector4(0.0, 0.0, 0.0, 1.0), //Diffuse
+			Vector4(0.0, 0.0, 0.0, 1.0), //Specular
+			Vector3(0.0, 0.0, 0.0), //Attenuation (x, y, z)
+			0.0f, // Spot Power
+			0.0f, //Range
+			isShadowCaster, //Whether or not it casts shadows
+			(PrimitiveTypes::Int32)(1.0f) //0 = point, 1 = directional, 2 = spot
+		);
+		pLight->addDefaultComponents();
 
-		pEvt->m_diffuse = diffuse;
-		pEvt->m_spec = spec;
-		pEvt->m_ambient = ambient;
-		pEvt->m_att = attenuation;
-		pEvt->m_spotPower = spotPower;
-		pEvt->m_range = range;
-		pEvt->m_isShadowCaster = isShadowCaster;
+		RootSceneNode::Instance()->m_lights.add(hLight);
+		RootSceneNode::Instance()->addComponent(hLight);
+		PEINFO("NO ERROR UNTIL HERE///// CREATE LLIGHT BUTTON");
+
+		PEUUID myUUID;
+		PEINFO("pEvt mpeuuid: %d", pEvt->m_peuuid); 
+		PrimitiveTypes::UInt32 myValue = 1918226831; // BAsic Lighting PEUUID value
+		myUUID.set(myValue, 0, 0, 0);
+		pEvt->m_peuuid = myUUID;
 		*/
-		// Events::EventQueueManager::Instance()->add(pEvent, Events::QT_GENERAL);
+		// ctx.getLuaEnvironment()->pushHandleAsFieldAndSet(pEvt->m_peuuid, hLight);
+		// ctx.getGameObjectManager()->m_lastAddedObjHandle = hLight;
+		
+		// ORIGINAL do_CREATE_LIGHT function
+		// m_pContext->getLuaEnvironment()->pushHandleAsFieldAndSet(pRealEvt->m_peuuid, hLight);
+		// m_lastAddedObjHandle = hLight;
 	}
 	// for (CharacterControl::Components::TankController* tankController : CharacterControl::Components::ClientGameObjectManagerAddon::tanks) {
     // 	PEINFO("////RENDERJOB::: TankController: %f\n", tankController->m_spawnPos.m_x);

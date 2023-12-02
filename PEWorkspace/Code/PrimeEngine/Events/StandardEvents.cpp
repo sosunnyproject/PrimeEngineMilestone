@@ -131,6 +131,7 @@ void Event_CREATE_LIGHT::SetLuaFunctions(PE::Components::LuaEnvironment *pLuaEnv
 }
 
 // Lua interface prefixed with l_
+// After l_Construct execution => GameObjectManager's do_CREATE_LIGHT will be called with this event 
 int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 {
 	Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
@@ -196,6 +197,11 @@ int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 	pEvt->m_u = u;
 	pEvt->m_v = v;
 	pEvt->m_n = n;
+	PEINFO("/// EVENT LIGHT CREATE PARAMETERTS ////");
+	PEINFO("pos = %f, %f, %f", pos.m_x, pos.m_y, pos.m_z);
+	PEINFO("u = %f, %f, %f", u.m_x, u.m_y, u.m_z);
+	PEINFO("v = %f, %f, %f", v.m_x, v.m_y, v.m_z);
+	PEINFO("n = %f, %f, %f", n.m_x, n.m_y, n.m_z);
 
 	pEvt->m_diffuse = diffuse;
 	pEvt->m_spec = spec;
@@ -204,6 +210,13 @@ int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 	pEvt->m_spotPower = spotPower;
 	pEvt->m_range = range;
 	pEvt->m_isShadowCaster = isShadowCaster;
+	PEINFO("diffuse = %f, %f, %f, %f", diffuse.m_x, diffuse.m_y, diffuse.m_z, diffuse.m_w);
+	PEINFO("spec = %f, %f, %f, %f", spec.m_x, spec.m_y, spec.m_z, spec.m_w);
+	PEINFO("ambient = %f, %f, %f, %f", ambient.m_x, ambient.m_y, ambient.m_z, ambient.m_w);
+	PEINFO("attenuation = %f, %f, %f", attenuation.m_x, attenuation.m_y, attenuation.m_z);
+	PEINFO("m_spotPower = %f", spotPower);
+	PEINFO("m_range = %f", range);
+	PEINFO("m_isShadowCaster = %d", isShadowCaster);
 
 	if (StringOps::strcmp(typeStr, "directional") == 0)
 	{
@@ -217,7 +230,21 @@ int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 
 	return 1;
 }
+/*
+// Light Sample Data
+PE: Info: pos = 0.000000, 0.000000, 0.000000
+PE: Info: u = 1.000000, 0.000000, 0.000000
+PE: Info: v = 0.000000, 0.000000, 1.000000
+PE: Info: n = 0.000000, -1.000000, 0.000000
+PE: Info: diffuse = 0.000000, 0.000000, 0.000000, 1.000000
+PE: Info: spec = 0.000000, 0.000000, 0.000000, 1.000000
+PE: Info: ambient = 1.000000, 1.000000, 1.000000, 1.000000
+PE: Info: attenuation = 0.000000, 0.000000, 0.000000
+PE: Info: m_spotPower = 0.000000
+PE: Info: m_range = 0.000000
+PE: Info: m_isShadowCaster = 0
 
+*/
 
 //////////////////////////////////////////////////////////////////////////
 // Event_CREATE_MESH

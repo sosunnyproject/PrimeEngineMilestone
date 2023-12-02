@@ -68,6 +68,7 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 
 	if (!pRealEvt->m_peuuid.isZero())
 	{
+		PEINFO("m_peuuid: %d", pRealEvt->m_peuuid);
 		// have a valid peeuid for the object. need to check if have one already
 
 		haveObject = m_pContext->getLuaEnvironment()->checkTableValueByPEUUIDFieldExists(pRealEvt->m_peuuid);
@@ -83,6 +84,7 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 		}
 	}
 
+	// This gets called after int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 	if (!haveObject)
 	{
 		Handle hLight("LIGHT", sizeof(Light));
@@ -105,7 +107,7 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 			(PrimitiveTypes::Int32)(pRealEvt->m_type) //0 = point, 1 = directional, 2 = spot
 		);
 		pLight->addDefaultComponents();
-
+		PEINFO("m_arena: %d", m_arena);
 		RootSceneNode::Instance()->m_lights.add(hLight);
 		RootSceneNode::Instance()->addComponent(hLight);
 
