@@ -31,6 +31,7 @@
 // #include "CharacterControl/Tank/ClientTank.h"
 #include "CharacterControl/ClientGameObjectManagerAddon.h"
 #include <cstring>
+#include "CharacterControl/Characters/SoldierNPCMovementSM.h"
 
 
 // Arkane Control Values
@@ -248,7 +249,8 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 				}
 			}
 		}
-
+		
+		// CAMERA BUTTONS
 		// TEXT COLOR BUTTONS
 		for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
 		{
@@ -310,9 +312,157 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 					}
 				}
 			}
+			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_FWD") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+
+						Handle h("EVENT", sizeof(Event_KEY_W_HELD));
+						Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
+						event->m_moveCamByButton = 0.01f; 
+						m_pQueueManager->add(h, Events::QT_INPUT);
+						m_pContext->m_button = 1; 
+					}
+				}
+			}
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_LEFT") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						
+						Handle h("EVENT", sizeof(Event_KEY_A_HELD));
+						Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
+						event->m_moveCamByButton = 0.01f; 
+						m_pQueueManager->add(h, Events::QT_INPUT);
+						m_pContext->m_button = 2; 
+					}
+				}
+			}
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_BACK") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						Handle h("EVENT", sizeof(Event_KEY_S_HELD));
+						Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
+						event->m_moveCamByButton = 0.01f; 
+						m_pQueueManager->add(h, Events::QT_INPUT);
+						m_pContext->m_button = 3; 
+					}
+				}
+			}
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_RIGHT") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						Handle h("EVENT", sizeof(Event_KEY_D_HELD));
+						Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
+						event->m_moveCamByButton = 0.01f; 
+						m_pQueueManager->add(h, Events::QT_INPUT);
+						m_pContext->m_button = 4; 
+					}
+				}
+			}
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_STOP") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// m_pContext->imgui_wasd = 0;
+					}
+				}
+			}
 		}
 		// TODO: TANK1, TANK2, TANK3 buttons vertically aligned. when clicked, expand and show up, down, left, right on the right
 		// TODO:  WHEN BUTTON IS CLICKED, BLINK THE TEXT BG COLOR TO WHITE OR STH 
+		// TODO: SOLDIER MOVE WITH BUTTONS
+		if(CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm != nullptr) 
+		{
+			Matrix4x4& base = CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm->getParentsSceneNode()->m_base;
+			Vector3 pos = base.getPos();
+			// button 0: DOWN, 1: UP, 2: RIGHT, 3: LEFT
+			for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
+			{
+				float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
+				float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
+				float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
+				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_DOWN") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
+						}
+					}
+				}
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_UP") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
+						}
+					}
+				}
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_LEFT") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
+						}
+					}
+				}
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_RIGHT") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
+						}
+					}
+				}
+			}
+		}
 
 		/*
 		if(m_pContext->g_cursorPos.x >= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x) 
@@ -403,8 +553,11 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
 
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
-
-		Vector3 relativeMovement(-1.0f,0.0f,0.0f);
+		Event_KEY_A_HELD *keyEvent = (Event_KEY_A_HELD*)pEvt;
+		float move = -1.0f;
+		if(keyEvent->m_moveCamByButton != NULL)
+			move *= keyEvent->m_moveCamByButton;
+		Vector3 relativeMovement(move,0.0f,0.0f);
 
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 
@@ -413,10 +566,14 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 
 	else if (Event_KEY_S_HELD::GetClassId() == pEvt->getClassId())
 	{
+		Event_KEY_S_HELD *keyEvent = (Event_KEY_S_HELD*)pEvt;
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
 
-		Vector3 relativeMovement(0.0f,0.0f,-1.0f);
+		float move = -1.0f;
+		if(keyEvent->m_moveCamByButton != NULL)
+			move *= keyEvent->m_moveCamByButton;
+		Vector3 relativeMovement(0.0f,0.0f,move);
 
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 
@@ -429,10 +586,12 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 	{
 
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
-
+		Event_KEY_D_HELD *keyEvent = (Event_KEY_D_HELD*)pEvt;
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
-
-		Vector3 relativeMovement(1.0f,0.0f,0.0f);
+		float move = 1.0f;
+		if(keyEvent->m_moveCamByButton != NULL)
+			move *= keyEvent->m_moveCamByButton;
+		Vector3 relativeMovement(move,0.0f,0.0f);
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 		m_pQueueManager->add(h, QT_GENERAL);
 	}
@@ -440,9 +599,13 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 	else if (Event_KEY_W_HELD::GetClassId() == pEvt->getClassId())
 	{
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
+		Event_KEY_D_HELD *keyEvent = (Event_KEY_D_HELD*)pEvt;
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
 
-		Vector3 relativeMovement(0.0f,0.0f,1.0f);
+		float move = 1.0f;
+		if(keyEvent->m_moveCamByButton != NULL)
+			move *= keyEvent->m_moveCamByButton;
+		Vector3 relativeMovement(0.0f,0.0f,move);
 
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 

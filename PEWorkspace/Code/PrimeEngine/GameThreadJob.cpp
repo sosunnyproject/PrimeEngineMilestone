@@ -316,10 +316,8 @@ int ClientGame::runGameFrame()
 				// DEBUG INFORMATION
 				// TODO: SHOW / HIDE DEBUG
 				// FPS
-				m_pContext->toggleDebugInfo = true;
 				// BUTTONS: SHOW or HIDE DEBUG INFO
 				// milestone3
-				/*
 				{
 					// PEINFO(" toggle %d", m_pContext->toggleDebugInfo);
 					if (m_pContext->toggleDebugInfo)
@@ -333,7 +331,6 @@ int ClientGame::runGameFrame()
 					"TOGGLE_DEBUG_INFO"
 					);
 				}
-				*/
 				if (m_pContext->toggleDebugInfo) 
 				{
 					{
@@ -477,6 +474,99 @@ int ClientGame::runGameFrame()
 						"TANK1_DOWN"
 					);
 				}
+				// SOLDIER buttons
+				{
+					sprintf(PEString::s_buf, "SOLDIER 1");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.0f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"SOLDIER1_BUTTONS"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==LEFT==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.1f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"SOLDIER1_LEFT"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==RIGHT==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.2f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"SOLDIER1_RIGHT"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==UP==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.3f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"SOLDIER1_UP"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==DOWN==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.4f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"SOLDIER1_DOWN"
+					);
+				}
+				// CAMERA buttons
+				{
+					sprintf(PEString::s_buf, "CAM");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.0f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"CAMERA_BUTTONS"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "FORWARD(W)");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.1f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"CAMERA_FWD"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "LEFT(A)");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.2f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"CAMERA_LEFT"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "BACK(S)");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.3f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"CAMERA_BACK"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "RIGHT(D)");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.4f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"CAMERA_RIGHT"
+					);
+				}
+
 				// BUTTONS: TEXT COLOR
 				{
 					sprintf(PEString::s_buf, "RED BG");

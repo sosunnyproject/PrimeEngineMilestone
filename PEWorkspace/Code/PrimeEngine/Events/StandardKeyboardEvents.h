@@ -32,21 +32,29 @@ struct Event_MOUSE_RIGHT_CLICK : public Event {
 struct Event_KEY_A_HELD : public Event {
 	PE_DECLARE_CLASS(Event_KEY_A_HELD);
 	virtual ~Event_KEY_A_HELD(){}
+
+	float m_moveCamByButton;
 };
 
 struct Event_KEY_S_HELD : public Event {
 	PE_DECLARE_CLASS(Event_KEY_S_HELD);
 	virtual ~Event_KEY_S_HELD(){}
+
+	float m_moveCamByButton;
 };
 
 struct Event_KEY_D_HELD : public Event {
 	PE_DECLARE_CLASS(Event_KEY_D_HELD);
 	virtual ~Event_KEY_D_HELD(){}
+
+	float m_moveCamByButton;
 };
 
 struct Event_KEY_W_HELD : public Event {
 	PE_DECLARE_CLASS(Event_KEY_W_HELD);
 	virtual ~Event_KEY_W_HELD(){}
+
+	float m_moveCamByButton;
 };
 
 struct Event_KEY_PERIOD_HELD : public Event {
