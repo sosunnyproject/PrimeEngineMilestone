@@ -13,7 +13,7 @@
 #include "../Events/Component.h"
 #include "../Utils/Array/Array.h"
 #include "SceneNode.h"
-
+#include <cstring>
 //#define USE_DRAW_COMPONENT
 
 namespace PE {
@@ -57,7 +57,9 @@ struct TextSceneNode : public SceneNode
 	Vector3 m_rgb;
 	Vector2 g_pos2D;
 	char m_str[256];
-
+	char m_uiName[256];
+	int m_strLen;
+	
 }; // class TextSceneNode
 
 }; // namespace Components

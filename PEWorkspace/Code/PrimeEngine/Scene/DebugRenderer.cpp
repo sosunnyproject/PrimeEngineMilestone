@@ -174,8 +174,9 @@ void DebugRenderer::createLineMesh(bool hasTransform, const Matrix4x4 &transform
 	}
 	
 }
-// milestone 1
-void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D, bool is3DFacedToCamera, bool is3DFacedToCameraLockedYAxis, float timeToLive, Vector3 pos, float scale, int &threadOwnershipMask, Vector3 rgb)
+// milestone 1: add rgb
+// milestone 2: strlen count, uiName for each button
+void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D, bool is3DFacedToCamera, bool is3DFacedToCameraLockedYAxis, float timeToLive, Vector3 pos, float scale, int &threadOwnershipMask, Vector3 rgb, const char *uiName)
 {
 	if (EnableDebugRendering && m_numAvaialble)
 	{
@@ -201,8 +202,7 @@ void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D,
 		if (isOverlay2D)
 		{
 			drawType = TextSceneNode::Overlay2D;
-			// PEINFO("pTextSN loading text 2D pos calcuation: %s, %f, %f", str, pos.m_x*1296, pos.m_y*759);
-			pTextSN->g_pos2D = Vector2(pos.m_x*1280, pos.m_y*720);  
+			pTextSN->g_pos2D = Vector2(pos.m_x*1280, pos.m_y*720);
 			// window size: 1296 * 759
 			// mouse click check: 1280 * 720
 		
@@ -210,10 +210,8 @@ void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D,
 			pos.m_x = -1.0f + 2.0f * pos.m_x;
 			pos.m_y = -1.0f + 2.0f * (1.0f - pos.m_y);
 
-			// TODO: Add Text to GLOBAL Array of Future UI Buttons Check
-			// m_pContext->m_textSceneNodes.push_back(pTextSN);
+			// TODO: Add Text to DebugRenderer::Array of Future UI Buttons Check
 			m_textSceneNodes.push_back(pTextSN);
-			// PEINFO("after -1 1 conversion: pTextSN pos: %f, %f, %f", pTextSN->m_base.getPos().m_x, pTextSN->m_base.getPos().m_y);
 		}
 		if (is3DFacedToCamera)
 			drawType = TextSceneNode::Overlay2D_3DPos;
@@ -221,7 +219,12 @@ void DebugRenderer::createTextMesh(const char *str, bool isOverlay2D, bool is3D,
 		pTextSN->m_base.setPos(pos);
 		pTextSN->m_scale = scale;
 		pTextSN->m_rgb = rgb;
+		pTextSN->m_strLen = strlen(str);
 		strcpy(pTextSN->m_str, str);
+		if(uiName != NULL) 
+		{
+			strcpy(pTextSN->m_uiName, uiName);
+		}
 	}	
 }
 

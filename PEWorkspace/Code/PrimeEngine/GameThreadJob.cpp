@@ -313,72 +313,87 @@ int ClientGame::runGameFrame()
 				
                 PE::IRenderer::checkForErrors("");
 
-				//FPS
-				// pos:  ui 6 index pos 972.000000, 15.179999:
-				// mouse click: 964, 17 
-				// mouse pos: height is 19px ~ 30px
+				// DEBUG INFORMATION
+				// TODO: SHOW / HIDE DEBUG
+				// FPS
+				m_pContext->toggleDebugInfo = true;
+				// BUTTONS: SHOW or HIDE DEBUG INFO
+				// milestone3
+				/*
 				{
-					float fps = (1.0f/m_frameTime);
-					sprintf(PEString::s_buf, "%.2f FPS", fps);
+					// PEINFO(" toggle %d", m_pContext->toggleDebugInfo);
+					if (m_pContext->toggleDebugInfo)
+						sprintf(PEString::s_buf, "HIDE DEBUG INFO");
+					else
+						sprintf(PEString::s_buf, "SHOW DEBUG INFO");
 					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(.75f, .0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
-						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
+					PEString::s_buf, true, false, false, false, 0, 
+					Vector3(0.0f, 0.0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+					Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+					"TOGGLE_DEBUG_INFO"
 					);
 				}
-
-                PE::IRenderer::checkForErrors("");
-
-				//LUA Command Server, Server
-				// pos: PE: Info: ui 5 index pos 0.000000, 15.179999
-				// mouse click: 
-				PE::GameContext *pServer = &PE::Components::ServerGame::s_context;
+				*/
+				if (m_pContext->toggleDebugInfo) 
 				{
-					sprintf(PEString::s_buf, "Lua Command Receiver Ports: Client: %d Server: %d", m_pContext->getLuaCommandServerPort(), pServer->getLuaEnvironment() ? pServer->getLuaCommandServerPort():0);
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0,
-						Vector3(.0f, .0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
-						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
-					);
-				}
+					{
+						float fps = (1.0f/m_frameTime);
+						sprintf(PEString::s_buf, "%.2f FPS", fps);
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(.75f, .0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+							Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
+						);
+					}
 
-				// pos: 56px(y pos)
-				// mouse pos: 62 ~ 73px
-                PE::IRenderer::checkForErrors("");
+					PE::IRenderer::checkForErrors("");
 
-				if (pServer->getLuaEnvironment()) // check if server context was initialized
-				{
-					ServerNetworkManager *pServerNetw = (ServerNetworkManager*)(pServer->getNetworkManager());
-					pServerNetw->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0, .075f,
-												Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
-											);
-				}
-                
-                PE::IRenderer::checkForErrors("");
+					//LUA Command Server, Server
+					PE::GameContext *pServer = &PE::Components::ServerGame::s_context;
+					{
+						sprintf(PEString::s_buf, "Lua Command Receiver Ports: Client: %d Server: %d", m_pContext->getLuaCommandServerPort(), pServer->getLuaEnvironment() ? pServer->getLuaCommandServerPort():0);
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0,
+							Vector3(.0f, .1f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+							Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)	
+						);
+					}
 
-				{
-					ClientNetworkManager* pClientNetworkManager = (ClientNetworkManager* )(m_pContext->getNetworkManager());
-					pClientNetworkManager->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0.5f, .075f, 
-														Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
-														);
-				}
-                
-                PE::IRenderer::checkForErrors("");
+					PE::IRenderer::checkForErrors("");
 
-				//gameplay timer
-				// px pos: 34px.
-				// mouse click pos: 39px ~ 50px
-				{
-					sprintf(PEString::s_buf, "GT frame wait:%.3f pre-draw:%.3f+render wait:%.3f+render:%.3f+post-render:%.3f = %.3f sec\n", m_gameTimeBetweenFrames, m_gameThreadPreDrawFrameTime, m_gameThreadDrawWaitFrameTime, m_gameThreadDrawFrameTime, m_gameThreadPostDrawFrameTime, m_frameTime);
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0,
-						Vector3(.0f, .045f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
-						Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
-					);
+					if (pServer->getLuaEnvironment()) // check if server context was initialized
+					{
+						ServerNetworkManager *pServerNetw = (ServerNetworkManager*)(pServer->getNetworkManager());
+						pServerNetw->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0, .075f,
+													Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
+												);
+					}
+					
+					PE::IRenderer::checkForErrors("");
+
+					{
+						ClientNetworkManager* pClientNetworkManager = (ClientNetworkManager* )(m_pContext->getNetworkManager());
+						pClientNetworkManager->debugRender(m_pContext->m_gameThreadThreadOwnershipMask, 0.5f, .075f, 
+															Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
+															);
+					}
+					
+					PE::IRenderer::checkForErrors("");
+
+					//gameplay timer
+					{
+						sprintf(PEString::s_buf, "GT frame wait:%.3f pre-draw:%.3f+render wait:%.3f+render:%.3f+post-render:%.3f = %.3f sec\n", m_gameTimeBetweenFrames, m_gameThreadPreDrawFrameTime, m_gameThreadDrawWaitFrameTime, m_gameThreadDrawFrameTime, m_gameThreadPostDrawFrameTime, m_frameTime);
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0,
+							Vector3(.0f, .045f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+							Vector3(m_pContext->text_rgb_3.m_x, m_pContext->text_rgb_3.m_y, m_pContext->text_rgb_3.m_z)
+						);
+					}
 				}
 
 				// New TEXT UI
 				// milestone1: added a rgb Vector3 for single string.
+				/*
 				{
 					sprintf(PEString::s_buf, "MOVE: WASD, CAMERA: ARROW KEYS");
 					DebugRenderer::Instance()->createTextMesh(
@@ -387,6 +402,7 @@ int ClientGame::runGameFrame()
 						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z)
 					);
 				}
+				*/
 
 				// Listen for keyboard events
 				{
@@ -404,16 +420,96 @@ int ClientGame::runGameFrame()
 							sprintf(PEString::s_buf, "Move Right");
 							break;
 						default: 
-							sprintf(PEString::s_buf, "No button is pressed yet");
+							sprintf(PEString::s_buf, "Move with WASD");
 					}
 					// sprintf(PEString::s_buf, "%d", m_pContext->m_button);
 					// Create a text mesh for the current key pressed
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.05f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
+						Vector3(0.8f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask,
 						Vector3(m_pContext->text_rgb_2.m_x, m_pContext->text_rgb_2.m_y, m_pContext->text_rgb_2.m_z)
 					);
 				}
+
+				// BUTTON UI milestone 2
+				{
+					sprintf(PEString::s_buf, "TANK 1");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.0f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TANK1_BUTTONS"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==LEFT==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.1f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TANK1_LEFT"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==RIGHT==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.2f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TANK1_RIGHT"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==UP==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.3f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TANK1_UP"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "==DOWN==");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.4f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TANK1_DOWN"
+					);
+				}
+				// BUTTONS: TEXT COLOR
+				{
+					sprintf(PEString::s_buf, "RED BG");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.0, 0.7f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TEXT1_RED"
+					);
+				}
+				{
+					sprintf(PEString::s_buf, "GREEN BG");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.075f, 0.7f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TEXT1_GREEN"
+					);
+				}
+								{
+					sprintf(PEString::s_buf, "BLUE BG");
+					DebugRenderer::Instance()->createTextMesh(
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.2f, 0.7f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TEXT1_BLUE"
+					);
+				}
+
+
+
+				
+
 				
 				// draw p camera position
 				/*

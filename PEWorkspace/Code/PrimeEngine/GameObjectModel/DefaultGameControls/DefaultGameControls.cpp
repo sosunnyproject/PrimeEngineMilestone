@@ -28,7 +28,9 @@
 #include "../../Events/StandardGameEvents.h"
 
 #include "../../Lua/LuaEnvironment.h"
-
+// #include "CharacterControl/Tank/ClientTank.h"
+#include "CharacterControl/ClientGameObjectManagerAddon.h"
+#include <cstring>
 
 
 // Arkane Control Values
@@ -178,28 +180,196 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 	// dx9_keybarodMouse
 	if (Event_MOUSE_LEFT_CLICK::GetClassId() == pEvt->getClassId()){
 		// print them in integer... otherwise NAN / 0 values.
-		PEINFO("DefaultGameControls MOUSE LEFT: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+		// y pos: 3~5px difference. ui pos is 3px smaller than actual mouse pos: maybe it's a good offset.
+		// you can assume each letter is roughly 15px wide (20px is too wide)
+		// TODO: textSceneNode should include button name, instead of accessing via index
 		
+		if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) {
+			Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
+			Vector3 pos = base.getPos();
+
+			// button 0: TANK_DOWN, 1: TANK_UP, 2: TANK_RIGHT, 3: TANK_LEFT
+			for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
+			{
+				float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
+				float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
+				float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
+				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_DOWN") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
+						}
+					}
+				}
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_UP") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
+						}
+					}
+				}
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_LEFT") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
+						}
+					}
+				}
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_RIGHT") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
+						}
+					}
+				}
+			}
+		}
+
+		// TEXT COLOR BUTTONS
+		for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
+		{
+			float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
+			float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
+			float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
+			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_RED") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						m_pContext->text_rgb_1 = Vector3(1.0f, 0.0f, 0.0f);
+					}
+				}
+			}
+			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_GREEN") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						m_pContext->text_rgb_1 = Vector3(0.0f, 1.0f, 0.0f);
+					}
+				}
+			}
+			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_BLUE") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						m_pContext->text_rgb_1 = Vector3(0.0f, 0.0f, 1.0f);
+					}
+				}
+			}
+			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TOGGLE_DEBUG_INFO") == 0)
+			{
+				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				{
+					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					{
+						// working
+						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						if(m_pContext->toggleDebugInfo)
+							m_pContext->toggleDebugInfo = false;
+						else
+							m_pContext->toggleDebugInfo = true;
+					}
+				}
+			}
+		}
+		// TODO: TANK1, TANK2, TANK3 buttons vertically aligned. when clicked, expand and show up, down, left, right on the right
+		// TODO:  WHEN BUTTON IS CLICKED, BLINK THE TEXT BG COLOR TO WHITE OR STH 
+
+		/*
+		if(m_pContext->g_cursorPos.x >= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x) 
+		{
+			if(m_pContext->g_cursorPos.y <= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y) 
+			{
+				if(m_pContext->g_cursorPos.y <= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y + 30) 
+				{
+					// text height is around 25px
+					PEINFO("DefaultGameControls MOUSE LEFT CLICKED RiGHT");
+					// working
+					// m_pContext->imgui_wasd = 1;
+				}
+			}
+		}
+		if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) {
+			Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
+			Vector3 pos = base.getPos();
+			PEINFO("////DefaultGameControls::: TANK SCENE NODE: %f", pos.m_x);
+			// move with buttons
+			if(m_pContext->g_cursorPos.x >= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x) 
+			{
+				if(m_pContext->g_cursorPos.x <= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x + ) 
+				{
+					if(m_pContext->g_cursorPos.y >= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y) 
+					{
+						if(m_pContext->g_cursorPos.y <= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y + 30) 
+						{
+							// text height is around 25px
+							// working
+							PEINFO("DefaultGameControls MOUSE LEFT CLICKED DOWN");
+							base.setPos(Vector3(pos.m_x, pos.m_y - 0.1f, pos.m_z));
+						}
+					}
+				}
+			}
+		}
+		*/
 		// check if m_textSceneNodes is not null or empty
 		if(PE::Components::DebugRenderer::m_textSceneNodes.size() > 0)
 		{
 			// PEINFO("ui 0 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[0]->m_str);
 			// PEINFO("ui 0 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y);
- 
 			// PEINFO("ui 1 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[1]->m_str);
 			// PEINFO("ui 1 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[1]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[1]->g_pos2D.m_y);
 
 			// GT Frame
-			PEINFO("ui 2 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[2]->m_str);
-			PEINFO("ui 2 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y);
+			// PEINFO("ui 2 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[2]->m_str);
+			// PEINFO("ui 2 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y);
 
 			// SERVER, CLIENT
-			PEINFO("ui 3 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[3]->m_str);
-			PEINFO("ui 3 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_y);
+			// PEINFO("ui 3 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[3]->m_str);
+			// PEINFO("ui 3 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_y);
 
-			PEINFO("ui 4 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[4]->m_str);
-			PEINFO("ui 4 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_y);
-
+			// PEINFO("ui 4 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[4]->m_str);
+			// PEINFO("ui 4 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_y);
+			/*
 			// Lua Command
 			PEINFO("ui 5 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[5]->m_str);
 			PEINFO("ui 5 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[5]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[5]->g_pos2D.m_y);
@@ -217,6 +387,7 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 			// 		m_pContext->m_textSceneNodes[0].m_rgb = Vector3(1.0f, 0.0f, 0.0f);
 			// 	}
 			// }
+			*/
 		}
 
 	}

@@ -108,7 +108,7 @@ void SoldierNPCBehaviorSM::do_PRE_RENDER_needsRC(PE::Events::Event *pEvt)
 		
 		DebugRenderer::Instance()->createTextMesh(
 			buf, false, false, true, false, 0,
-			base.getPos(), 0.01f, pRealEvent->m_threadOwnershipMask);
+			base.getPos(), 0.01f, pRealEvent->m_threadOwnershipMask, Vector3(0.0f, 0.0f, 0.0f));
 		
 		{
 			//we can also construct points ourself

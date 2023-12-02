@@ -64,13 +64,16 @@ struct GameContext
 	Components::DefaultGameControls *m_pDefaultGameControls;
 	int m_gameThreadThreadOwnershipMask;
 
+
+// these values are not actually assigned here.
 public:
 	int m_button = 0;
 	int imgui_wasd = 0;
-	Vector3 text_rgb_1 = Vector3(0.5f, 0.5f, 0.5f);
-	Vector3 text_rgb_2 = Vector3(0.5f, 0.5f, 0.8f);
-	Vector3 text_rgb_3 = Vector3(0.5f, 0.8f, 0.5f);
+	Vector3 text_rgb_1 = Vector3(1.0f, 0.0f, 0.0f);
+	Vector3 text_rgb_2 = Vector3(0.0f, 1.0f, 0.0f);
+	Vector3 text_rgb_3 = Vector3(0.0f, 0.0f, 1.0f);
 	POINT g_cursorPos;
+	bool toggleDebugInfo = false;
 	std::vector<Components::TextSceneNode*> m_textSceneNodes;
 };
 
