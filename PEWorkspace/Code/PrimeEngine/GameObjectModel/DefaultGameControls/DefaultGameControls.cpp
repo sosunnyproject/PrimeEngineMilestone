@@ -324,7 +324,7 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 
 						Handle h("EVENT", sizeof(Event_KEY_W_HELD));
 						Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
-						event->m_moveCamByButton = 0.01f; 
+						event->m_move = 0.01f;
 						m_pQueueManager->add(h, Events::QT_INPUT);
 						m_pContext->m_button = 1; 
 					}
@@ -342,7 +342,7 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 						
 						Handle h("EVENT", sizeof(Event_KEY_A_HELD));
 						Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
-						event->m_moveCamByButton = 0.01f; 
+						event->m_move = 0.01f; 
 						m_pQueueManager->add(h, Events::QT_INPUT);
 						m_pContext->m_button = 2; 
 					}
@@ -355,11 +355,11 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 						Handle h("EVENT", sizeof(Event_KEY_S_HELD));
 						Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
-						event->m_moveCamByButton = 0.01f; 
+						event->m_move = 0.01f; 
 						m_pQueueManager->add(h, Events::QT_INPUT);
 						m_pContext->m_button = 3; 
 					}
@@ -372,26 +372,13 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 						Handle h("EVENT", sizeof(Event_KEY_D_HELD));
 						Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
-						event->m_moveCamByButton = 0.01f; 
+						event->m_move = 0.01f;
 						m_pQueueManager->add(h, Events::QT_INPUT);
 						m_pContext->m_button = 4; 
-					}
-				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_STOP") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-					{
-						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						// m_pContext->imgui_wasd = 0;
 					}
 				}
 			}
@@ -416,8 +403,8 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 						{
 							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 							base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
 						}
 					}
@@ -429,8 +416,8 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 						{
 							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 							base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
 						}
 					}
@@ -442,8 +429,8 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 						{
 							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 							base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
 						}
 					}
@@ -455,8 +442,8 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 						{
 							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 							base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
 						}
 					}
@@ -551,13 +538,12 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 	{
 
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
-
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
 		Event_KEY_A_HELD *keyEvent = (Event_KEY_A_HELD*)pEvt;
-		float move = -1.0f;
-		if(keyEvent->m_moveCamByButton != NULL)
-			move *= keyEvent->m_moveCamByButton;
-		Vector3 relativeMovement(move,0.0f,0.0f);
+		float move = 1.0f;
+		if(keyEvent->m_move != NULL)
+			move = keyEvent->m_move;
+		Vector3 relativeMovement(-1.0f * move,0.0f,0.0f);
 
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 
@@ -566,14 +552,13 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 
 	else if (Event_KEY_S_HELD::GetClassId() == pEvt->getClassId())
 	{
-		Event_KEY_S_HELD *keyEvent = (Event_KEY_S_HELD*)pEvt;
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
-
-		float move = -1.0f;
-		if(keyEvent->m_moveCamByButton != NULL)
-			move *= keyEvent->m_moveCamByButton;
-		Vector3 relativeMovement(0.0f,0.0f,move);
+		Event_KEY_S_HELD *keyEvent = (Event_KEY_S_HELD*)pEvt;
+		float move = 1.0f;
+		if(keyEvent->m_move != NULL)
+			move = keyEvent->m_move;
+		Vector3 relativeMovement(0.0f,0.0f, -1.0f * move);
 
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 
@@ -584,13 +569,12 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 	else if (Event_KEY_D_HELD::GetClassId() == pEvt->getClassId())
 
 	{
-
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
 		Event_KEY_D_HELD *keyEvent = (Event_KEY_D_HELD*)pEvt;
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
 		float move = 1.0f;
-		if(keyEvent->m_moveCamByButton != NULL)
-			move *= keyEvent->m_moveCamByButton;
+		if(keyEvent->m_move != NULL)
+			move = keyEvent->m_move;
 		Vector3 relativeMovement(move,0.0f,0.0f);
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;
 		m_pQueueManager->add(h, QT_GENERAL);
@@ -599,12 +583,11 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 	else if (Event_KEY_W_HELD::GetClassId() == pEvt->getClassId())
 	{
 		Handle h("EVENT", sizeof(Event_FLY_CAMERA));
-		Event_KEY_D_HELD *keyEvent = (Event_KEY_D_HELD*)pEvt;
+		Event_KEY_W_HELD *keyEvent = (Event_KEY_W_HELD*)pEvt;
 		Event_FLY_CAMERA *flyCameraEvt = new(h) Event_FLY_CAMERA ;
-
 		float move = 1.0f;
-		if(keyEvent->m_moveCamByButton != NULL)
-			move *= keyEvent->m_moveCamByButton;
+		if(keyEvent->m_move != NULL)
+			move = keyEvent->m_move;
 		Vector3 relativeMovement(0.0f,0.0f,move);
 
 		flyCameraEvt->m_relativeMove = relativeMovement * Debug_Fly_Speed * m_frameTime;

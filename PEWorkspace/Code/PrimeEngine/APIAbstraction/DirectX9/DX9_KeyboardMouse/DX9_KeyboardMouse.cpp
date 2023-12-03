@@ -81,28 +81,32 @@ void DX9_KeyboardMouse::generateButtonEvents()
 		if((GetAsyncKeyState('A') & 0x8000) || m_pContext->imgui_wasd == 2)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_A_HELD));
-			new (h) Event_KEY_A_HELD;
+			Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
+			event->m_move = 1.0f;
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 2; 
 		}
 		if((GetAsyncKeyState('S') & 0x8000) || m_pContext->imgui_wasd == 3)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_S_HELD));
-			new (h) Event_KEY_S_HELD;
+			Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
+			event->m_move = 1.0f; 
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 3; 
 		}
 		if((GetAsyncKeyState('D') & 0x8000) || m_pContext->imgui_wasd == 4)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_D_HELD));
-			new (h) Event_KEY_D_HELD;
+			Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
+			event->m_move = 1.0f; 
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 4; 
 		}
 		if((GetAsyncKeyState('W') & 0x8000) || m_pContext->imgui_wasd == 1)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_W_HELD));
-			new (h) Event_KEY_W_HELD;
+			Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
+			event->m_move = 1.0f; 
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 1; 
 		}
