@@ -24,3 +24,45 @@ milestone2
 - button click event
 - input of number?
 	- change the object position
+
+
+Basic_X_level / lightingTest.level load
+- LIGHTING process
+
+1. StandardEvents.cpp::int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
+
+2. void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
+- peuuid: (assign random int, non-zero)
+- havObject: false
+
+3. error
+```cpp
+// MemoryPool.h
+// Exception thrown: read access violation.
+// **this** was nullptr.
+	void freeBlock(unsigned int memoryBlockIndex)
+	{
+		m_freeBlockList[m_header.m_nBlocksFree++] = memoryBlockIndex;
+	}
+```
+
+// SHADER Variables
+The values from bufferCPU in TextMesh.cpp are transferred into pIn.iNormalW inside the shader code through the process of vertex buffer binding and drawing.
+
+Here's a step-by-step explanation:
+
+In TextMesh.cpp, you're creating a NormalBufferCPU and filling it with RGB values. This buffer represents the normals of the vertices of your mesh.
+When you call loadFromMeshCPU_needsRC or updateGeoFromMeshCPU_needsRC, these buffers are transferred to the GPU. This is done by creating a GPU buffer (VertexBufferGPU or IndexBufferGPU) and copying the data from the CPU buffer to the GPU buffer.
+
+When you draw the mesh, you bind these GPU buffers to the input assembler stage of the GPU pipeline. This means that when the GPU is processing the vertices, it will use the data from these buffers.
+
+In your vertex shader (StdMesh_2D_VS), you have an input parameter vIn of type STD_MESH_VS_IN. This struct has a member iNormal, which corresponds to the normal buffer you've created.
+
+So, when the vertex shader is executed for each vertex, vIn.iNormal will contain the corresponding value from the normal buffer, which you've filled with RGB values in TextMesh.cpp.
+
+4. milestone3
+- compare the latest version with the original PE. think of it as company submission demo
+- add Create-event-light with button on top of PE
+- toggle each menus 
+- maybe try create-tank 
+- add more scenenode obj buttons.

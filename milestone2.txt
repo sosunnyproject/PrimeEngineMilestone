@@ -1,0 +1,15 @@
+Milestone2
+
+- Continue UI implementation
+- instead of imgui, directly developed on top of Prime Engine with DirectX API for mouse interaction
+- Moving gameobjects positions, camera positions
+- Modified text mesh shader code and real-time updating the color for buttons
+- Toggle show/hide the debug information
+- Printing out whether camera is moving left/right/up/down for both keyboard and mouse-button inputs
+
+
+google drive link: https://drive.google.com/drive/folders/18r2_7qzsEW496KqozTzqV38e1iQjpxVQ?usp=sharing
+or https://tinyurl.com/sosun522m2 
+
+
+(The M2 deadline is changed to 12/01, so im using 1 late day submitting on 12/02.)
