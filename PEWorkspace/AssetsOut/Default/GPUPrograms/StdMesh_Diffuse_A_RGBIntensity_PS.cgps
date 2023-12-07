@@ -18,6 +18,12 @@ float4 StdMesh_Diffuse_A_RGBIntensity_PS(STD_MESH_PS_IN pIn)
 	
 	// mix the color with the texture color: to color text font only, not the entire textbox
     float4 textureColor = sample2D(gDiffuseMapSampler, pIn.iTexCoord, gDiffuseMap);
+	
+    // Define the text color and background color
+    // float4 textColor = make_float4(pIn.iNormalW.r, pIn.iNormalW.g, pIn.iNormalW.b, 1.0);
+    // float4 backgroundColor = make_float4(pIn.iPosW.x, pIn.iPosW.y, pIn.iPosW.z, 1.0); make_float4(0.0, 0.0, 0.0, 1.0); // Change this to your desired background color
+	// combinedColor = lerp(backgroundColor, textColor, textureColor.r);
+
 	// *= will change the textColor itself
 	// += will change the backgroundColor of the texts, text is black
     combinedColor.rgb += textureColor.rgb;

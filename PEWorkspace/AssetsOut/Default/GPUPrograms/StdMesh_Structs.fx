@@ -3,6 +3,8 @@
 
 #include "APIAbstraction.gpu"
 
+// Variable names for shader. 
+// e.g., TextMesh pNB normalBufferCPU values => iNormal in shader
 // Vertex Shader  Input Structure /////////////////////////////////////////////////////////////////////////
 
 struct STD_MESH_VS_IN

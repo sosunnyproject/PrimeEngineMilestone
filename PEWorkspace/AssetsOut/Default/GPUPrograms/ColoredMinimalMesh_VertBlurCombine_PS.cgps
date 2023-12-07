@@ -47,7 +47,7 @@ BlurWeights[12] = bw12;
 	// need to add it to the source texture (with no glow)
 	float4 srcDiffuse = sample2D(gDiffuseMapSampler, pIn.iColor.xy, gDiffuseMap);
 	
-	return 1-(srcDiffuse + diffuse);
+	return (srcDiffuse + diffuse);
 	
 #else
 	float4 srcDiffuse = sample2D(gDiffuseMapSampler, pIn.iColor.xy, gDiffuseMap);
