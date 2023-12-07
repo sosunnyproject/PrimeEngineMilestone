@@ -244,6 +244,32 @@ PE: Info: m_spotPower = 0.000000
 PE: Info: m_range = 0.000000
 PE: Info: m_isShadowCaster = 0
 
+PE: Info: /// EVENT LIGHT CREATE PARAMETERTS ////
+PE: Info: pos = 9.672508, 2.984256, -0.979321
+PE: Info: u = 1.000000, 0.000000, 0.000000
+PE: Info: v = 0.000000, 0.004632, 0.999989
+PE: Info: n = 0.000000, -0.999989, 0.004632
+PE: Info: diffuse = 0.200000, 0.200000, 0.200000, 1.000000
+PE: Info: spec = 0.000000, 0.000000, 0.000000, 1.000000
+PE: Info: ambient = 0.000000, 0.000000, 0.000000, 1.000000
+PE: Info: attenuation = 0.020000, 0.020000, 0.020000
+PE: Info: m_spotPower = 1.000000
+PE: Info: m_range = 50.000000
+PE: Info: m_isShadowCaster = 0
+
+PE: Info: pos = 1.046714, 2.499711, 4.718921
+PE: Info: u = 1.000000, 0.000000, 0.000000
+PE: Info: v = 0.000000, 0.000000, 1.000000
+PE: Info: n = 0.000000, -1.000000, 0.000000
+PE: Info: diffuse = 1.000000, 0.500000, 0.500000, 1.000000
+PE: Info: spec = 0.000000, 0.000000, 0.000000, 1.000000
+PE: Info: ambient = 0.000000, 0.000000, 0.000000, 1.000000
+PE: Info: attenuation = 0.050000, 0.050000, 0.050000
+PE: Info: m_spotPower = 1.000000
+PE: Info: m_range = 90.000000
+PE: Info: m_isShadowCaster = 1
+PE: Info: m_peuuid: 1144303150
+PE: Info: m_arena: 0
 */
 
 //////////////////////////////////////////////////////////////////////////

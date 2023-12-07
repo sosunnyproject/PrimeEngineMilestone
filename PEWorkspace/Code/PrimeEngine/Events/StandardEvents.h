@@ -172,7 +172,9 @@ struct Event_CREATE_LIGHT : public Event {
 	PE_DECLARE_CLASS(Event_CREATE_LIGHT);
 
 	Event_CREATE_LIGHT()
-	{}
+	{
+		m_sentByLua = true;
+	}
 	virtual ~Event_CREATE_LIGHT(){}
 
 	// override SetLuaFunctions() since we are adding custom Lua interface
@@ -190,7 +192,8 @@ struct Event_CREATE_LIGHT : public Event {
 	float	m_range;
 	bool m_isShadowCaster;
 	float	m_type; //0 = point, 1 = directional, 2 = spot
-	
+	bool m_sentByLua;
+
 	PEUUID m_peuuid;
 };
 

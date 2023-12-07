@@ -36,7 +36,7 @@ struct Handle
 		m_memoryBlockIndex(INVALID_UINT)
 	{}
 	
-
+	// m3 memorypool.h error
 	Handle(const char *dbgName, unsigned int neededSize) :
 		m_cachedPtr(0), m_dbgName(dbgName), 
 			m_memoryPoolIndex(INVALID_UINT),

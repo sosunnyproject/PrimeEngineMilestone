@@ -1,6 +1,7 @@
 #include "PrimeEngine/APIAbstraction/APIAbstractionDefines.h"
 #include "RenderJob.h"
 #include "PrimeEngine/Scene/DrawList.h"
+#include <random>
 
 #if APIABSTRACTION_IOS
 #import <QuartzCore/QuartzCore.h>
@@ -219,76 +220,43 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 
 	if(ImGui::Button("Create Light")){
 		
-		Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
-		Event_CREATE_LIGHT *pEvt = new(h) Event_CREATE_LIGHT();
-		pEvt->m_pos = Vector3(0.0, 0.0, 0.0);
-		pEvt->m_u = Vector3(1.0, 0.0, 0.0);
-		pEvt->m_v = Vector3(0.0, 0.0, 1.0);
-		pEvt->m_n = Vector3(0.0, -1.0, 0.0);
+		Handle *h = new Handle("EVENT", sizeof(Event_CREATE_LIGHT));
+		Event_CREATE_LIGHT *pEvt = new(*h) Event_CREATE_LIGHT();
+		pEvt->m_pos = Vector3( 9.672, 2.984, -0.979);
+		pEvt->m_u = Vector3(1.0, 0.000, 0.000);
+		pEvt->m_v = Vector3(0.0, 0.004632, 0.999);
+		pEvt->m_n = Vector3(0.0, -0.9989, 0.6);
 
-		pEvt->m_diffuse = Vector4(0.0, 0.0, 0.0, 1.0);
+		pEvt->m_diffuse = Vector4(1.0, 0.5, 0.5, 1.0);
 		pEvt->m_spec = Vector4(0.0, 0.0, 0.0, 1.0);
 		pEvt->m_ambient = Vector4(1.0, 1.0, 1.0, 1.0);
-		pEvt->m_att = Vector3(0.0, 0.0, 0.0);
-		pEvt->m_spotPower = 0.0f;
-		pEvt->m_range = 0.0f;
+		pEvt->m_att = Vector3(0.03, 0.05, 0.03);
+		pEvt->m_spotPower = 1.0f;
+		pEvt->m_range = 100.0f;
 		pEvt->m_isShadowCaster = 0;
 		pEvt->m_type = 1;
 		
-		// trying to bypass LUA peuuid, but failed
+		std::random_device rd;  // obtain a random number from hardware
+		std::mt19937 eng(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(100000001, 999999999); // define the range
+
+		// trying to bypass LUA peuuid; random number, non-zero, not the same ones
 		PEUUID myUUID;
-		PrimitiveTypes::UInt32 myValue = 1918226831; // BAsic Lighting PEUUID value
-		PrimitiveTypes::UInt32 v1 = 919343584;
-		PrimitiveTypes::UInt32 v2 = 3047817253;
-		PrimitiveTypes::UInt32 v3 = 3551285327;
+		PrimitiveTypes::UInt32 myValue = distr(eng);
+		PrimitiveTypes::UInt32 v1 = distr(eng);
+		PrimitiveTypes::UInt32 v2 = distr(eng);
+		PrimitiveTypes::UInt32 v3 = distr(eng);
 		myUUID.set(myValue, v1, v2, v3);
 		pEvt->m_peuuid = myUUID;
-		PEINFO("pEvt mpeuuid: %d", pEvt->m_peuuid); 
+		pEvt->m_sentByLua = false;	// to escape any Lua related functions and errors
+		PEINFO("pEvt mpeuuid: %d", pEvt->m_peuuid);
+		// memorypool.h error
 		// Events::EventQueueManager::Instance()->add(pEvt, Events::QT_GENERAL);
-		
-		// skip the lua l_construct part.
-		// replicate GameObjectManager do_Create_Light
-		/*
-		Handle h("EVENT", sizeof(Event_CREATE_LIGHT));
-		Event_CREATE_LIGHT* pEvt = new(h) Event_CREATE_LIGHT();
-		Handle hLight("LIGHT", sizeof(Light));
-		PE::MemoryArena arena = PE::MemoryArena_Client;
-		bool isShadowCaster = false; 
-		Light *pLight = new(hLight) Light(
-			ctx,
-			arena,
-			hLight,
-			Vector3(0.0, 0.0, 0.0), //Position
-			Vector3(1.0, 0.0, 0.0), 
-			Vector3(0.0, 0.0, 1.0), 
-			Vector3(0.0, -1.0, 0.0), //Direction (z-axis)
-			Vector4(0.0, 0.0, 0.0, 1.0), //Ambient
-			Vector4(0.0, 0.0, 0.0, 1.0), //Diffuse
-			Vector4(0.0, 0.0, 0.0, 1.0), //Specular
-			Vector3(0.0, 0.0, 0.0), //Attenuation (x, y, z)
-			0.0f, // Spot Power
-			0.0f, //Range
-			isShadowCaster, //Whether or not it casts shadows
-			(PrimitiveTypes::Int32)(1.0f) //0 = point, 1 = directional, 2 = spot
-		);
-		pLight->addDefaultComponents();
-
-		RootSceneNode::Instance()->m_lights.add(hLight);
-		RootSceneNode::Instance()->addComponent(hLight);
-		PEINFO("NO ERROR UNTIL HERE///// CREATE LLIGHT BUTTON");
-
-		PEUUID myUUID;
-		PEINFO("pEvt mpeuuid: %d", pEvt->m_peuuid); 
-		PrimitiveTypes::UInt32 myValue = 1918226831; // BAsic Lighting PEUUID value
-		myUUID.set(myValue, 0, 0, 0);
-		pEvt->m_peuuid = myUUID;
-		*/
-		// ctx.getLuaEnvironment()->pushHandleAsFieldAndSet(pEvt->m_peuuid, hLight);
-		// ctx.getGameObjectManager()->m_lastAddedObjHandle = hLight;
-		
-		// ORIGINAL do_CREATE_LIGHT function
-		// m_pContext->getLuaEnvironment()->pushHandleAsFieldAndSet(pRealEvt->m_peuuid, hLight);
-		// m_lastAddedObjHandle = hLight;
+		// adding the event to the Queue creates allocate/block memory error
+		// let's just call create-light function directly
+		// and manually release the event handle.
+		ctx.getGameObjectManager()->do_CREATE_LIGHT(pEvt);
+		h->release();
 	}
 	// for (CharacterControl::Components::TankController* tankController : CharacterControl::Components::ClientGameObjectManagerAddon::tanks) {
     // 	PEINFO("////RENDERJOB::: TankController: %f\n", tankController->m_spawnPos.m_x);
@@ -325,6 +293,21 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		DrawList::InstanceReadOnly()->do_RENDER(NULL, threadOwnershipMask);
 		ctx.getGPUScreen()->AcquireRenderContextOwnership(threadOwnershipMask);
 
+		// buttons (replicate GameThreadJob)
+		/*
+		{
+			sprintf(PEString::s_buf, "TANK 1");
+			DebugRenderer::Instance()->createTextMesh(
+				PEString::s_buf, true, false, false, false, 0, 
+				Vector3(0.0f, 0.8f, 0), 1.0f, threadOwnershipMask,
+				Vector3(1.0f, 1.0f, 1.0f),
+				"TANK1_BUTTONS"
+			);
+		}
+		*/
+		PE::IRenderer::checkForErrors("");
+
+
 		EffectManager::Instance()->endCurrentRenderTarget();
 
 		#if APIABSTRACTION_D3D9
@@ -337,14 +320,14 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		EffectManager::Instance()->drawGlowSeparationPass();
 		EffectManager::Instance()->endCurrentRenderTarget();
 
-        // First glow path into another texture with horizontal glow
+		// First glow path into another texture with horizontal glow
 		// Happening in 2D space.
-        // Draw Effects
-        // horizontal glow into 2nd glow target
-        EffectManager::Instance()->drawFirstGlowPass();
+		// Draw Effects
+		// horizontal glow into 2nd glow target
+		EffectManager::Instance()->drawFirstGlowPass();
 		EffectManager::Instance()->endCurrentRenderTarget();
 
-        // from second glow target to FinishedGlowTargetTexture
+		// from second glow target to FinishedGlowTargetTexture
 
 		EffectManager::Instance()->drawSecondGlowPass();
 		EffectManager::Instance()->endCurrentRenderTarget();
@@ -360,7 +343,19 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 			
 			// Render IMGUI
 			ImGui::Render();
-            ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+			ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+			/*
+			// threadOwnershipMask is 2.
+			{
+				sprintf(PEString::s_buf, "TANK 1");
+				DebugRenderer::Instance()->createTextMesh(
+					PEString::s_buf, true, false, false, false, 0, 
+					Vector3(0.0f, 0.8f, 0), 1.0f, threadOwnershipMask,
+					Vector3(1.0f, 1.0f, 1.0f),
+					"TANK1_BUTTONS"
+				);
+			}
+			*/
 			
 			EffectManager::Instance()->endCurrentRenderTarget();
 		}
@@ -373,51 +368,47 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 			bool drawGlow2ndPass = renderMode == IRenderer::RenderMode_DebugGlowVerticalBlurCombine;
 			bool drawShadowRenderTarget = renderMode == IRenderer::RenderMode_DebugShadowRT;
 
-			EffectManager::Instance()->debugDrawRenderTarget(debugGlowRenderTarget, drawSeparatedGlow, drawGlow1stPass, drawGlow2ndPass, drawShadowRenderTarget);
-			// Render IMGUI
-			ImGui::Render();
-            ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+			// Render imgui
 
+			EffectManager::Instance()->debugDrawRenderTarget(debugGlowRenderTarget, drawSeparatedGlow, drawGlow1stPass, drawGlow2ndPass, drawShadowRenderTarget);
 			EffectManager::Instance()->endCurrentRenderTarget();
 		}
     }
     else
     {
-        // use simple rendering
-        // the render target here is the same as end result of motion blur
-        EffectManager::Instance()->setTextureAndDepthTextureRenderTargetForDefaultRendering();
+			// use simple rendering
+			// the render target here is the same as end result of motion blur
+			EffectManager::Instance()->setTextureAndDepthTextureRenderTargetForDefaultRendering();
+							
+			assert(DrawList::InstanceReadOnly() != DrawList::Instance());
                 
-        assert(DrawList::InstanceReadOnly() != DrawList::Instance());
-                
-		DrawList::InstanceReadOnly()->optimize();
+			DrawList::InstanceReadOnly()->optimize();
+			
+			#if PE_PLAT_IS_PSVITA
+				EffectManager::Instance()->drawFullScreenQuad();
+			#endif
+			
+			// set global shader value (applied to all draw calls) for shadow map texture
+			if (renderShadowMap)
+				EffectManager::Instance()->createSetShadowMapShaderValue(DrawList::InstanceReadOnly());
+
+			ctx.getGPUScreen()->ReleaseRenderContextOwnership(threadOwnershipMask);
+
+			DrawList::InstanceReadOnly()->do_RENDER(NULL, threadOwnershipMask);
+
+			ctx.getGPUScreen()->AcquireRenderContextOwnership(threadOwnershipMask);
+
+			// Render IMGUI
 		
-		#if PE_PLAT_IS_PSVITA
-			EffectManager::Instance()->drawFullScreenQuad();
-		#endif
-		
-		// set global shader value (applied to all draw calls) for shadow map texture
-		if (renderShadowMap)
-			EffectManager::Instance()->createSetShadowMapShaderValue(DrawList::InstanceReadOnly());
-
-		ctx.getGPUScreen()->ReleaseRenderContextOwnership(threadOwnershipMask);
-
-        DrawList::InstanceReadOnly()->do_RENDER(NULL, threadOwnershipMask);
-
-		ctx.getGPUScreen()->AcquireRenderContextOwnership(threadOwnershipMask);
-
-		// Render IMGUI
-		ImGui::Render();
-		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-        // Required when rendering to backbuffer directly. also done in drawMotionBlur_EndScene() since it is the last step of post process
-		EffectManager::Instance()->endCurrentRenderTarget();
+			// Required when rendering to backbuffer directly. also done in drawMotionBlur_EndScene() since it is the last step of post process
+			EffectManager::Instance()->endCurrentRenderTarget();
     }
             
 	ctx.getGPUScreen()->endFrame();
 
-    // Flip screen
+	// Flip screen
 	ctx.getGPUScreen()->swap(false);
-    PE::IRenderer::checkForErrors("");
-
+	PE::IRenderer::checkForErrors("");
 			
 	#if PE_ENABLE_GPU_PROFILING
 		Timer::TimeType time = t.TickAndGetCurrentTime();
@@ -428,7 +419,6 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 
 	ctx.getGPUScreen()->ReleaseRenderContextOwnership(threadOwnershipMask);
 }
-
 
 }; // namespace PE
 

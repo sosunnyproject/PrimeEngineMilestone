@@ -64,9 +64,11 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 	bool haveObject = false;
 	Handle exisitngObject;
 
-	putGameObjectTableIOnStack();
+	// this goes into lua
+	if(pRealEvt->m_sentByLua)
+		putGameObjectTableIOnStack();
 
-	if (!pRealEvt->m_peuuid.isZero())
+	if (!pRealEvt->m_peuuid.isZero() && pRealEvt->m_sentByLua)
 	{
 		PEINFO("m_peuuid: %d", pRealEvt->m_peuuid);
 		// have a valid peeuid for the object. need to check if have one already
@@ -80,7 +82,8 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 		else
 		{
 			// pop nil
-			m_pContext->getLuaEnvironment()->pop();
+			if(pRealEvt->m_sentByLua)
+				m_pContext->getLuaEnvironment()->pop();
 		}
 	}
 
@@ -106,12 +109,14 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 			pRealEvt->m_isShadowCaster, //Whether or not it casts shadows
 			(PrimitiveTypes::Int32)(pRealEvt->m_type) //0 = point, 1 = directional, 2 = spot
 		);
-		pLight->addDefaultComponents();
-		PEINFO("m_arena: %d", m_arena);
+		if(pRealEvt->m_sentByLua)
+			pLight->addDefaultComponents();
 		RootSceneNode::Instance()->m_lights.add(hLight);
 		RootSceneNode::Instance()->addComponent(hLight);
 
-		m_pContext->getLuaEnvironment()->pushHandleAsFieldAndSet(pRealEvt->m_peuuid, hLight);
+		if(pRealEvt->m_sentByLua)
+			m_pContext->getLuaEnvironment()->pushHandleAsFieldAndSet(pRealEvt->m_peuuid, hLight);
+			
 		m_lastAddedObjHandle = hLight;
 	}
 	else
@@ -141,7 +146,8 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 	}
 
 	// pop the game object table
-	m_pContext->getLuaEnvironment()->pop();
+	if (pRealEvt->m_sentByLua)
+		m_pContext->getLuaEnvironment()->pop();
 }
 
 void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
@@ -261,6 +267,7 @@ void GameObjectManager::do_CREATE_MESH(Events::Event *pEvt)
 	bool haveOtherObject = false;
 	Handle exisitngObject;
 
+	// this goes into lua
 	putGameObjectTableIOnStack();
 
 	if (!pRealEvent->m_peuuid.isZero())

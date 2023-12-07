@@ -100,7 +100,7 @@ public:
 	unsigned int getNumFreeBlocks(){ return m_header.m_nBlocksFree;}
 	unsigned int getNumBlocks(){ return m_header.m_nBlocks;}
 
-
+	// m3: handle getting allocated and freed. 
 	bool allocateBlock(unsigned int requiredSize, unsigned int &out_memoryBlockIndex)
 	{
 		assert(requiredSize);
