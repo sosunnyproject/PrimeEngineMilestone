@@ -195,58 +195,78 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 				float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
 				float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
 				float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
-				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_DOWN") == 0)
+					
+				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_BUTTONS") == 0)
 				{
 					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 					{
 						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 						{
 							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
+							PEINFO("Button m_uiName: %s", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName);
+							if(m_pContext->btnTank1_toggle)
+								m_pContext->btnTank1_toggle = false;
+							else
+								m_pContext->btnTank1_toggle = true;
 						}
 					}
 				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_UP") == 0)
+				if(m_pContext->btnTank1_toggle)
 				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_DOWN") == 0)
 					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 						{
-							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
+							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+							{
+								// working
+								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+								base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
+							}
+						}
+					}
+					else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_UP") == 0)
+					{
+						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+						{
+							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+							{
+								// working
+								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+								base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
+							}
+						}
+					}
+					else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_LEFT") == 0)
+					{
+						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+						{
+							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+							{
+								// working
+								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+								base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
+							}
+						}
+					}
+					else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_RIGHT") == 0)
+					{
+						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+						{
+							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+							{
+								// working
+								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+								base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
+							}
 						}
 					}
 				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_LEFT") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_RIGHT") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
-						}
-					}
-				}
+
 			}
 		}
 		
@@ -264,47 +284,47 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 						m_pContext->text_rgb_1 = Vector3(1.0f, 0.0f, 0.0f);
 					}
 				}
 			}
-			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_GREEN") == 0)
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_GREEN") == 0)
 			{
 				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 				{
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 						m_pContext->text_rgb_1 = Vector3(0.0f, 1.0f, 0.0f);
 					}
 				}
 			}
-			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_BLUE") == 0)
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_BLUE") == 0)
 			{
 				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 				{
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 						m_pContext->text_rgb_1 = Vector3(0.0f, 0.0f, 1.0f);
 					}
 				}
 			}
-			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TOGGLE_DEBUG_INFO") == 0)
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TOGGLE_DEBUG_INFO") == 0)
 			{
 				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 				{
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 						if(m_pContext->toggleDebugInfo)
 							m_pContext->toggleDebugInfo = false;
 						else
@@ -312,76 +332,95 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 					}
 				}
 			}
-			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_FWD") == 0)
+			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_BUTTONS") == 0)
 			{
 				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 				{
 					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
 					{
 						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+						PEINFO("Button m_uiName: %s", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName);
+						if(m_pContext->btnCam_toggle)
+							m_pContext->btnCam_toggle = false;
+						else
+							m_pContext->btnCam_toggle = true;
+					}
+				}
+			}
+			if(m_pContext->btnCam_toggle)
+			{
+				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_FWD") == 0)
+				{
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+					{
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
 
-						Handle h("EVENT", sizeof(Event_KEY_W_HELD));
-						Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
-						event->m_move = 0.01f;
-						m_pQueueManager->add(h, Events::QT_INPUT);
-						m_pContext->m_button = 1; 
+							Handle h("EVENT", sizeof(Event_KEY_W_HELD));
+							Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
+							event->m_move = 0.01f;
+							m_pQueueManager->add(h, Events::QT_INPUT);
+							m_pContext->m_button = 1; 
+						}
 					}
 				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_LEFT") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_LEFT") == 0)
 				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 					{
-						// working
-						PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						
-						Handle h("EVENT", sizeof(Event_KEY_A_HELD));
-						Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
-						event->m_move = 0.01f; 
-						m_pQueueManager->add(h, Events::QT_INPUT);
-						m_pContext->m_button = 2; 
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							
+							Handle h("EVENT", sizeof(Event_KEY_A_HELD));
+							Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
+							event->m_move = 0.01f; 
+							m_pQueueManager->add(h, Events::QT_INPUT);
+							m_pContext->m_button = 2; 
+						}
 					}
 				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_BACK") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_BACK") == 0)
 				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 					{
-						// working
-						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						Handle h("EVENT", sizeof(Event_KEY_S_HELD));
-						Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
-						event->m_move = 0.01f; 
-						m_pQueueManager->add(h, Events::QT_INPUT);
-						m_pContext->m_button = 3; 
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							Handle h("EVENT", sizeof(Event_KEY_S_HELD));
+							Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
+							event->m_move = 0.01f; 
+							m_pQueueManager->add(h, Events::QT_INPUT);
+							m_pContext->m_button = 3; 
+						}
 					}
 				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_RIGHT") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_RIGHT") == 0)
 				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
 					{
-						// working
-						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						Handle h("EVENT", sizeof(Event_KEY_D_HELD));
-						Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
-						event->m_move = 0.01f;
-						m_pQueueManager->add(h, Events::QT_INPUT);
-						m_pContext->m_button = 4; 
+						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+						{
+							// working
+							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
+							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
+							Handle h("EVENT", sizeof(Event_KEY_D_HELD));
+							Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
+							event->m_move = 0.01f;
+							m_pQueueManager->add(h, Events::QT_INPUT);
+							m_pContext->m_button = 4; 
+						}
 					}
 				}
 			}
+
 		}
 		// TODO: TANK1, TANK2, TANK3 buttons vertically aligned. when clicked, expand and show up, down, left, right on the right
 		// TODO:  WHEN BUTTON IS CLICKED, BLINK THE TEXT BG COLOR TO WHITE OR STH 
@@ -396,6 +435,7 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 				float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
 				float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
 				float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
+
 				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_DOWN") == 0)
 				{
 					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))

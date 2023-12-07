@@ -74,6 +74,9 @@ public:
 	Vector3 text_rgb_3 = Vector3(0.0f, 0.0f, 1.0f);
 	POINT g_cursorPos;
 	bool toggleDebugInfo = false;
+	bool btnTank1_toggle = false;
+	bool btnSol1_toggle = false;
+	bool btnCam_toggle = false;
 	std::vector<Components::TextSceneNode*> m_textSceneNodes;
 };
 

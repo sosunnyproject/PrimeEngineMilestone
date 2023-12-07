@@ -53,7 +53,6 @@ void DX9_KeyboardMouse::generateButtonEvents()
 				// m_pQueueManager->add(h, Events::QT_INPUT);
 
 				if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
-					PEINFO("VK_LBUTTON Position: %d, %d", cursorPos.x, cursorPos.y);
 					Handle h("EVENT", sizeof(Event_MOUSE_LEFT_CLICK));
 					new (h) Event_MOUSE_LEFT_CLICK();
 					m_pQueueManager->add(h, Events::QT_INPUT);
@@ -62,7 +61,6 @@ void DX9_KeyboardMouse::generateButtonEvents()
 				}
 
 				if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
-					//PEINFO("VK_RBUTTON Position: %d, %d", cursorPos.x, cursorPos.y);
 					Handle h("EVENT", sizeof(Event_MOUSE_RIGHT_CLICK));
 					new (h) Event_MOUSE_RIGHT_CLICK();
 					m_pQueueManager->add(h, Events::QT_INPUT);

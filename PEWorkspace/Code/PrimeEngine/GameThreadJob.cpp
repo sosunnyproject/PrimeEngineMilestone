@@ -303,7 +303,7 @@ int ClientGame::runGameFrame()
 					Profiling::Profiler::Instance()->finalize(Profiling::Group_DrawThread);
 				#endif
 
-                PE::IRenderer::checkForErrors("");
+				PE::IRenderer::checkForErrors("");
 
 				// send this event to objects so that they have ability to work with graphics resources
 				// since this thread has ownership of dx thread
@@ -311,7 +311,7 @@ int ClientGame::runGameFrame()
 				m_pContext->getGameObjectManager()->handleEvent(&preRenderEvt);
 				proot->handleEvent(&preRenderEvt);
 				
-                PE::IRenderer::checkForErrors("");
+				PE::IRenderer::checkForErrors("");
 
 				// DEBUG INFORMATION
 				// TODO: SHOW / HIDE DEBUG
@@ -325,12 +325,13 @@ int ClientGame::runGameFrame()
 					else
 						sprintf(PEString::s_buf, "SHOW DEBUG INFO");
 					DebugRenderer::Instance()->createTextMesh(
-					PEString::s_buf, true, false, false, false, 0, 
-					Vector3(0.0f, 0.0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-					Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-					"TOGGLE_DEBUG_INFO"
+						PEString::s_buf, true, false, false, false, 0, 
+						Vector3(0.0f, 0.0f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+						"TOGGLE_DEBUG_INFO"
 					);
 				}
+				PE::IRenderer::checkForErrors("");
 				if (m_pContext->toggleDebugInfo) 
 				{
 					{
@@ -387,7 +388,7 @@ int ClientGame::runGameFrame()
 						);
 					}
 				}
-
+				PE::IRenderer::checkForErrors("");
 				// New TEXT UI
 				// milestone1: added a rgb Vector3 for single string.
 				/*
@@ -427,6 +428,7 @@ int ClientGame::runGameFrame()
 						Vector3(m_pContext->text_rgb_2.m_x, m_pContext->text_rgb_2.m_y, m_pContext->text_rgb_2.m_z)
 					);
 				}
+				PE::IRenderer::checkForErrors("");
 
 				// BUTTON UI milestone 2
 				{
@@ -438,43 +440,54 @@ int ClientGame::runGameFrame()
 						"TANK1_BUTTONS"
 					);
 				}
+				PE::IRenderer::checkForErrors("");
+				if(m_pContext->btnTank1_toggle)
 				{
-					sprintf(PEString::s_buf, "==LEFT==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.1f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"TANK1_LEFT"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "==RIGHT==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.2f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"TANK1_RIGHT"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "==UP==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.3f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"TANK1_UP"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "==DOWN==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.4f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"TANK1_DOWN"
-					);
+					{
+						sprintf(PEString::s_buf, "==LEFT==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.1f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"TANK1_LEFT"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+
+					{
+						sprintf(PEString::s_buf, "==RIGHT==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.2f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"TANK1_RIGHT"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+
+					{
+						sprintf(PEString::s_buf, "==UP==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.3f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"TANK1_UP"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+
+					{
+						sprintf(PEString::s_buf, "==DOWN==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.4f, 0.8f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"TANK1_DOWN"
+						);
+					}
 				}
 				// SOLDIER buttons
+				PE::IRenderer::checkForErrors("");
 				{
 					sprintf(PEString::s_buf, "SOLDIER 1");
 					DebugRenderer::Instance()->createTextMesh(
@@ -484,43 +497,52 @@ int ClientGame::runGameFrame()
 						"SOLDIER1_BUTTONS"
 					);
 				}
+				PE::IRenderer::checkForErrors("");
+
+				if(m_pContext->btnSol1_toggle)
 				{
-					sprintf(PEString::s_buf, "==LEFT==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.1f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"SOLDIER1_LEFT"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "==RIGHT==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.2f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"SOLDIER1_RIGHT"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "==UP==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.3f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"SOLDIER1_UP"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "==DOWN==");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.4f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"SOLDIER1_DOWN"
-					);
+					{
+						sprintf(PEString::s_buf, "==LEFT==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.1f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"SOLDIER1_LEFT"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+					{
+						sprintf(PEString::s_buf, "==RIGHT==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.2f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"SOLDIER1_RIGHT"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+					{
+						sprintf(PEString::s_buf, "==UP==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.3f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"SOLDIER1_UP"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+					{
+						sprintf(PEString::s_buf, "==DOWN==");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.4f, 0.85f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"SOLDIER1_DOWN"
+						);
+					}
 				}
 				// CAMERA buttons
+				PE::IRenderer::checkForErrors("");
 				{
 					sprintf(PEString::s_buf, "CAM");
 					DebugRenderer::Instance()->createTextMesh(
@@ -530,44 +552,52 @@ int ClientGame::runGameFrame()
 						"CAMERA_BUTTONS"
 					);
 				}
+				PE::IRenderer::checkForErrors("");
+				if(m_pContext->btnCam_toggle)
 				{
-					sprintf(PEString::s_buf, "FORWARD(W)");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.1f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"CAMERA_FWD"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "LEFT(A)");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.2f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"CAMERA_LEFT"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "BACK(S)");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.3f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"CAMERA_BACK"
-					);
-				}
-				{
-					sprintf(PEString::s_buf, "RIGHT(D)");
-					DebugRenderer::Instance()->createTextMesh(
-						PEString::s_buf, true, false, false, false, 0, 
-						Vector3(0.4f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
-						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
-						"CAMERA_RIGHT"
-					);
+					{
+						sprintf(PEString::s_buf, "FORWARD(W)");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.05f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"CAMERA_FWD"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+					{
+						sprintf(PEString::s_buf, "LEFT(A)");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.2f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"CAMERA_LEFT"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+					{
+						sprintf(PEString::s_buf, "BACK(S)");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.3f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"CAMERA_BACK"
+						);
+					}
+					PE::IRenderer::checkForErrors("");
+					{
+						sprintf(PEString::s_buf, "RIGHT(D)");
+						DebugRenderer::Instance()->createTextMesh(
+							PEString::s_buf, true, false, false, false, 0, 
+							Vector3(0.4f, 0.9f, 0), 1.0f, m_pContext->m_gameThreadThreadOwnershipMask, 
+							Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
+							"CAMERA_RIGHT"
+						);
+					}
 				}
 
 				// BUTTONS: TEXT COLOR
+				PE::IRenderer::checkForErrors("");
 				{
 					sprintf(PEString::s_buf, "RED BG");
 					DebugRenderer::Instance()->createTextMesh(
@@ -577,6 +607,7 @@ int ClientGame::runGameFrame()
 						"TEXT1_RED"
 					);
 				}
+				PE::IRenderer::checkForErrors("");
 				{
 					sprintf(PEString::s_buf, "GREEN BG");
 					DebugRenderer::Instance()->createTextMesh(
@@ -586,7 +617,8 @@ int ClientGame::runGameFrame()
 						"TEXT1_GREEN"
 					);
 				}
-								{
+				PE::IRenderer::checkForErrors("");
+				{
 					sprintf(PEString::s_buf, "BLUE BG");
 					DebugRenderer::Instance()->createTextMesh(
 						PEString::s_buf, true, false, false, false, 0, 
@@ -594,13 +626,7 @@ int ClientGame::runGameFrame()
 						Vector3(m_pContext->text_rgb_1.m_x, m_pContext->text_rgb_1.m_y, m_pContext->text_rgb_1.m_z),
 						"TEXT1_BLUE"
 					);
-				}
-
-
-
-				
-
-				
+				}				
 				// draw p camera position
 				/*
 				{
@@ -626,7 +652,7 @@ int ClientGame::runGameFrame()
 				// call this to potentially generate meshes that were scheduled in debug draw of lines
 				DebugRenderer::Instance()->postPreDraw(m_pContext->m_gameThreadThreadOwnershipMask);
 
-                PE::IRenderer::checkForErrors("");
+				PE::IRenderer::checkForErrors("");
 
 				// done synchronization, give RC back
 				m_pContext->getGPUScreen()->ReleaseRenderContextOwnership(m_pContext->m_gameThreadThreadOwnershipMask);
