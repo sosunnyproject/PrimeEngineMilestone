@@ -70,6 +70,8 @@ struct GameObjectManager : public Component, public Networkable
 
 	void createGameObjectTableIfDoesntExist();
 	void putGameObjectTableIOnStack();
+	public:
+		void button_CREATE_LIGHT();
 };
 
 }; // namespace Components

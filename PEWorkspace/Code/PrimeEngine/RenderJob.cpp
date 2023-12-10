@@ -219,7 +219,8 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 	*/
 
 	if(ImGui::Button("Create Light")){
-		
+		ctx.getGameObjectManager()->button_CREATE_LIGHT();
+		/*
 		Handle *h = new Handle("EVENT", sizeof(Event_CREATE_LIGHT));
 		Event_CREATE_LIGHT *pEvt = new(*h) Event_CREATE_LIGHT();
 		pEvt->m_pos = Vector3( 9.672, 2.984, -0.979);
@@ -257,6 +258,7 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		// and manually release the event handle.
 		ctx.getGameObjectManager()->do_CREATE_LIGHT(pEvt);
 		h->release();
+		*/
 	}
 	// for (CharacterControl::Components::TankController* tankController : CharacterControl::Components::ClientGameObjectManagerAddon::tanks) {
     // 	PEINFO("////RENDERJOB::: TankController: %f\n", tankController->m_spawnPos.m_x);
