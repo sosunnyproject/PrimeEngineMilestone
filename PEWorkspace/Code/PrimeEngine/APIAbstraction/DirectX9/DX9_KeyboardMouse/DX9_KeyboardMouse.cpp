@@ -84,7 +84,7 @@ void DX9_KeyboardMouse::generateButtonEvents()
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 2; 
 		}
-		if((GetAsyncKeyState('S') & 0x8000) || m_pContext->imgui_wasd == 3)
+		else if((GetAsyncKeyState('S') & 0x8000) || m_pContext->imgui_wasd == 3)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_S_HELD));
 			Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
@@ -92,7 +92,7 @@ void DX9_KeyboardMouse::generateButtonEvents()
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 3; 
 		}
-		if((GetAsyncKeyState('D') & 0x8000) || m_pContext->imgui_wasd == 4)
+		else if((GetAsyncKeyState('D') & 0x8000) || m_pContext->imgui_wasd == 4)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_D_HELD));
 			Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
@@ -100,7 +100,7 @@ void DX9_KeyboardMouse::generateButtonEvents()
 			m_pQueueManager->add(h, Events::QT_INPUT);
 			m_pContext->m_button = 4; 
 		}
-		if((GetAsyncKeyState('W') & 0x8000) || m_pContext->imgui_wasd == 1)
+		else if((GetAsyncKeyState('W') & 0x8000) || m_pContext->imgui_wasd == 1)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_W_HELD));
 			Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
@@ -113,28 +113,24 @@ void DX9_KeyboardMouse::generateButtonEvents()
 			Handle h("EVENT", sizeof(Event_KEY_LEFT_HELD));
 			new (h) Event_KEY_LEFT_HELD;
 			m_pQueueManager->add(h, Events::QT_INPUT);
-			PEINFO("ARROW LEFT key is pressed");
 		}
 		if(GetAsyncKeyState(VK_DOWN) & 0x8000)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_DOWN_HELD));
 			new (h) Event_KEY_DOWN_HELD;
 			m_pQueueManager->add(h, Events::QT_INPUT);
-			PEINFO("ARROW DOWN key is pressed");
 		}
 		if(GetAsyncKeyState(VK_RIGHT) & 0x8000)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_RIGHT_HELD));
 			new (h) Event_KEY_RIGHT_HELD;
 			m_pQueueManager->add(h, Events::QT_INPUT);
-			PEINFO("ARROW RIGHT key is pressed");
 		}
 		if(GetAsyncKeyState(VK_UP) & 0x8000)
 		{
 			Handle h("EVENT", sizeof(Event_KEY_UP_HELD));
 			new (h) Event_KEY_UP_HELD;
 			m_pQueueManager->add(h, Events::QT_INPUT);
-			PEINFO("ARROW UP key is pressed");
 		}
 		if(GetAsyncKeyState(',') & 0x8000)
 		{

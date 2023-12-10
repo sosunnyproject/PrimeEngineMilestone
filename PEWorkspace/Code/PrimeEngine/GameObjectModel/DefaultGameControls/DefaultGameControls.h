@@ -29,6 +29,7 @@ public:
 	
 	DefaultGameControls(PE::GameContext &context, PE::MemoryArena arena, Handle hMyself) : Component(context, arena, hMyself)
 	{
+		lightClickedOnce = false;
 	}
 
 	virtual ~DefaultGameControls(){}
@@ -40,14 +41,20 @@ public:
 	virtual void addDefaultComponents() ;
 
 	//Methods----------------
-    void handleIOSDebugInputEvents(Events::Event *pEvt);
+	void handleIOSDebugInputEvents(Events::Event *pEvt);
 	void handleKeyboardDebugInputEvents(Events::Event *pEvt);
 	void handleControllerDebugInputEvents(Events::Event *pEvt);
 	void handleMouseDebugInputEvents(Events::Event *pEvt);
-	
+	bool IsCursorWithinBounds(PE::GameContext* m_pContext, float xPos, float yPos, float index2_char_length);
+	void OnClick_TextColorButtons(PE::GameContext* m_pContext, float xPos, float yPos, float index2_char_length, Vector3 color);
+	void OnClick_CameraButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length);
+	void OnClick_TankButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length, Vector3* pos, Matrix4x4& base);
+	void OnClick_SoldierButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length, Vector3* pos, Matrix4x4& base);
+
 	Events::EventQueueManager *m_pQueueManager;
 	
 	PrimitiveTypes::Float32 m_frameTime;
+	bool lightClickedOnce;
 };
 }; // namespace Components
 }; // namespace PE

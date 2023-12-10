@@ -68,7 +68,7 @@ struct DebugRenderer : public SceneNode
 	private:
 		static Handle s_myHandle;
 		Handle m_hMyTextMesh;
-		static const int NUM_TextSceneNodes = 64;
+		static const int NUM_TextSceneNodes = 128;
 		Handle m_hSNPool[NUM_TextSceneNodes];
 		int m_hFreeingSNs[NUM_TextSceneNodes];
 		int m_hAvailableSNs[NUM_TextSceneNodes];

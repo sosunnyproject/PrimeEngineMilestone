@@ -32,7 +32,7 @@
 #include "CharacterControl/ClientGameObjectManagerAddon.h"
 #include <cstring>
 #include "CharacterControl/Characters/SoldierNPCMovementSM.h"
-
+#include "PrimeEngine/GameObjectModel/GameObjectManager.h"
 
 // Arkane Control Values
 
@@ -173,400 +173,119 @@ void DefaultGameControls::handleIOSDebugInputEvents(Event *pEvt)
 
 }
 
-// mouse vs actual px position difference: 5~7px (height)
+bool DefaultGameControls::IsCursorWithinBounds(PE::GameContext* m_pContext, float xPos, float yPos, float index2_char_length)
+{
+    return m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length) && m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30);
+}
 
+// mouse vs actual px position difference: 5~7px (height)
 void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 {
 	m_pQueueManager = Events::EventQueueManager::Instance();
 	// dx9_keybarodMouse
-	if (Event_MOUSE_LEFT_CLICK::GetClassId() == pEvt->getClassId()){
+	if (Event_MOUSE_LEFT_CLICK::GetClassId() == pEvt->getClassId())
+	{
 		// print them in integer... otherwise NAN / 0 values.
 		// y pos: 3~5px difference. ui pos is 3px smaller than actual mouse pos: maybe it's a good offset.
 		// you can assume each letter is roughly 15px wide (20px is too wide)
-		// TODO: textSceneNode should include button name, instead of accessing via index
-		
-		if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) {
-			Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
-			Vector3 pos = base.getPos();
-
-			// button 0: TANK_DOWN, 1: TANK_UP, 2: TANK_RIGHT, 3: TANK_LEFT
-			for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
-			{
-				float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
-				float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
-				float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
-					
-				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_BUTTONS") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							PEINFO("Button m_uiName: %s", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName);
-							if(m_pContext->btnTank1_toggle)
-								m_pContext->btnTank1_toggle = false;
-							else
-								m_pContext->btnTank1_toggle = true;
-						}
-					}
-				}
-				if(m_pContext->btnTank1_toggle)
-				{
-					if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_DOWN") == 0)
-					{
-						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-						{
-							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-							{
-								// working
-								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-								base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
-							}
-						}
-					}
-					else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_UP") == 0)
-					{
-						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-						{
-							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-							{
-								// working
-								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-								base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
-							}
-						}
-					}
-					else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_LEFT") == 0)
-					{
-						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-						{
-							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-							{
-								// working
-								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-								base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
-							}
-						}
-					}
-					else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TANK1_RIGHT") == 0)
-					{
-						if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-						{
-							if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-							{
-								// working
-								// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-								// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-								base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
-							}
-						}
-					}
-				}
-
-			}
-		}
-		
-		// CAMERA BUTTONS
-		// TEXT COLOR BUTTONS
 		for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
 		{
 			float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
 			float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
 			float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
-			if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_RED") == 0)
+			const char* uiName = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName;
+
+			// if there is a TANK in the scene
+			if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) 
 			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				// Button Toggle Tank
+				if (strcmp(uiName, "TANK1_BUTTONS") == 0)
 				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 					{
-						// working
-						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						m_pContext->text_rgb_1 = Vector3(1.0f, 0.0f, 0.0f);
-					}
-				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_GREEN") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-					{
-						// working
-						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						m_pContext->text_rgb_1 = Vector3(0.0f, 1.0f, 0.0f);
-					}
-				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TEXT1_BLUE") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-					{
-						// working
-						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						m_pContext->text_rgb_1 = Vector3(0.0f, 0.0f, 1.0f);
-					}
-				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "TOGGLE_DEBUG_INFO") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-					{
-						// working
-						// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-						// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-						if(m_pContext->toggleDebugInfo)
-							m_pContext->toggleDebugInfo = false;
+						if(m_pContext->btnTank1_toggle)
+							m_pContext->btnTank1_toggle = false;
 						else
-							m_pContext->toggleDebugInfo = true;
+							m_pContext->btnTank1_toggle = true;
 					}
 				}
-			}
-			else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_BUTTONS") == 0)
-			{
-				if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
+				// Button Tank
+				if(m_pContext->btnTank1_toggle)
 				{
-					if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-					{
-						// working
-						PEINFO("Button m_uiName: %s", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName);
-						if(m_pContext->btnCam_toggle)
-							m_pContext->btnCam_toggle = false;
-						else
-							m_pContext->btnCam_toggle = true;
-					}
+					Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
+					Vector3 pos = base.getPos();
+					// button 0: TANK_DOWN, 1: TANK_UP, 2: TANK_RIGHT, 3: TANK_LEFT
+					OnClick_TankButtons(m_pContext, uiName, xPos, yPos, index2_char_length, &pos, base);
 				}
 			}
+			// if there is a SOLDIER in the scene
+			if(CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm != nullptr)
+			{
+				if (strcmp(uiName, "SOLDIER1_BUTTONS") == 0)
+				{
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+					{
+						if (m_pContext->btnSol1_toggle)
+							m_pContext->btnSol1_toggle = false;
+						else
+							m_pContext->btnSol1_toggle = true;
+					}
+				}
+				// if Soldier toggle in ON
+				if(m_pContext->btnSol1_toggle)
+				{
+					Matrix4x4& base = CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm->getParentsSceneNode()->m_base;
+					Vector3 pos = base.getPos();
+					OnClick_SoldierButtons(m_pContext, uiName, xPos, yPos, index2_char_length, &pos, base);
+				}
+			}
+			// if Cam toggle is ON
 			if(m_pContext->btnCam_toggle)
 			{
-				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_FWD") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-
-							Handle h("EVENT", sizeof(Event_KEY_W_HELD));
-							Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
-							event->m_move = 0.01f;
-							m_pQueueManager->add(h, Events::QT_INPUT);
-							m_pContext->m_button = 1; 
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_LEFT") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							
-							Handle h("EVENT", sizeof(Event_KEY_A_HELD));
-							Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
-							event->m_move = 0.01f; 
-							m_pQueueManager->add(h, Events::QT_INPUT);
-							m_pContext->m_button = 2; 
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_BACK") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							Handle h("EVENT", sizeof(Event_KEY_S_HELD));
-							Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
-							event->m_move = 0.01f; 
-							m_pQueueManager->add(h, Events::QT_INPUT);
-							m_pContext->m_button = 3; 
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "CAMERA_RIGHT") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							Handle h("EVENT", sizeof(Event_KEY_D_HELD));
-							Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
-							event->m_move = 0.01f;
-							m_pQueueManager->add(h, Events::QT_INPUT);
-							m_pContext->m_button = 4; 
-						}
-					}
-				}
+				OnClick_CameraButtons(m_pContext, uiName, xPos, yPos, index2_char_length);
 			}
+			// Button Text Colors
+			if (strcmp(uiName, "TEXT1_RED") == 0)
+				OnClick_TextColorButtons(m_pContext, xPos, yPos, index2_char_length, Vector3(1.0f, 0.0f, 0.0f));
+			else if (strcmp(uiName, "TEXT1_GREEN") == 0)
+				OnClick_TextColorButtons(m_pContext, xPos, yPos, index2_char_length, Vector3(0.0f, 1.0f, 0.0f));
+			else if (strcmp(uiName, "TEXT1_BLUE") == 0)
+				OnClick_TextColorButtons(m_pContext, xPos, yPos, index2_char_length, Vector3(0.0f, 0.0f, 1.0f));
 
-		}
-		// TODO: TANK1, TANK2, TANK3 buttons vertically aligned. when clicked, expand and show up, down, left, right on the right
-		// TODO:  WHEN BUTTON IS CLICKED, BLINK THE TEXT BG COLOR TO WHITE OR STH 
-		// TODO: SOLDIER MOVE WITH BUTTONS
-		if(CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm != nullptr) 
-		{
-			Matrix4x4& base = CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm->getParentsSceneNode()->m_base;
-			Vector3 pos = base.getPos();
-			// button 0: DOWN, 1: UP, 2: RIGHT, 3: LEFT
-			for (int i = 0; i < PE::Components::DebugRenderer::m_textSceneNodes.size(); i++)
+			// Button Toggle Debug
+			else if(strcmp(uiName, "TOGGLE_DEBUG_INFO") == 0)
 			{
-				float xPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_x;
-				float yPos = PE::Components::DebugRenderer::m_textSceneNodes[i]->g_pos2D.m_y;
-				float index2_char_length = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_strLen;
-
-				if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_DOWN") == 0)
+				if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x, pos.m_y - 0.5f, pos.m_z));
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_UP") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x, pos.m_y + 0.5f, pos.m_z));
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_LEFT") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x - 0.5f, pos.m_y, pos.m_z));
-						}
-					}
-				}
-				else if (strcmp(PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, "SOLDIER1_RIGHT") == 0)
-				{
-					if(m_pContext->g_cursorPos.x >= xPos && m_pContext->g_cursorPos.x <= (xPos+15*index2_char_length))
-					{
-						if(m_pContext->g_cursorPos.y >= yPos && m_pContext->g_cursorPos.y <= (yPos+30))
-						{
-							// working
-							// PEINFO("////// MOUSE CLICK: %d, %d", m_pContext->g_cursorPos.x, m_pContext->g_cursorPos.y);
-							// PEINFO("Tank Button m_uiName: %s, xPos: %f, yPos: %f", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName, xPos, yPos);
-							base.setPos(Vector3(pos.m_x + 0.5f, pos.m_y, pos.m_z));
-						}
-					}
-				}
+					PEINFO("TOGGLE_DEBUG_INFO, %s", uiName);
+					if(m_pContext->toggleDebugInfo)
+						m_pContext->toggleDebugInfo = false;
+					else
+						m_pContext->toggleDebugInfo = true;
+				} 
 			}
-		}
-
-		/*
-		if(m_pContext->g_cursorPos.x >= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x) 
-		{
-			if(m_pContext->g_cursorPos.y <= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y) 
+			// Button Toggle Camera
+			else if(strcmp(uiName, "CAMERA_BUTTONS") == 0)
 			{
-				if(m_pContext->g_cursorPos.y <= PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y + 30) 
+				if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 				{
-					// text height is around 25px
-					PEINFO("DefaultGameControls MOUSE LEFT CLICKED RiGHT");
-					// working
-					// m_pContext->imgui_wasd = 1;
+					PEINFO("CAMERA_BUTTONS, %s", uiName);
+					if(m_pContext->btnCam_toggle)
+						m_pContext->btnCam_toggle = false;
+					else
+						m_pContext->btnCam_toggle = true;
 				}
 			}
-		}
-		if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) {
-			Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
-			Vector3 pos = base.getPos();
-			PEINFO("////DefaultGameControls::: TANK SCENE NODE: %f", pos.m_x);
-			// move with buttons
-			if(m_pContext->g_cursorPos.x >= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x) 
+			else if(strcmp(uiName, "CREATE_LIGHT") == 0 && lightClickedOnce == false)
 			{
-				if(m_pContext->g_cursorPos.x <= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x + ) 
+				if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 				{
-					if(m_pContext->g_cursorPos.y >= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y) 
-					{
-						if(m_pContext->g_cursorPos.y <= PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y + 30) 
-						{
-							// text height is around 25px
-							// working
-							PEINFO("DefaultGameControls MOUSE LEFT CLICKED DOWN");
-							base.setPos(Vector3(pos.m_x, pos.m_y - 0.1f, pos.m_z));
-						}
-					}
+					m_pContext->getGameObjectManager()->button_CREATE_LIGHT();
+					lightClickedOnce = true;
+					PEINFO("Button m_uiName: %s", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName);
 				}
 			}
 		}
-		*/
-		// check if m_textSceneNodes is not null or empty
-		if(PE::Components::DebugRenderer::m_textSceneNodes.size() > 0)
-		{
-			// PEINFO("ui 0 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[0]->m_str);
-			// PEINFO("ui 0 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[0]->g_pos2D.m_y);
-			// PEINFO("ui 1 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[1]->m_str);
-			// PEINFO("ui 1 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[1]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[1]->g_pos2D.m_y);
-
-			// GT Frame
-			// PEINFO("ui 2 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[2]->m_str);
-			// PEINFO("ui 2 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[2]->g_pos2D.m_y);
-
-			// SERVER, CLIENT
-			// PEINFO("ui 3 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[3]->m_str);
-			// PEINFO("ui 3 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[3]->g_pos2D.m_y);
-
-			// PEINFO("ui 4 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[4]->m_str);
-			// PEINFO("ui 4 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[4]->g_pos2D.m_y);
-			/*
-			// Lua Command
-			PEINFO("ui 5 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[5]->m_str);
-			PEINFO("ui 5 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[5]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[5]->g_pos2D.m_y);
-			
-			// FPS
-			PEINFO("ui 6 m_str: %s", PE::Components::DebugRenderer::m_textSceneNodes[6]->m_str);
-			PEINFO("ui 6 index pos %f, %f:", PE::Components::DebugRenderer::m_textSceneNodes[6]->g_pos2D.m_x, PE::Components::DebugRenderer::m_textSceneNodes[6]->g_pos2D.m_y);
-
-			// check if the mouse click is inside the text box
-			// if(m_pContext->g_cursorPos.x >= m_pContext->m_textSceneNodes[0].g_pos2D.x && m_pContext->g_cursorPos.x <= m_pContext->m_textSceneNodes[0].g_pos2D.x + 100)
-			// {
-			// 	if(m_pContext->g_cursorPos.y >= m_pContext->m_textSceneNodes[0].g_pos2D.y && m_pContext->g_cursorPos.y <= m_pContext->m_textSceneNodes[0].g_pos2D.y + 100)
-			// 	{
-			// 		// if it is, then change the color of the text
-			// 		m_pContext->m_textSceneNodes[0].m_rgb = Vector3(1.0f, 0.0f, 0.0f);
-			// 	}
-			// }
-			*/
-		}
-
 	}
 }
 
@@ -694,7 +413,90 @@ void DefaultGameControls::handleKeyboardDebugInputEvents(Event *pEvt)
 
 }
 
+void DefaultGameControls::OnClick_TankButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length, Vector3* pos, Matrix4x4& base)
+{
+	// Check if the cursor is within the button bounds
+	if(!IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+		return;
 
+	Vector3 newPos = *pos; // Copy the current position
+	// Update the position based on the button pressed
+	if (strcmp(uiKey, "TANK1_DOWN") == 0)
+		newPos.m_y -= 0.001f;
+	else if (strcmp(uiKey, "TANK1_UP") == 0)
+		newPos.m_y += 0.001f;
+	else if (strcmp(uiKey, "TANK1_LEFT") == 0)
+		newPos.m_x -= 0.001f;
+	else if (strcmp(uiKey, "TANK1_RIGHT") == 0)
+		newPos.m_x += 0.001f;
+
+	// Set the new position
+	base.setPos(newPos);
+}
+void DefaultGameControls::OnClick_TextColorButtons(PE::GameContext* m_pContext, float xPos, float yPos, float index2_char_length, Vector3 color)
+{
+	// Check if the cursor is within the button bounds
+	if (!IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+			return;
+
+	// Set the color
+	m_pContext->text_rgb_1 = color;
+}
+void DefaultGameControls::OnClick_SoldierButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length, Vector3* pos, Matrix4x4& base)
+{
+	// Check if the cursor is within the button bounds
+	if (!IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+		return;
+	// Perform the action based on the button pressed
+	if (strcmp(uiKey, "SOLDIER1_DOWN") == 0)
+		base.setPos(Vector3(0.0f, 0.0f, 0.0f));
+	else if (strcmp(uiKey, "SOLDIER1_UP") == 0)
+		base.setPos(Vector3(pos->m_x, pos->m_y + 0.001f, pos->m_z));
+	else if (strcmp(uiKey, "SOLDIER1_LEFT") == 0)
+		base.setPos(Vector3(pos->m_x - 0.001f, pos->m_y, pos->m_z));
+	else if (strcmp(uiKey, "SOLDIER1_RIGHT") == 0)
+		base.setPos(Vector3(pos->m_x + 0.001f, pos->m_y, pos->m_z));
+}
+void DefaultGameControls::OnClick_CameraButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length)
+{
+    // Check if the cursor is within the button bounds
+    if (!IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+        return;
+
+    // Create and configure the event based on the button pressed
+    if (strcmp(uiKey, "CAMERA_FWD") == 0)
+    {
+			Handle h("EVENT", sizeof(Event_KEY_W_HELD));
+			Event_KEY_W_HELD *event = new (h) Event_KEY_W_HELD;
+			event->m_move = 0.01f;
+			m_pContext->m_button = 1; 
+			m_pQueueManager->add(h, Events::QT_INPUT);
+    }
+    else if (strcmp(uiKey, "CAMERA_LEFT") == 0)
+    {
+			Handle h("EVENT", sizeof(Event_KEY_A_HELD));
+			Event_KEY_A_HELD *event = new (h) Event_KEY_A_HELD;
+			event->m_move = 0.01f; 
+			m_pContext->m_button = 2; 
+			m_pQueueManager->add(h, Events::QT_INPUT);
+    }
+    else if (strcmp(uiKey, "CAMERA_BACK") == 0)
+    {
+			Handle h("EVENT", sizeof(Event_KEY_S_HELD));
+			Event_KEY_S_HELD *event = new (h) Event_KEY_S_HELD;
+			event->m_move = 0.01f; 
+			m_pContext->m_button = 3; 
+			m_pQueueManager->add(h, Events::QT_INPUT);
+    }
+    else if (strcmp(uiKey, "CAMERA_RIGHT") == 0)
+    {
+		  Handle h("EVENT", sizeof(Event_KEY_D_HELD));
+			Event_KEY_D_HELD *event = new (h) Event_KEY_D_HELD;
+			event->m_move = 0.01f;
+			m_pContext->m_button = 4; 
+			m_pQueueManager->add(h, Events::QT_INPUT);
+    }
+}
 
 void DefaultGameControls::handleControllerDebugInputEvents(Event *pEvt)
 

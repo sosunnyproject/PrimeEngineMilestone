@@ -26,6 +26,9 @@ struct PEAlphaBlendStateManager;
 struct PEDepthStencilStateManager;
 struct GameContext
 {
+	// Constructor declaration
+	GameContext();
+	// Methods declaration
 	Components::Component *getGame() { return m_pGame; }
 	Components::LuaEnvironment *getLuaEnvironment(){return m_pLuaEnv;}
 	MainFunctionArgs *getMainFunctionArgs(){return m_pMPArgs;}
@@ -67,16 +70,16 @@ struct GameContext
 
 // these values are not actually assigned here.
 public:
-	int m_button = 0;
-	int imgui_wasd = 0;
-	Vector3 text_rgb_1 = Vector3(1.0f, 0.0f, 0.0f);
-	Vector3 text_rgb_2 = Vector3(0.0f, 1.0f, 0.0f);
-	Vector3 text_rgb_3 = Vector3(0.0f, 0.0f, 1.0f);
+	int m_button;
+	int imgui_wasd;
+	Vector3 text_rgb_1;
+	Vector3 text_rgb_2;
+	Vector3 text_rgb_3;
 	POINT g_cursorPos;
-	bool toggleDebugInfo = false;
-	bool btnTank1_toggle = false;
-	bool btnSol1_toggle = false;
-	bool btnCam_toggle = false;
+	bool toggleDebugInfo;
+	bool btnTank1_toggle;
+	bool btnSol1_toggle;
+	bool btnCam_toggle;
 	std::vector<Components::TextSceneNode*> m_textSceneNodes;
 };
 
