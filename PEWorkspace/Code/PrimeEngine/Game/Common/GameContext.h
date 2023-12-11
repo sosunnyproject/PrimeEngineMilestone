@@ -78,8 +78,18 @@ public:
 	POINT g_cursorPos;
 	bool toggleDebugInfo;
 	bool btnTank1_toggle;
+	bool btnTank2_toggle;
+	bool btnTank3_toggle;
 	bool btnSol1_toggle;
 	bool btnCam_toggle;
+	bool btnLight_toggle;
+	Vector3 btnTank1_rgb;
+	Vector3 btnTank2_rgb;
+	Vector3 btnTank3_rgb;
+	Vector3 btnCam_rgb;
+	Vector3 btnLight_rgb;
+	Vector3 btnSol1_rgb;
+
 	std::vector<Components::TextSceneNode*> m_textSceneNodes;
 };
 

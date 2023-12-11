@@ -186,7 +186,7 @@ void ServerNetworkManager::debugRender(int &threadOwnershipMask, float xoffset /
 	sprintf(PEString::s_buf, "Server: Port %d %d Connections", m_serverPort, m_clientConnections.m_size);
 	DebugRenderer::Instance()->createTextMesh(
 		PEString::s_buf, true, false, false, false, 0,
-		Vector3(xoffset, yoffset, 0), 1.0f, threadOwnershipMask, rgb);
+		Vector3(xoffset, yoffset, 0), 0.7f, threadOwnershipMask, rgb);
 
 	float dy = 0.025f;
 	float dx = 0.01;

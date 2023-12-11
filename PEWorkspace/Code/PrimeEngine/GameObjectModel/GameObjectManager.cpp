@@ -14,6 +14,9 @@
 #include "PrimeEngine/Scene/MeshInstance.h"
 #include "PrimeEngine/Scene/SkeletonInstance.h"
 #include <random>
+#include "PrimeEngine/Scene/MeshManager.h"
+#include "CharacterControl/ClientGameObjectManagerAddon.h"
+#include "CharacterControl/CharacterControlContext.h"
 
 namespace PE {
 namespace Components {
@@ -88,7 +91,7 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 		}
 	}
 
-	// This gets called after int E5vent_CREATE_LIGHT::l_Construct(lua_State* luaVM)
+	// This gets called after int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 	if (!haveObject)
 	{
 		Handle hLight("LIGHT", sizeof(Light));
@@ -152,23 +155,35 @@ void GameObjectManager::do_CREATE_LIGHT(Events::Event *pEvt)
 }
 
 // bypass all LUA stuff
-void GameObjectManager::button_CREATE_LIGHT()
+void GameObjectManager::button_CREATE_LIGHT(float light_type)
 {
 		Handle *h = new Handle("EVENT", sizeof(Event_CREATE_LIGHT));
 		Event_CREATE_LIGHT *pEvt = new(*h) Event_CREATE_LIGHT();
-		pEvt->m_pos = Vector3( 9.672, 2.984, -0.979);
-		pEvt->m_u = Vector3(1.0, 0.000, 0.000);
-		pEvt->m_v = Vector3(0.0, 0.004632, 0.999);
-		pEvt->m_n = Vector3(0.0, -0.9989, 0.6);
+		pEvt->m_pos = Vector3( 9.62f, 2.9f, -0.9f);
+		pEvt->m_u = Vector3(1.0f, 0.0f, 0.0f);
+		pEvt->m_v = Vector3(0.0f, 0.0f, 0.9f);
+		pEvt->m_n = Vector3(0.0f, -0.99f, 0.6f);
 
-		pEvt->m_diffuse = Vector4(1.0, 0.5, 0.5, 1.0);
-		pEvt->m_spec = Vector4(0.0, 0.0, 0.0, 1.0);
-		pEvt->m_ambient = Vector4(1.0, 1.0, 1.0, 1.0);
-		pEvt->m_att = Vector3(0.03, 0.05, 0.03);
+		pEvt->m_type = light_type;
+		//0 = point, 1 = directional, 2 = spot
+		if(light_type == 0) {
+			pEvt->m_diffuse = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+			pEvt->m_ambient = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+		else if(light_type == 1) {
+			pEvt->m_diffuse = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+			pEvt->m_ambient = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		}
+		else if(light_type == 2) {
+			pEvt->m_diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+			pEvt->m_ambient = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+		}
+
+		pEvt->m_spec = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		pEvt->m_att = Vector3(0.03f, 0.05f, 0.03f);
 		pEvt->m_spotPower = 1.0f;
-		pEvt->m_range = 100.0f;
+		pEvt->m_range = 50.0f;
 		pEvt->m_isShadowCaster = 0;
-		pEvt->m_type = 1;
 		
 		std::random_device rd;  // obtain a random number from hardware
 		std::mt19937 eng(rd()); // seed the generator
@@ -176,10 +191,10 @@ void GameObjectManager::button_CREATE_LIGHT()
 
 		// trying to bypass LUA peuuid; random number, non-zero, not the same ones
 		PEUUID myUUID;
-		PrimitiveTypes::UInt32 myValue = distr(eng);
-		PrimitiveTypes::UInt32 v1 = distr(eng);
-		PrimitiveTypes::UInt32 v2 = distr(eng);
-		PrimitiveTypes::UInt32 v3 = distr(eng);
+		PrimitiveTypes::UInt32 myValue = 0; // distr(eng);
+		PrimitiveTypes::UInt32 v1 = 0; // distr(eng);
+		PrimitiveTypes::UInt32 v2 = 0; // distr(eng);
+		PrimitiveTypes::UInt32 v3 = 0; //distr(eng);
 		myUUID.set(myValue, v1, v2, v3);
 		pEvt->m_peuuid = myUUID;
 		pEvt->m_sentByLua = false;	// to escape any Lua related functions and errors
@@ -192,6 +207,50 @@ void GameObjectManager::button_CREATE_LIGHT()
 		do_CREATE_LIGHT(pEvt);
 		h->release();
 }
+//error
+void GameObjectManager::button_CREATE_SKELETON()
+{
+	Handle *h = new Handle("EVENT", sizeof(Event_CREATE_SKELETON));
+	Event_CREATE_SKELETON *pEvt = new(*h) Event_CREATE_SKELETON(m_pContext->m_gameThreadThreadOwnershipMask);
+	
+	pEvt->m_sentByLua = false;
+	const char* name = "soldier_Soldier_Skeleton.skela";
+	const char* package = "Soldier";
+	StringOps::writeToString(name, pEvt->m_skelFilename, 255);
+	StringOps::writeToString(package, pEvt->m_package, 255);
+
+	pEvt->hasCustomOrientation = true;
+	pEvt->m_pos = Vector3(0.0f, 0.0f, 0.0f);
+	pEvt->m_u = Vector3(1.0f, 0.0f, 0.0f);
+	pEvt->m_v = Vector3(0.0f, 1.0f, 0.0f);
+	pEvt->m_n = Vector3(0.0f, 0.0f, 1.0f);	
+
+	// trying to bypass LUA peuuid; random number, non-zero, not the same ones
+	std::random_device rd;  // obtain a random number from hardware
+	std::mt19937 eng(rd()); // seed the generator
+	std::uniform_int_distribution<> distr(100000001, 999999999); // define the range
+	PEUUID myUUID;
+	PrimitiveTypes::UInt32 myValue = distr(eng);
+	PrimitiveTypes::UInt32 v1 = distr(eng);
+	PrimitiveTypes::UInt32 v2 = distr(eng);
+	PrimitiveTypes::UInt32 v3 = distr(eng);
+	myUUID.set(myValue, v1, v2, v3);
+	pEvt->m_peuuid = myUUID;
+
+	do_CREATE_SKELETON(pEvt);
+	h->release();
+}
+//error
+void GameObjectManager::button_CREATE_TANKS()
+{
+	CharacterControl::CharacterControlContext* pGameCtx = static_cast<CharacterControl::CharacterControlContext*>(m_pContext->m_pGameSpecificContext);
+
+	for (int i = 0; i < 6; ++i)
+	{
+		((CharacterControl::Components::ClientGameObjectManagerAddon*)(pGameCtx->getGameObjectManagerAddon()))->createTank(
+		i, m_pContext->m_gameThreadThreadOwnershipMask);
+	}
+}
 
 void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 {
@@ -199,9 +258,11 @@ void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 	bool haveObject = false;
 	Handle exisitngObject;
 
-	putGameObjectTableIOnStack();
+	// lua
+	if(pRealEvent->m_sentByLua)
+		putGameObjectTableIOnStack();
 
-	if (!pRealEvent->m_peuuid.isZero())
+	if (!pRealEvent->m_peuuid.isZero() && pRealEvent->m_sentByLua)
 	{
 		// have a valid peeuid for the object. need to check if have one already
 
@@ -216,7 +277,6 @@ void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 			// pop nil
 			m_pContext->getLuaEnvironment()->pop();
 		}
-
 	}
 
 	if (!haveObject)
@@ -226,9 +286,18 @@ void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 
 		PE::Handle hSkelInstance("SkeletonInstance", sizeof(SkeletonInstance));
 		SkeletonInstance *pSkelInstance = new(hSkelInstance) SkeletonInstance(*m_pContext, m_arena, hSkelInstance, Handle());
-		pSkelInstance->addDefaultComponents();
+		if (pRealEvent->m_sentByLua)
+			pSkelInstance->addDefaultComponents();
 
-		pSkelInstance->initFromFiles(pRealEvent->m_skelFilename, pRealEvent->m_package, pRealEvent->m_threadOwnershipMask);
+		if(pRealEvent->m_sentByLua)
+			pSkelInstance->initFromFiles(pRealEvent->m_skelFilename, pRealEvent->m_package, pRealEvent->m_threadOwnershipMask);
+		else {
+			Handle h = m_pContext->getMeshManager()->getAsset(pRealEvent->m_skelFilename, pRealEvent->m_package, pRealEvent->m_threadOwnershipMask);
+			static int allowedEvts[] = {0};
+			h.getObject<Component>()->addComponent(m_hMyself, &allowedEvts[0]);	
+			h.release();
+		}
+		// pSkelInstance->initFromFiles(pRealEvent->m_skelFilename, pRealEvent->m_package, pRealEvent->m_threadOwnershipMask);
 
 		m_pContext->getGPUScreen()->ReleaseRenderContextOwnership(pRealEvent->m_threadOwnershipMask);
 		
@@ -237,7 +306,8 @@ void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 			// need to create a scene node for this mesh
 			Handle hSN("SCENE_NODE", sizeof(SceneNode));
 			SceneNode *pSN = new(hSN) SceneNode(*m_pContext, m_arena, hSN);
-			pSN->addDefaultComponents();
+			if(pRealEvent->m_sentByLua)
+				pSN->addDefaultComponents();
 
 			pSN->m_base.setPos(pRealEvent->m_pos);
 			pSN->m_base.setU(pRealEvent->m_u);
@@ -252,7 +322,9 @@ void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 		{
 			RootSceneNode::Instance()->addComponent(hSkelInstance);
 		}
-		m_pContext->getLuaEnvironment()->pushHandleAsFieldAndSet(pRealEvent->m_peuuid, hSkelInstance);
+		if(pRealEvent->m_sentByLua)
+			m_pContext->getLuaEnvironment()->pushHandleAsFieldAndSet(pRealEvent->m_peuuid, hSkelInstance);
+	
 		m_lastAddedObjHandle = hSkelInstance;
 		m_lastAddedSkelInstanceHandle = hSkelInstance;
 	}
@@ -278,7 +350,8 @@ void GameObjectManager::do_CREATE_SKELETON(Events::Event *pEvt)
 	}
 	
 	// pop the game object table
-	m_pContext->getLuaEnvironment()->pop();
+	if (pRealEvent->m_sentByLua)
+		m_pContext->getLuaEnvironment()->pop();
 }
 
 void GameObjectManager::do_CREATE_ANIM_SET(Events::Event *pEvt)

@@ -71,7 +71,9 @@ struct GameObjectManager : public Component, public Networkable
 	void createGameObjectTableIfDoesntExist();
 	void putGameObjectTableIOnStack();
 	public:
-		void button_CREATE_LIGHT();
+		void button_CREATE_LIGHT(float light_type = 0);
+		void button_CREATE_SKELETON();
+		void button_CREATE_TANKS();
 };
 
 }; // namespace Components

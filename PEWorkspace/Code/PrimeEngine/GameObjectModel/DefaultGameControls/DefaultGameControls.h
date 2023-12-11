@@ -29,7 +29,9 @@ public:
 	
 	DefaultGameControls(PE::GameContext &context, PE::MemoryArena arena, Handle hMyself) : Component(context, arena, hMyself)
 	{
-		lightClickedOnce = false;
+		spotlightClickedOnce = false;
+		dirlightClickedOnce = false;
+		pointlightClickedOnce = false;
 	}
 
 	virtual ~DefaultGameControls(){}
@@ -54,7 +56,9 @@ public:
 	Events::EventQueueManager *m_pQueueManager;
 	
 	PrimitiveTypes::Float32 m_frameTime;
-	bool lightClickedOnce;
+	bool spotlightClickedOnce;
+	bool dirlightClickedOnce;
+	bool pointlightClickedOnce;
 };
 }; // namespace Components
 }; // namespace PE

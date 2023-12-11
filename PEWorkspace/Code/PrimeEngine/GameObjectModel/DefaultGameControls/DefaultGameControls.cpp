@@ -196,27 +196,77 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 			const char* uiName = PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName;
 
 			// if there is a TANK in the scene
-			if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSN != nullptr) 
+			if(CharacterControl::Components::ClientGameObjectManagerAddon::tankSNarray[0] != nullptr) 
 			{
 				// Button Toggle Tank
 				if (strcmp(uiName, "TANK1_BUTTONS") == 0)
 				{
 					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 					{
-						if(m_pContext->btnTank1_toggle)
+						if (m_pContext->btnTank1_toggle) {
 							m_pContext->btnTank1_toggle = false;
-						else
+							m_pContext->btnTank1_rgb = Vector3(0.0f, 0.0f, 0.0f);
+						}
+						else {
 							m_pContext->btnTank1_toggle = true;
+							m_pContext->btnTank1_rgb = Vector3(1.0f, 0.0f, 0.5f);
+						}
 					}
 				}
 				// Button Tank
 				if(m_pContext->btnTank1_toggle)
 				{
-					Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSN->m_base;
+					Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSNarray[0]->m_base;
 					Vector3 pos = base.getPos();
 					// button 0: TANK_DOWN, 1: TANK_UP, 2: TANK_RIGHT, 3: TANK_LEFT
+					
 					OnClick_TankButtons(m_pContext, uiName, xPos, yPos, index2_char_length, &pos, base);
 				}
+				// Button Tank2
+				if (strcmp(uiName, "TANK2_BUTTONS") == 0)
+				{
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+					{
+						if(m_pContext->btnTank2_toggle) 
+						{
+							m_pContext->btnTank2_toggle = false;
+							m_pContext->btnTank2_rgb = Vector3(0.0f, 0.0f, 0.0f);
+						}
+						else 
+						{
+							m_pContext->btnTank2_toggle = true;
+							m_pContext->btnTank2_rgb = Vector3(1.0f, 0.0f, 0.5f);
+						}
+					}
+				}
+				if(m_pContext->btnTank2_toggle)
+				{
+					Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSNarray[1]->m_base;
+					Vector3 pos = base.getPos();
+					OnClick_TankButtons(m_pContext, uiName, xPos, yPos, index2_char_length, &pos, base);
+				}
+				// Button Tank3
+				if (strcmp(uiName, "TANK3_BUTTONS") == 0)
+				{
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+					{
+						if(m_pContext->btnTank3_toggle) {
+							m_pContext->btnTank3_toggle = false;
+							m_pContext->btnTank3_rgb = Vector3(0.0f, 0.0f, 0.0f);
+						}
+						else {
+							m_pContext->btnTank3_toggle = true;
+							m_pContext->btnTank3_rgb = Vector3(1.0f, 0.0f, 0.5f);
+						}
+					}
+				}
+				if(m_pContext->btnTank3_toggle)
+				{
+					Matrix4x4& base = CharacterControl::Components::ClientGameObjectManagerAddon::tankSNarray[2]->m_base;
+					Vector3 pos = base.getPos();
+					OnClick_TankButtons(m_pContext, uiName, xPos, yPos, index2_char_length, &pos, base);
+				}
+
 			}
 			// if there is a SOLDIER in the scene
 			if(CharacterControl::Components::SoldierNPCMovementSM::m_soldier_movement_sm != nullptr)
@@ -226,9 +276,15 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 					{
 						if (m_pContext->btnSol1_toggle)
+						{
 							m_pContext->btnSol1_toggle = false;
+							m_pContext->btnSol1_rgb = Vector3(0.0f, 0.0f, 0.0f);
+						}
 						else
+						{
 							m_pContext->btnSol1_toggle = true;
+							m_pContext->btnSol1_rgb = Vector3(1.0f, 0.0f, 0.5f);
+						}
 					}
 				}
 				// if Soldier toggle in ON
@@ -257,7 +313,6 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 			{
 				if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 				{
-					PEINFO("TOGGLE_DEBUG_INFO, %s", uiName);
 					if(m_pContext->toggleDebugInfo)
 						m_pContext->toggleDebugInfo = false;
 					else
@@ -269,20 +324,60 @@ void DefaultGameControls::handleMouseDebugInputEvents(Event *pEvt)
 			{
 				if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 				{
-					PEINFO("CAMERA_BUTTONS, %s", uiName);
-					if(m_pContext->btnCam_toggle)
+					if (m_pContext->btnCam_toggle)
+					{
 						m_pContext->btnCam_toggle = false;
-					else
+						m_pContext->btnCam_rgb = Vector3(0.0f, 0.0f, 0.0f);
+					}
+					else 
+					{
 						m_pContext->btnCam_toggle = true;
+						m_pContext->btnCam_rgb = Vector3(1.0f, 0.0f, 1.0f);
+					}
 				}
 			}
-			else if(strcmp(uiName, "CREATE_LIGHT") == 0 && lightClickedOnce == false)
+			else if(strcmp(uiName, "LIGHT_BUTTONS") == 0)
 			{
 				if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
 				{
-					m_pContext->getGameObjectManager()->button_CREATE_LIGHT();
-					lightClickedOnce = true;
-					PEINFO("Button m_uiName: %s", PE::Components::DebugRenderer::m_textSceneNodes[i]->m_uiName);
+					if(m_pContext->btnLight_toggle)
+					{
+						m_pContext->btnLight_toggle = false;
+						m_pContext->btnLight_rgb = Vector3(0.0f, 0.0f, 0.0f);
+					}
+					else
+					{
+						m_pContext->btnLight_toggle = true;
+						m_pContext->btnLight_rgb = Vector3(1.0f, 0.0f, 0.5f);
+					}
+				} 
+			}
+			// if Light toggle is ON
+			if(m_pContext->btnLight_toggle)
+			{
+				if(strcmp(uiName, "SPOT_LIGHT") == 0 && spotlightClickedOnce == false)
+				{
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+					{
+						m_pContext->getGameObjectManager()->button_CREATE_LIGHT(2);
+						spotlightClickedOnce = true;
+					}
+				}
+				else if(strcmp(uiName, "DIR_LIGHT") == 0 && dirlightClickedOnce == false)
+				{
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+					{
+						m_pContext->getGameObjectManager()->button_CREATE_LIGHT(1);
+						dirlightClickedOnce = true;
+					}
+				}
+				else if(strcmp(uiName, "POINT_LIGHT") == 0 && pointlightClickedOnce == false)
+				{
+					if(IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
+					{
+						m_pContext->getGameObjectManager()->button_CREATE_LIGHT(0);
+						pointlightClickedOnce = true;
+					}
 				}
 			}
 		}
@@ -422,22 +517,22 @@ void DefaultGameControls::OnClick_TankButtons(PE::GameContext* m_pContext, const
 	Vector3 newPos = *pos; // Copy the current position
 	// Update the position based on the button pressed
 	if (strcmp(uiKey, "TANK1_DOWN") == 0)
-		newPos.m_y -= 0.001f;
+		pos->m_y -= 0.001f;
 	else if (strcmp(uiKey, "TANK1_UP") == 0)
-		newPos.m_y += 0.001f;
+		pos->m_y += 0.001f;
 	else if (strcmp(uiKey, "TANK1_LEFT") == 0)
-		newPos.m_x -= 0.001f;
+		pos->m_x -= 0.001f;
 	else if (strcmp(uiKey, "TANK1_RIGHT") == 0)
-		newPos.m_x += 0.001f;
+		pos->m_x += 0.001f;
 
 	// Set the new position
-	base.setPos(newPos);
+	base.setPos(*pos);
 }
 void DefaultGameControls::OnClick_TextColorButtons(PE::GameContext* m_pContext, float xPos, float yPos, float index2_char_length, Vector3 color)
 {
 	// Check if the cursor is within the button bounds
 	if (!IsCursorWithinBounds(m_pContext, xPos, yPos, index2_char_length))
-			return;
+		return;
 
 	// Set the color
 	m_pContext->text_rgb_1 = color;
@@ -449,13 +544,13 @@ void DefaultGameControls::OnClick_SoldierButtons(PE::GameContext* m_pContext, co
 		return;
 	// Perform the action based on the button pressed
 	if (strcmp(uiKey, "SOLDIER1_DOWN") == 0)
-		base.setPos(Vector3(0.0f, 0.0f, 0.0f));
+		base.setPos(Vector3(pos->m_x, pos->m_y - 0.0001f, pos->m_z));
 	else if (strcmp(uiKey, "SOLDIER1_UP") == 0)
-		base.setPos(Vector3(pos->m_x, pos->m_y + 0.001f, pos->m_z));
+		base.setPos(Vector3(pos->m_x, pos->m_y + 0.0001f, pos->m_z));
 	else if (strcmp(uiKey, "SOLDIER1_LEFT") == 0)
-		base.setPos(Vector3(pos->m_x - 0.001f, pos->m_y, pos->m_z));
+		base.setPos(Vector3(pos->m_x - 0.0001f, pos->m_y, pos->m_z));
 	else if (strcmp(uiKey, "SOLDIER1_RIGHT") == 0)
-		base.setPos(Vector3(pos->m_x + 0.001f, pos->m_y, pos->m_z));
+		base.setPos(Vector3(pos->m_x + 0.0001f, pos->m_y, pos->m_z));
 }
 void DefaultGameControls::OnClick_CameraButtons(PE::GameContext* m_pContext, const char* uiKey, float xPos, float yPos, float index2_char_length)
 {
