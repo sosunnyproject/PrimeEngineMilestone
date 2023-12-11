@@ -18,6 +18,7 @@ namespace Components
 {
 PE_IMPLEMENT_CLASS1(ClientGameObjectManagerAddon, Component); // creates a static handle and GteInstance*() methods. still need to create construct
 PE::Components::SceneNode* ClientGameObjectManagerAddon::tankSN;
+std::vector<PE::Components::SceneNode*> ClientGameObjectManagerAddon::tankSNarray;
 
 void ClientGameObjectManagerAddon::addDefaultComponents()
 {
@@ -136,6 +137,7 @@ void ClientGameObjectManagerAddon::createTank(int index, int &threadOwnershipMas
 	pSN->addComponent(hMeshInstance);
 
 	RootSceneNode::Instance()->addComponent(hSN);
+	tankSNarray.push_back(pSN);
 	tankSN = pSN;
 	// now add game objects
 	PEINFO("////// CREAT TANK");

@@ -32,6 +32,7 @@ struct ClientGameObjectManagerAddon : public GameObjectManagerAddon
 
 	// Add more milestone: Scene Nodes to tanks
 	static PE::Components::SceneNode* tankSN;
+	static std::vector<PE::Components::SceneNode*> tankSNarray;
 
 	// sub-component and event registration
 	virtual void addDefaultComponents() ;
