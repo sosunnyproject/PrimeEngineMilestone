@@ -54,12 +54,9 @@ void Component::addDefaultComponents()
 	{
 		assert(!"Class Is not Registered. Have you forgotten to put it in GlobalRegistry?");
 	}
-
+	// if(!non_Lua)
 	createLuaCompTableIfDoesntExist(m_pContext->getLuaEnvironment()->L);
-    
 	PE_REGISTER_EVENT_HANDLER(PE::Events::Event_ADDED_AS_COMPONENT, Component::do_ADDED_AS_COMPONENT);
-	
-
 	addComponent(Handle(m_pContext->getLog())); // create temp handle that just stores pointer
 }
 

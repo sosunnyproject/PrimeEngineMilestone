@@ -197,12 +197,6 @@ int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 	pEvt->m_u = u;
 	pEvt->m_v = v;
 	pEvt->m_n = n;
-	PEINFO("/// EVENT LIGHT CREATE PARAMETERTS ////");
-	PEINFO("pos = %f, %f, %f", pos.m_x, pos.m_y, pos.m_z);
-	PEINFO("u = %f, %f, %f", u.m_x, u.m_y, u.m_z);
-	PEINFO("v = %f, %f, %f", v.m_x, v.m_y, v.m_z);
-	PEINFO("n = %f, %f, %f", n.m_x, n.m_y, n.m_z);
-
 	pEvt->m_diffuse = diffuse;
 	pEvt->m_spec = spec;
 	pEvt->m_ambient = ambient;
@@ -210,13 +204,6 @@ int Event_CREATE_LIGHT::l_Construct(lua_State* luaVM)
 	pEvt->m_spotPower = spotPower;
 	pEvt->m_range = range;
 	pEvt->m_isShadowCaster = isShadowCaster;
-	PEINFO("diffuse = %f, %f, %f, %f", diffuse.m_x, diffuse.m_y, diffuse.m_z, diffuse.m_w);
-	PEINFO("spec = %f, %f, %f, %f", spec.m_x, spec.m_y, spec.m_z, spec.m_w);
-	PEINFO("ambient = %f, %f, %f, %f", ambient.m_x, ambient.m_y, ambient.m_z, ambient.m_w);
-	PEINFO("attenuation = %f, %f, %f", attenuation.m_x, attenuation.m_y, attenuation.m_z);
-	PEINFO("m_spotPower = %f", spotPower);
-	PEINFO("m_range = %f", range);
-	PEINFO("m_isShadowCaster = %d", isShadowCaster);
 
 	if (StringOps::strcmp(typeStr, "directional") == 0)
 	{
@@ -395,6 +382,13 @@ int Event_CREATE_SKELETON::l_Construct(lua_State* luaVM)
 	lua_pop(luaVM, 15); //Second arg is a count of how many to pop
 
 	LuaGlue::pushTableBuiltFromHandle(luaVM, h); 
+
+	PEINFO("SKELETON: name, package: %s %s", name, package);
+	PEINFO("SKELETON: Playerpos: %f %f %f", playerPos.m_x, playerPos.m_y, playerPos.m_z);
+	PEINFO("SKELETON: u: %f %f %f", u.m_x, u.m_y, u.m_z);
+	PEINFO("SKELETON: v: %f %f %f", v.m_x, v.m_y, v.m_z);
+	PEINFO("SKELETON: n: %f %f %f", n.m_x, n.m_y, n.m_z);
+	PEINFO("SKELETON: m_skelFilename, m_package: %s %s", pEvt->m_skelFilename, pEvt->m_package);
 
 	return 1;
 }

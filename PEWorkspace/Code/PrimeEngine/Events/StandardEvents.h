@@ -231,6 +231,7 @@ struct Event_CREATE_SKELETON : public Event {
 	{
 		StringOps::writeToString("", m_skelFilename, 255);
 		StringOps::writeToString("Default", m_package, 255);
+		m_sentByLua = true;
 	}
 	virtual ~Event_CREATE_SKELETON(){}
 
@@ -252,6 +253,8 @@ struct Event_CREATE_SKELETON : public Event {
 	bool hasCustomOrientation;
 
 	int &m_threadOwnershipMask;
+	bool m_sentByLua;
+
 };
 
 

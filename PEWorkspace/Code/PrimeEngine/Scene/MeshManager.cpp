@@ -54,7 +54,7 @@ PE::Handle MeshManager::getAsset(const char *asset, const char *package, int &th
 	{
 		PE::Handle hSkeleton("Skeleton", sizeof(Skeleton));
 		Skeleton *pSkeleton = new(hSkeleton) Skeleton(*m_pContext, m_arena, hSkeleton);
-		pSkeleton->addDefaultComponents();
+		pSkeleton->addDefaultComponents(); // non_Lua: true
 
 		pSkeleton->initFromFiles(asset, package, threadOwnershipMask);
 		h = hSkeleton;

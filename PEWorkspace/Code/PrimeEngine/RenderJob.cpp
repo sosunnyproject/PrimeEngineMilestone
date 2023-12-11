@@ -159,7 +159,6 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 		// ctx.imgui_wasd = 0;
 	if (ImGui::Button("STOP"))	
 		ctx.imgui_wasd = 0;
-
 	ImGui::SeparatorText("Camera Position");
 	ImGui::Text("X: %f", pcam_pos.m_x);
 	ImGui::SameLine(); ImGui::Text(" Y: %f", pcam_pos.m_y);
@@ -212,64 +211,13 @@ void runDrawThreadSingleFrame(PE::GameContext &ctx)
 			base.setPos(Vector3(tank_posf[0], tank_posf[1], tank_posf[2]));
 		}
 	}
-	/*
 	if(ImGui::SliderFloat3("Important Text", t1, 0.0f, 1.0f)){
 		ctx.text_rgb_1 = Vector3(t1[0], t1[1], t1[2]);
 	}
-	*/
 
 	if(ImGui::Button("Create Light")){
-		ctx.getGameObjectManager()->button_CREATE_LIGHT();
-		/*
-		Handle *h = new Handle("EVENT", sizeof(Event_CREATE_LIGHT));
-		Event_CREATE_LIGHT *pEvt = new(*h) Event_CREATE_LIGHT();
-		pEvt->m_pos = Vector3( 9.672, 2.984, -0.979);
-		pEvt->m_u = Vector3(1.0, 0.000, 0.000);
-		pEvt->m_v = Vector3(0.0, 0.004632, 0.999);
-		pEvt->m_n = Vector3(0.0, -0.9989, 0.6);
-
-		pEvt->m_diffuse = Vector4(1.0, 0.5, 0.5, 1.0);
-		pEvt->m_spec = Vector4(0.0, 0.0, 0.0, 1.0);
-		pEvt->m_ambient = Vector4(1.0, 1.0, 1.0, 1.0);
-		pEvt->m_att = Vector3(0.03, 0.05, 0.03);
-		pEvt->m_spotPower = 1.0f;
-		pEvt->m_range = 100.0f;
-		pEvt->m_isShadowCaster = 0;
-		pEvt->m_type = 1;
-		
-		std::random_device rd;  // obtain a random number from hardware
-		std::mt19937 eng(rd()); // seed the generator
-		std::uniform_int_distribution<> distr(100000001, 999999999); // define the range
-
-		// trying to bypass LUA peuuid; random number, non-zero, not the same ones
-		PEUUID myUUID;
-		PrimitiveTypes::UInt32 myValue = distr(eng);
-		PrimitiveTypes::UInt32 v1 = distr(eng);
-		PrimitiveTypes::UInt32 v2 = distr(eng);
-		PrimitiveTypes::UInt32 v3 = distr(eng);
-		myUUID.set(myValue, v1, v2, v3);
-		pEvt->m_peuuid = myUUID;
-		pEvt->m_sentByLua = false;	// to escape any Lua related functions and errors
-		PEINFO("pEvt mpeuuid: %d", pEvt->m_peuuid);
-		// memorypool.h error
-		// Events::EventQueueManager::Instance()->add(pEvt, Events::QT_GENERAL);
-		// adding the event to the Queue creates allocate/block memory error
-		// let's just call create-light function directly
-		// and manually release the event handle.
-		ctx.getGameObjectManager()->do_CREATE_LIGHT(pEvt);
-		h->release();
-		*/
-	}
-	// for (CharacterControl::Components::TankController* tankController : CharacterControl::Components::ClientGameObjectManagerAddon::tanks) {
-    // 	PEINFO("////RENDERJOB::: TankController: %f\n", tankController->m_spawnPos.m_x);
-	// 	// Do something with tankController
-	// }
-	
-	// Mouse Events: Works in RenderJob or GameThreadJob.
-	// print them in %d integer values
-	// You Can Access UI button positions
-	{
-		// PEINFO("Renderer Job: MouseOver Position: %d, %d", ctx.g_cursorPos.x, ctx.g_cursorPos.y);
+		ctx.getGameObjectManager()->button_CREATE_SKELETON();
+		// ctx.getGameObjectManager()->button_CREATE_TANKS();
 	}
 
 	ImGui::End();
